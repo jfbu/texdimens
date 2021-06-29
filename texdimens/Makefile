@@ -1,7 +1,7 @@
 # -*- fill-column: 66; sentence-end-double-space: t -*-
 # 29 juin 2021
 #
-docfiles    = README.md
+docfiles    = README.md LICENSE.md
 sourcefiles = texdimens.tex texdimens.sty
 TEST = 
 
