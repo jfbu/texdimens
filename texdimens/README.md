@@ -2,7 +2,7 @@
 
 The descriptions that follow do not explain the details of the exact
 internal TeX procedures of parsing dimensional input, they only describe
-in a faithful manner the exact outcome of these internal procedures.
+in a faithful manner the exact outcome of those internal procedures.
 
 Also, this project requires the e-TeX extensions `\dimexpr` and
 `\numexpr`.  The reader is supposed to be familiar with their basics,
@@ -53,21 +53,22 @@ mean one of those or the `pt` (the `sp` is a special case and will be
 included or not tacitly in the "unit" denomination depending on the
 case).
 
-TeX associates to each such unit a fraction `phi` which is a conversion
-factor from the `pt̀` to the given unit.  It is always `>1`:
+TeX associates to each such unit `uu` a fraction `phi` which is a conversion
+factor.  It is always `>1`:
 
-    uu    phi in TeX  reduced   real approximation (Python)
-    --    ----------  -------   ------------------
-    bp    7227/7200   803/800    1.00375
-    nd    685/642     same       1.0669781931464175
-    dd    1238/1157   same       1.070008643042351
-    mm    7227/2540   same       2.8452755905511813
-    pc    12/1        12        12.0
-    nc    1370/107    same      12.80373831775701
-    cc    14856/1157  same      12.84010371650821
-    cm    7227/254    same      28.45275590551181
-    in    7227/100    same      72.27
-                        
+    uu     phi      reduced  real approximation  1uu in sp=   x=[65536phi]/65536  \the<1uu>
+                                                 [65536phi]  (real approximation)
+    --  ----------  -------  ------------------   ---------  -------------------- ----------
+    bp  7227/7200   803/800   1.00375                 65781    1.0037384033203125  1.00374pt
+    nd  685/642     same      1.0669781931464175      69925    1.0669708251953125  1.06697pt
+    dd  1238/1157   same      1.070008643042351       70124    1.07000732421875    1.07pt   
+    mm  7227/2540   same      2.8452755905511813     186467    2.8452606201171875  2.84526pt
+    pc  12/1        12       12.0                    786432   12.0                12.0pt    
+    nc  1370/107    same     12.80373831775701       839105   12.803726196289062  12.80373pt
+    cc  14856/1157  same     12.84010371650821       841489   12.840103149414062  12.8401pt 
+    cm  7227/254    same     28.45275590551181      1864679   28.452743530273438  28.45274pt
+    in  7227/100    same     72.27                  4736286   72.26998901367188   72.26999pt
+
 When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
 among those listed above, it first handles `U` as with the `pt` unit.
 This means that it computes `N = round(65536*U)`. It then multiplies
@@ -75,6 +76,15 @@ this `N` by the conversion factor `phi` and truncates towards zero the
 mathematically exact result to obtain an integer `T`:
 `T=trunc(N*phi)`. The assignment `U uu` is concluded by defining the
 value of the dimension to be `T sp`.
+
+Attention that although the mnemotic is `phi=1uu/1pt`, this formula
+definitely does not apply with numerator and denominator interpreted as
+TeX dimensions.  See the above table.  Also, the last column looks like
+`round(.,5)` is applied to the previous one, but `\the\dimexpr1dd\relax`
+is an exception (in the table `[x]` is the integer part, aka for
+non-negative values, the `\trunc()` function).  Notice also that
+`1.00375` is the exact value of the `phi` factor for the `bp` unit but
+`1.00375pt>1bp` (`65782>65781`).
 
 As `phi>1` (and is not exceedingly close to `1`), the increasing
 sequence `0<=trunc(phi)<=trunc(2phi)<=...` is *strictly increasing* and
@@ -87,9 +97,9 @@ to an integer ratio `12`: only dimensions which in scaled points are
 multiple of `12` are exactly representable in the `pc` unit.
 
 This also means that some dimensions expressible in one unit may not be
-available with another unit.  For example, as it turns out `0.6in` can
-not be expressed as `D cm`, whatever the `D`. More surprisingly perhaps
-is that `1in==2.54cm` is **false** in TeX! Although it is true that
+available with another unit.  For example, it turns out that `0.6in` can
+not be expressed as `D cm`, whatever the `D`.  More surprisingly perhaps
+is that `1in==2.54cm` is **false** in TeX! But it is true that
 `100in==254cm`!
 
     >>> [\dimexpr1in, \dimexpr2.54cm];
@@ -101,16 +111,19 @@ is that `1in==2.54cm` is **false** in TeX! Although it is true that
 representable using the `pc` unit.  The units allowing to express
 `\maxdimen` are: `bp`, (TO BE COMPLETED)
 
-Perhaps for this reason, TeX does not provide an output facility like
-what `\the` does for the `pt`.
-
-This is the aim of this package, expandably with the help of the facilities
-`\dimexpr` and `\numexpr` and in particular their limited ability to
-temporarily work in increased precision.  But we will be constrained by
-the fact that this works only to provide rounded values, not truncated
-ones.
+Perhaps for these various peculiarities with dimensional units, TeX does
+not provide an output facility for them similar to what `\the` achieves for
+the `pt`.
 
 ## Macros of this package
+
+The aim of this package is to address the issue of expressing dimensions
+(or dimension expressions evaluated by `\dimexpr`) in the various TeX
+units, to the extent possible.  This will be done expandably with the
+help of the facilities `\dimexpr` and `\numexpr` and in particular their
+limited ability to temporarily work in increased precision.  But it will
+be constrained by the fact that this works only to provide rounded
+values, not truncated ones.
 
 All macros are expandable.  At time of writing they may not be
 f-expandable, but in future final versions will expand fully in two
