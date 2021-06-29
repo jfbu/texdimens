@@ -1,4 +1,5 @@
-% texdimens: a TeX and LaTeX package to convert TeX dimensions
+texdimens: a TeX and LaTeX package to convert TeX dimensions
+============================================================
 
 Distributed under the LaTeX Project Public License v1.3c, see
 http://www.latex-project.org/lppl.txt

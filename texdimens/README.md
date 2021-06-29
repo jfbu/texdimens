@@ -1,4 +1,5 @@
-% texdimens
+texdimens
+=========
 
 The descriptions that follow do not explain the details of the exact
 internal TeX procedures of parsing dimensional input, they only describe
