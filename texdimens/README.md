@@ -1,0 +1,359 @@
+% texdimens
+
+The descriptions that follow do not explain the details of the exact
+internal TeX procedures of parsing dimensional input, they only describe
+in a faithful manner the exact outcome of these internal procedures.
+
+Also, this project requires the e-TeX extensions `\dimexpr` and
+`\numexpr`.  The reader is supposed to be familiar with their basics,
+and with the basics of TeX numerical and dimensional assignments.
+
+Notice that this is WIP and inaccuracies may exist even relative to
+descriptions of TeX handlings due to  limited time available for the project.
+
+## TeX points and scaled points
+
+TeX dimensions are represented internally by a signed integer which is
+in absolute value at most `0x3FFFFFFF`, i.e. `1073741823`.  The
+corresponding unit is called the "scaled point", i.e. `1sp` is `1/65536`
+of one TeX point `1pt`, or rather `1pt` is represented internally as `65536`.
+
+If `\foo` is a dimen register:
+
+- `\number\foo` produces the integer `N` such as `\foo` is the same as `N sp`,
+
+- inside `\numexpr`, `\foo` is replaced by `N`,
+
+- `\the\foo` produces a decimal `D` (with at most five places) followed
+with `pt` (catcode 12 tokens) and this output `D pt` can serve as input
+in a dimen assignment to produce the same dimension as `\foo`.  One can
+also use the catcode 11 characters `pt` for this.  Digits and decimal
+mark must have their standard catcode 12.
+
+When TeX encounters a dimen denotation of the type `D pt` it will
+compute `N` in a way equivalent to `N = round(65536 D)` where ties are
+rounded away from zero.  Only 17 decimal places of `D` are
+kept as it can be shown that going beyond can not change the result.
+
+When `\foo` has been assigned as `D pt`, `\the\foo` will produce some
+`E pt` where `E` is not necessarily the same as `D`.  But it is guaranteed
+that `E pt` defines the same dimension as `D pt̀`.
+
+
+## Further units known to TeX on input
+
+TeX understands on input further units: `bp`, `cm`, `mm`, `in`, `pc`,
+`cc`, `dd` and `nd`.  It also understands font-dependent units `ex` and
+`em`, and PDFTeX adds the `px` dimension unit.
+
+The `ex`, `em` and `px` are currently excluded from consideration in
+this project and the rest of this documentation is only for the `bp`,
+`cm`, `mm`, `in`, `pc`, `cc`, `dd` and `nd` units. When we say "unit" we
+mean one of those or the `pt` (the `sp` is a special case and will be
+included or not tacitly in the "unit" denomination depending on the
+case).
+
+TeX associates to each such unit a fraction `phi` which is a conversion
+factor from the `pt̀` to the given unit.  It is always `>1`:
+
+    uu    phi in TeX  reduced   real approximation (Python)
+    --    ----------  -------   ------------------
+    bp    7227/7200   803/800    1.00375
+    nd    685/642     same       1.0669781931464175
+    dd    1238/1157   same       1.070008643042351
+    mm    7227/2540   same       2.8452755905511813
+    pc    12/1        12        12.0
+    nc    1370/107    same      12.80373831775701
+    cc    14856/1157  same      12.84010371650821
+    cm    7227/254    same      28.45275590551181
+    in    7227/100    same      72.27
+                        
+When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
+among those listed above, it first handles `U` as with the `pt` unit.
+This means that it computes `N = round(65536*U)`. It then multiplies
+this `N` by the conversion factor `phi` and truncates towards zero the
+mathematically exact result to obtain an integer `T`:
+`T=trunc(N*phi)`. The assignment `U uu` is concluded by defining the
+value of the dimension to be `T sp`.
+
+As `phi>1` (and is not exceedingly close to `1`), the increasing
+sequence `0<=trunc(phi)<=trunc(2phi)<=...` is *strictly increasing* and
+**it has jumps**: not all TeX dimensions can be obtained from an
+assignment not using the `pt` unit.
+
+The "worst" unit is the largest i.e. the `in` whose conversion factor is
+`72.27`.  The simplest unit to understand is the `pc` as it corresponds
+to an integer ratio `12`: only dimensions which in scaled points are
+multiple of `12` are exactly representable in the `pc` unit.
+
+This also means that some dimensions expressible in one unit may not be
+available with another unit.  For example, as it turns out `0.6in` can
+not be expressed as `D cm`, whatever the `D`. More surprisingly perhaps
+is that `1in==2.54cm` is **false** in TeX! Although it is true that
+`100in==254cm`!
+
+    >>> [\dimexpr1in, \dimexpr2.54cm];
+    @_1     [4736286, 4736274]
+    >>> [\dimexpr100in, \dimexpr254cm];
+    @_2     [473628672, 473628672]
+
+`\maxdimen` can not be expressed with all units: for example it is not
+representable using the `pc` unit.  The units allowing to express
+`\maxdimen` are: `bp`, (TO BE COMPLETED)
+
+Perhaps for this reason, TeX does not provide an output facility like
+what `\the` does for the `pt`.
+
+This is the aim of this package, expandably with the help of the facilities
+`\dimexpr` and `\numexpr` and in particular their limited ability to
+temporarily work in increased precision.  But we will be constrained by
+the fact that this works only to provide rounded values, not truncated
+ones.
+
+## Macros of this package
+
+All macros are expandable.  At time of writing they may not be
+f-expandable, but in future final versions will expand fully in two
+steps.
+
+All macros handle negative dimensions via their absolute value then
+taking the opposite. NOT YET ONLY POSITIVE IMPLEMENTED
+
+1. At time of writing no macro is implemented yet.
+
+2. For input equal to or sufficiently close to `\maxdimen` and those
+units `uu` for which `\maxdimen` is not exactly representable, the
+output `D` of the macros `\texdimin<uu>` and `\texdimin<uu>u` will
+trigger "Dimension too large" error if an attempt to use `D uu` is done.
+
+3. Some macros may trigger "Dimension too large" if used with input
+close to `\maxdimen`. "Safe" variants which are guaranteed never to
+trigger this error but have some extra overhead to filter out inputs too
+close to `\maxdimen` will be provided. But see 2. regarding the
+usability of the output anyhow.
+
+`\texdiminpt{<dim. expr.>}`
+
+> Does `\the\dimexpr <dim. expr.> \relax` then removes the `pt`.
+
+`\texdiminbp{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> bp` represents the dimension exactly if possible. If not possible it
+> will be differ by `1sp` from the original dimension, but it is not
+> known in advance if it will be above or below.
+
+`\texdiminbpd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> bp` represents the dimension exactly if possible. If not possible it
+> will be smaller by `1sp` from the original dimension.
+
+`\texdiminbpu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> bp` represents the dimension exactly if possible. If not possible it
+> will be larger by `1sp` from the original dimension.
+
+`\texdiminnd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nd` represents the dimension exactly if possible. If not possible it
+> will be differ by `1sp` from the original dimension, but it is not
+> known in advance if it will be above or below.
+
+`\texdiminndd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nd` represents the dimension exactly if possible. If not possible it
+> will be smaller by `1sp` from the original dimension.
+
+`\texdiminndu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nd` represents the dimension exactly if possible. If not possible it
+> will be larger by `1sp` from the original dimension.
+
+`\texdimindd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> dd` represents the dimension exactly if possible. If not possible it
+> will be differ by `1sp` from the original dimension, but it is not
+> known in advance if it will be above or below.
+
+`\texdiminddd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> dd` represents the dimension exactly if possible. If not possible it
+> will be smaller by `1sp` from the original dimension.
+
+`\texdiminddu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> dd` represents the dimension exactly if possible. If not possible it
+> will be larger by `1sp` from the original dimension.
+
+`\texdiminmm{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> mm` represents the dimension exactly if possible. If not possible it
+> will either be the closest from below or from above, but it is not
+> known in advance which one (and it is not known if the other choice
+> would have been closer).
+
+`\texdiminmmd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> mm` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdiminmmu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> mm` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+`\texdiminpc{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> pc` represents the dimension exactly if possible. If not possible it
+> will be the closest representable one (in case of tie, the approximant
+> from above is chosen).
+
+`\texdiminpcd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> pc` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdiminpcu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> pc` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+`\texdiminnc{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nc` represents the dimension exactly if possible. If not possible it
+> will either be the closest from below or from above, but it is not
+> known in advance which one (and it is not known if the other choice
+> would have been closer).
+
+`\texdiminncd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nc` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdiminncu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> nc` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+`\texdimincc{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cc` represents the dimension exactly if possible. If not possible it
+> will either be the closest from below or from above, but it is not
+> known in advacce which one (and it is not known if the other choice
+> would have been closer).
+
+`\texdiminccd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cc` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdiminccu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cc` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+`\texdimincm{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cm` represents the dimension exactly if possible. If not possible it
+> will either be the closest from below or from above, but it is not
+> known in advacme which one (and it is not known if the other choice
+> would have been closer).
+
+`\texdimincmd{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cm` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdimincmu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> cm` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+`\texdiminin{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> in` represents the dimension exactly if possible. If not possible it
+> will either be the closest from below or from above, but it is not
+> known in advance which one (and it is not known if the other choice
+> would have been closer).
+
+`\texdiminind{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> in` represents the dimension exactly if possible. If not possible it
+> will be largest representable dimension smaller than the original one.
+
+`\texdimininu{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D
+> in` represents the dimension exactly if possible. If not possible it
+> will be smallest representable dimension larger than the original one.
+
+
+## TODO
+
+Implement the macros.
+
+Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which provides the
+nearest dimension simultaneously representable both in `in` and in `cm`?
+According to a reference on the web by an anonymous contributor the
+available positive dimensions in scaled points have the shape
+`floor(3613.5*k) sp` for some integer `k`. So we basically may have a
+delta up to about `1800sp` which is about `0.0275pt` and is still small
+(less than one hundredth of a millimeter), so perhaps such a utility for
+"safe dimensions" may be useful. Simpler however and more efficient
+would be for people to finally adopt the French revolution Système
+Métrique (rather than setting up giant financial paradises).
+
+## License
+
+Copyright (c) 2021 Jean-François B.
+
+See documentation of package [xintexpr](http://www.ctan.org/pkg/xint)
+for contact information.
+
+This Work may be distributed and/or modified under the conditions of the
+LaTeX Project Public License version 1.3c. This version of this license
+is in
+
+> <http://www.latex-project.org/lppl/lppl-1-3c.txt>
+
+and version 1.3 or later is part of all distributions of LaTeX version
+2005/12/01 or later.
+
+This Work has the LPPL maintenance status author-maintained.
+
+The Author of this Work is Jean-François B.
+
+This Work consists of the package files texdimens.tex, texdimens.sty
+and README.md
+
+<!--
+Local variables:
+sentence-end-double-space: t
+fill-column: 72
+End:
+--->
