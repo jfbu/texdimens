@@ -100,12 +100,20 @@ This also means that some dimensions expressible in one unit may not be
 available with another unit.  For example, it turns out that `0.6in` can
 not be expressed as `D cm`, whatever the `D`.  More surprisingly perhaps
 is that `1in==2.54cm` is **false** in TeX! But it is true that
-`100in==254cm`!
+`100in==254cm`! It is also false that `10in==25.4cm` but it is true that
+`10in==254mm`! It is false though that `1in==25.4mm`!
 
     >>> [\dimexpr1in, \dimexpr2.54cm];
     @_1     [4736286, 4736274]
+    >>> [\dimexpr10in, \dimexpr25.4cm];
+    @_2     [47362867, 47362855]
     >>> [\dimexpr100in, \dimexpr254cm];
-    @_2     [473628672, 473628672]
+    @_3     [473628672, 473628672]
+    
+    >>> [\dimexpr1in, \dimexpr25.4mm];
+    @_4     [4736286, 4736285]
+    >>> [\dimexpr10in, \dimexpr254mm];
+    @_4     [47362867, 47362867]
 
 `\maxdimen` can not be expressed with all units: for example it is not
 representable using the `pc` unit.  The units allowing to express
