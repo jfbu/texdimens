@@ -114,7 +114,7 @@ is that `1in==2.54cm` is **false** in TeX! But it is true that
     >>> [\dimexpr1in, \dimexpr25.4mm];
     @_4     [4736286, 4736285]
     >>> [\dimexpr10in, \dimexpr254mm];
-    @_4     [47362867, 47362867]
+    @_5     [47362867, 47362867]
 
 `\maxdimen` can not be expressed with all units: for example it is not
 representable using the `pc` unit.  The units allowing to express
