@@ -161,7 +161,7 @@ usability of the output anyhow.
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > bp` represents the dimension exactly if possible. If not possible it
-> will be differ by `1sp` from the original dimension, but it is not
+> will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
 `\texdiminbpd{<dim. expr.>}`
@@ -180,7 +180,7 @@ usability of the output anyhow.
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > nd` represents the dimension exactly if possible. If not possible it
-> will be differ by `1sp` from the original dimension, but it is not
+> will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
 `\texdiminndd{<dim. expr.>}`
@@ -199,7 +199,7 @@ usability of the output anyhow.
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > dd` represents the dimension exactly if possible. If not possible it
-> will be differ by `1sp` from the original dimension, but it is not
+> will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
 `\texdiminddd{<dim. expr.>}`
