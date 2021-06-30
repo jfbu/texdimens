@@ -87,17 +87,17 @@
 \def\texdimindd#1{\expandafter\texdimindd_\the\numexpr\dimexpr#1;}%
 \def\texdimindd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp}}%
 % mm 7227/2540 phi now >2, use from here on the simpler approach
-\def\texdiminmm#1{\texdiminpt{\numexpr\dimexpr#1\relax*2540/7227sp}}%
+\def\texdiminmm#1{\texdiminpt{(#1)*2540/7227}}%
 % pc 12/1
-\def\texdiminpc#1{\texdiminpt{\numexpr\dimexpr#1\relax/12sp}}%
+\def\texdiminpc#1{\texdiminpt{(#1)/12}}%
 % nc 1370/107
-\def\texdiminnc#1{\texdiminpt{\numexpr\dimexpr#1\relax*107/1370sp}}%
+\def\texdiminnc#1{\texdiminpt{(#1)*107/1370}}%
 % cc 14856/1157
-\def\texdimincc#1{\texdiminpt{\numexpr\dimexpr#1\relax*1157/14856sp}}%
+\def\texdimincc#1{\texdiminpt{(#1)*1157/14856}}%
 % cm 7227/254
-\def\texdimincm#1{\texdiminpt{\numexpr\dimexpr#1\relax*254/7227sp}}%
+\def\texdimincm#1{\texdiminpt{(#1)*254/7227}}%
 % in 7227/100
-\def\texdiminin#1{\texdiminpt{\numexpr\dimexpr#1\relax*100/7227sp}}%
+\def\texdiminin#1{\texdiminpt{(#1)*100/7227}}%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX

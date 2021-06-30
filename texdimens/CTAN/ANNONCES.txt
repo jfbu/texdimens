@@ -23,7 +23,7 @@ This is a beta release which provides the following macros:
 
 - \texdiminpt{<dim. expr.>} is like LaTeX's \strip@pt
 
-Please refer to README.md for detailed and important
-information, and to the code comments for underlying
+Please refer to README.md for detailed and important usage
+information, and to the code comments for the underlying
 mathematics.
 
