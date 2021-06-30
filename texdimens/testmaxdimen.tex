@@ -2,6 +2,10 @@
 \usepackage{texdimens}
 \usepackage{xinttools}
 \begin{document}
+% This was first done at commit a7a1579 when texdimin<uu> macros
+% all used round((T+0.5)psi) approach.
+% Now round(Tpsi) is used except for "bp", "nd", "dd" but this did not
+% change for "nc" and "in" that the output is still choosing N+1 not N.
 \immediate\write128{IGNORE "maxdimen is realized..." in output after
  "! Dimension too large" error message}
 \immediate\write128{OK? (hit <return>)}

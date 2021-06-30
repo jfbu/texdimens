@@ -3,7 +3,8 @@
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11
-% N *positive*, phi>1, psi=1/phi, psi<1
+% Is T sp attainable from unit "uu"?. Here we suppose T>0.
+% phi>1, psi=1/phi, psi<1
 % U(N,phi)=floor(N phi) is strictly increasing
 %     U(N)<= T <  U(N+1)    iff    N = ceil((T+1)psi) - 1
 %     U(M)<  T <= U(M+1)    iff    M = ceil(T psi)    - 1
@@ -11,21 +12,25 @@
 % -  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
 % -  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = floor(N phi) 
 %
-% In the latter case as psi<1, |N - (T+0.5) psi| < 0.5, hence
-% N = R := round((T+0.5) psi)
+% In the latter case:
+% - as psi<1, |N - (T+0.5) psi| < 0.5, hence N = R := round((T+0.5) psi).
+%   Also works for T=0 but T<0 would need -0.5.
 %
-% This R can always be computed via \numexpr because 2T+1 will not
-% trigger arithmetic overflow.
+% - if psi<1/2, then N = round(T psi) is simpler formula which works
+%   also for attainable T<0.
 %
-% In the general case, R however can give either N or N+1 (=M+1).
+% This R=round((T+0.5) psi) can always be computed via \numexpr because 2T+1
+% will not trigger arithmetic overflow.
+%
+% If Tsp>0 is not attainable, this R can produce either N or N+1 (=M+1).
 %
 % If we try computing ceil(x) via round(x+0.5) (\numexpr rounds up)
 % this means for N, we need round((T+1)psi + 0.5), for example with
-% psi = 100/7227 for in, this gives round((((T+1)200)+7227)/14454)
+% psi = 100/7227 for "in", this gives round((((T+1)200)+7227)/14454)
 % feasible via \numexpr only for (circa) 100 T less than \maxdimen.
 %
 % We could rather compute round(T psi) but we don't know if it gives
-% N or N+1. We know it is N if it differs from round((T+1) psi)
+% N or N+1. We know it is N if round(T psi)< round((T+1) psi)
 % but if the two are the same we don't know if they are both N or
 % both N+1.
 %
@@ -33,48 +38,65 @@
 % but if we then realize that X uu < T sp we do not yet know
 % if (X+1) uu = T sp or is > Tsp, except if psi<1/2, because
 % if T sp is attainable then X = round(T psi) is then necessarily N
-% so if X uu < T sp we now that T sp is not attainable.
+% so if X uu < T sp we now that T sp was not attainable.
 %
 % We decide with some hesitation to not split whether psi<1/2 or
-% psi>1/2.
+% psi>1/2. Reverted! Currently following done only for psi>1/2,
+% i.e. bp, nd, dd.
 %
-% 1. compute R = round((T+0.5) psi) in \numexpr
+% 1. compute R = round((T+0.5) psi) in \numexpr. This forces
+%    to check for negative T because then we would want here (T-0.5)psi
 %
-% 2. check whether R uu is <, =, or > T sp. Computation of R uu
-%    may trigger Dimension too large if T sp is not attainable, and
-%    close to \maxdimen itself not attainable either.
+% 2. check for the "up" and "down" variants whether R uu is <, =, or > T sp.
+%    But we have to choose here what "up" and "down" mean for T<0.
+%    Also, computation of R uu
+%    may trigger Dimension too large if T sp is not attainable,
+%    close to \maxdimen, and \maxdimen itself is not attainable.
 %
 % For the envisioned "safe versions" we would tabulate first per unit
-% what is Rmax such that Rmax uu <= \maxdimen. This will allow safe
-% versions having an extra check of R. But for \texdimeninuuu it will
+% what is Rmax such that Rmax uu <= \maxdimen. Then the "safe" versions
+% would have an extra check of R. But for \texdimeninuuu it will
 % then not be compliant to its definition for inputs close to
 % non-attainable \maxdimen.
 %
 % After having written the macros we will tabulate what is for each unit
 % the maximal attainable dimension.
 %
-% Currently the macros ASSUME TO DEAL WITH POSITIVE INPUT ONLY.
+% Hesitation about whether using simpler round(T psi) approach
+% for units > 2pt and the \texdimin<uu> macros.
 %
+% Testing shows that this would not change output for \maxdimen
+% with "nc" and "in": still N+1 is returned... but it has great
+% advantage to not have to check the sign.
+%
+% OK let's do this,
+% especially as I don't know if I will ever implement "up" and "down".
 \def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
 {\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdiminpt_\endcsname#1pt{#1}}%
 % bp 7227/7200 = 803/800
-\def\texdiminbp#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*400/803sp}}%
+% complications and annoying overhead caused by sign
+% and we don't want to evaluate #1 twice in a \dimexpr; if #1 was
+% restricted to be a dimen register, we would avoid "\the and re-grab" step.
+\def\texdiminbp#1{\expandafter\texdiminbp_\the\numexpr\dimexpr#1;}%
+\def\texdiminbp_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp}}%
 % nd 685/642
-\def\texdiminnd#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*321/685sp}}%
+\def\texdiminnd#1{\expandafter\texdiminnd_\the\numexpr\dimexpr#1;}%
+\def\texdiminnd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp}}%
 % dd 1238/1157
-\def\texdimindd#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1157/2476sp}}%
-% mm 7227/2540
-\def\texdiminmm#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1270/7227sp}}%
+\def\texdimindd#1{\expandafter\texdimindd_\the\numexpr\dimexpr#1;}%
+\def\texdimindd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp}}%
+% mm 7227/2540 > 2
+\def\texdiminmm#1{\texdiminpt{\numexpr\dimexpr#1\relax*2540/7227sp}}%
 % pc 12/1 here we can simplify
 \def\texdiminpc#1{\texdiminpt{\numexpr\dimexpr#1\relax/12sp}}%
 % nc 1370/107
-\def\texdiminnc#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*107/2740sp}}%
+\def\texdiminnc#1{\texdiminpt{\numexpr\dimexpr#1\relax*107/1370sp}}%
 % cc 14856/1157
-\def\texdimincc#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1157/29712sp}}%
+\def\texdimincc#1{\texdiminpt{\numexpr\dimexpr#1\relax*1157/14856sp}}%
 % cm 7227/254
-\def\texdimincm#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*127/7227sp}}%
+\def\texdimincm#1{\texdiminpt{\numexpr\dimexpr#1\relax*254/7227sp}}%
 % in 7227/100
-\def\texdiminin#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*50/7227sp}}%
+\def\texdiminin#1{\texdiminpt{\numexpr\dimexpr#1\relax*100/7227sp}}%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
