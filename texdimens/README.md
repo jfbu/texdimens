@@ -391,7 +391,7 @@ usability of the output anyhow.
 
 ## TODO
 
-Implement the macros.
+Implement the "up" and "down" variants.
 
 Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which provides the
 nearest dimension simultaneously representable both in `in` and in `cm`?
