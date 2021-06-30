@@ -156,24 +156,23 @@ in two steps.  This refinement is anyhow not really important as TeX
 engines now support the `\expanded` primitive.
 
 All macros handle negative dimensions via their absolute value then
-taking the opposite. NOT YET (ONLY SUPPORT FOR POSITIVE DIMENSIONS IMPLEMENTED)
+taking the opposite.
 
-1. At time of writing the `\texdimin<uu>` macros are implemented,
-but not yet the "down" and "up" variants.
+1. At time of writing only the `\texdimin<uu>` macros are implemented,
+The envisioned "down" and "up" variants are not done yet.
 
-2. For input equal to (or sufficiently close to) `\maxdimen` and those
+2. For `dd`, `nc` and `in`, input equal to (or sufficiently close to)
+`\maxdimen` will produce also with `\texdimin<uu>` an output `D`
+representing the next "attainable" dimension above `\maxdimen` hence
+using `Duu` will trigger "Dimension too large error".
+
+3. (not yet) For input equal to (or sufficiently close to) `\maxdimen` and those
 units `uu` for which `\maxdimen` is not exactly representable, i.e. all
 units except `pt`, `bp` and `nd`, the output `D` of the "up" variants
 `\texdimin<uu>u` if used as `Duu` in a dimension assignment or
 expression will (naturally) trigger "Dimension too large" error.
 
-3. For `dd`, `nc` and `in`, input equal to (or sufficiently close to)
-`\maxdimen` will produce also with `\texdimin<uu>` (not only with the
-"up" variant) an output `D` representing the next "attainable" dimension
-above `\maxdimen` hence using `Duu` will trigger "Dimension too large
-error".
-
-4. For some units the "down" and "up" macros may trigger "Dimension too
+4. (not yet) For some units the "down" and "up" macros may trigger "Dimension too
 large" during their execution if used with an input too close to
 `\maxdimen`. "Safe" variants which are guaranteed never to trigger this
 error but have some extra overhead to filter out inputs too close to
