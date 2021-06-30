@@ -12,6 +12,9 @@ Development: https://github.com/jfbu/texdimens
 
 ## Aim of this package
 
+Utilities and documentation related to TeX dimensional units, usable
+both with Plain (\input texdimens) and with LaTeX (\usepackage{texdimens}).
+
 The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
 units, to the extent possible.

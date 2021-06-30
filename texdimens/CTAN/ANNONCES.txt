@@ -1,10 +1,29 @@
--*- mode:text; fill-column: 72; -*-
+-*- mode:text; fill-column: 64; -*-
 
 ------------------------------------------------------------------------
 
-Release 09 du ?? juin ou juillet 2021
+Release 0.9beta du 30 juin 2021
 
-Téléversé sur CTAN le 
+Téléversé sur CTAN le 30 juin 2021 vers 15h15
 
-v0.9 (2021/??/??)
+Utilities and documentation related to TeX dimensional units,
+usable both with Plain (\input texdimens) and with LaTeX
+(\usepackage{texdimens}).
+
+This is a beta release which provides the following macros:
+
+- \texdiminbp{<dim. expr.>}: produces a decimal D such that the
+  TeX dimension Dbp either matches exactly the input, if this is
+  possible, else is either the closest match from above or from
+  below (but one does not know which one). For the bp unit this
+  means Dbp differs by at most 1sp from input.
+
+- Eight similar macros \texdimin<uu> where <uu> is one of nd,
+  dd, mm, pc, nc, cc, cm, or in.
+
+- \texdiminpt{<dim. expr.>} is like LaTeX's \strip@pt
+
+Please refer to README.md for detailed and important
+information, and to the code comments for underlying
+mathematics.
 
