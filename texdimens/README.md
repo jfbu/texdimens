@@ -123,9 +123,18 @@ is that `1in==2.54cm` is **false** in TeX! But it is true that
     >>> (\dimexpr10in, \dimexpr254mm);
     @_5     47362867, 47362867
 
-`\maxdimen` can not be expressed with all units: for example it is not
-representable using the `pc` unit.  The units allowing to express
-`\maxdimen` are: `bp`, (TO BE COMPLETED)
+`\maxdimen` can be expressed only with `pt`, `bp`, and `nd`.  For the
+other units the maximal attainable dimensions are given in this table:
+
+    16322.78954 bp  (\maxdimen = 1073741823 sp)
+    15355.51532 nd  (\maxdimen = 1073741823 sp)
+    15312.02583 dd  (1073741822 sp)
+     5758.31741 mm  (1073741822 sp)
+     1365.33333 pc  (1073741820 sp)
+     1279.62627 nc  (1073741814 sp)
+     1276.00215 cc  (1073741821 sp)
+      575.83174 cm  (1073741822 sp)
+      226.7054  in  (1073741768 sp)
 
 Perhaps for these various peculiarities with dimensional units, TeX does
 not provide an output facility for them similar to what `\the` achieves for
@@ -148,17 +157,26 @@ steps.
 All macros handle negative dimensions via their absolute value then
 taking the opposite. NOT YET ONLY POSITIVE IMPLEMENTED
 
-1. At time of writing no macro is implemented yet.
+1. At time of writing the `\texdimin<uu>` macros are implemented,
+but not yet the "down" and "up" variants.
 
-2. For input equal to or sufficiently close to `\maxdimen` and those
-units `uu` for which `\maxdimen` is not exactly representable, the
-output `D` of the macros `\texdimin<uu>` and `\texdimin<uu>u` will
-trigger "Dimension too large" error if an attempt to use `D uu` is done.
+2. For input equal to (or sufficiently close to) `\maxdimen` and those
+units `uu` for which `\maxdimen` is not exactly representable, i.e. all
+units except `pt`, `bp` and `nd`, the output `D` of the "up" variants
+`\texdimin<uu>u` if used as `Duu` in a dimension assignment or
+expression will (naturally) trigger "Dimension too large" error.
 
-3. Some macros may trigger "Dimension too large" if used with input
-close to `\maxdimen`. "Safe" variants which are guaranteed never to
-trigger this error but have some extra overhead to filter out inputs too
-close to `\maxdimen` will be provided. But see 2. regarding the
+3. For `dd`, `nc` and `in`, input equal to (or sufficiently close to)
+`\maxdimen` will produce also with `\texdimin<uu>` (not only with the
+"up" variant) an output `D` representing the next "attainable" dimension
+above `\maxdimen` hence using `Duu` will trigger "Dimension too large
+error".
+
+4. For some units the "down" and "up" macros may trigger "Dimension too
+large" during their execution if used with an input too close to
+`\maxdimen`. "Safe" variants which are guaranteed never to trigger this
+error but have some extra overhead to filter out inputs too close to
+`\maxdimen` will *perhaps* be provided. But see 2. and 3. regarding the
 usability of the output anyhow.
 
 `\texdiminpt{<dim. expr.>}`
@@ -171,6 +189,8 @@ usability of the output anyhow.
 > bp` represents the dimension exactly if possible. If not possible it
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
+
+> `\maxdimen` on input produces 16322.78954 and indeed is realized as 16322.78954bp
 
 `\texdiminbpd{<dim. expr.>}`
 
@@ -191,6 +211,8 @@ usability of the output anyhow.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
+> `\maxdimen` on input produces 15355.51532 and indeed is realized as 15355.51532nd
+
 `\texdiminndd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
@@ -209,6 +231,10 @@ usability of the output anyhow.
 > dd` represents the dimension exactly if possible. If not possible it
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
+
+> Warning: the output for `\maxdimen` is 15312.02585 but 15312.02585dd
+> will trigger "Dimension too large" error.
+> `\maxdimen`-1sp is atteignable via 15312.02583dd
 
 `\texdiminddd{<dim. expr.>}`
 
@@ -230,6 +256,9 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
+> `\maxdimen` as input produces on output 5758.31741 and indeed the
+> maximal attainable dimension is 5758.31741mm (1073741822sp)
+
 `\texdiminmmd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
@@ -248,6 +277,9 @@ usability of the output anyhow.
 > pc` represents the dimension exactly if possible. If not possible it
 > will be the closest representable one (in case of tie, the approximant
 > from above is chosen).
+
+> `\maxdimen` as input produces on output 1365.33333 and indeed the
+> maximal attainable dimension is 1365.33333pc (1073741820sp)
 
 `\texdiminpcd{<dim. expr.>}`
 
@@ -269,6 +301,10 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
+> Warning: the output for `\maxdimen` is 1279.62628 but 1279.62628nc
+> will trigger "Dimension too large" error.
+> `\maxdimen`-9sp is attainable via 1279.62627nc
+
 `\texdiminncd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
@@ -289,6 +325,9 @@ usability of the output anyhow.
 > known in advacce which one (and it is not known if the other choice
 > would have been closer).
 
+> `\maxdimen` as input produces on output 1276.00215 and indeed the
+> maximal attainable dimension is 1276.00215cc (1073741821sp)
+
 `\texdiminccd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D
@@ -306,8 +345,11 @@ usability of the output anyhow.
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > cm` represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
-> known in advacme which one (and it is not known if the other choice
+> known in advance which one (and it is not known if the other choice
 > would have been closer).
+
+> `\maxdimen` as input produces on output 575.83174 and indeed the
+> maximal attainable dimension is 575.83174cm (1073741822sp)
 
 `\texdimincmd{<dim. expr.>}`
 
@@ -328,6 +370,10 @@ usability of the output anyhow.
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
+
+> Warning: the output for `\maxdimen` is 226.70541 but 226.70541in
+> will trigger "Dimension too large" error.
+> `\maxdimen`-55sp is maximal attainable dimension (via 226.7054in)
 
 `\texdiminind{<dim. expr.>}`
 
