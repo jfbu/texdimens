@@ -12,6 +12,13 @@ and with the basics of TeX numerical and dimensional assignments.
 Notice that this is WIP and inaccuracies may exist even relative to
 descriptions of TeX handlings due to  limited time available for the project.
 
+## Copyright and License
+
+Copyright (c) 2021 Jean-François B.
+
+This file is part of the texdimens package distributed under the
+LPPL 1.3c.  See file LICENSE.md.
+
 ## TeX points and scaled points
 
 TeX dimensions are represented internally by a signed integer which is
@@ -351,8 +358,8 @@ would be for people to finally adopt the French revolution Système
 Métrique (rather than setting up giant financial paradises).
 
 <!--
-Local variables:
-sentence-end-double-space: t
-fill-column: 72
-End:
---->
+%! Local variables:
+%! sentence-end-double-space: t
+%! fill-column: 72
+%! End:
+-->
