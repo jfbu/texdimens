@@ -8,6 +8,8 @@ Copyright (c) 2021 Jean-François B.
 This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
+Development: https://github.com/jfbu/texdimens
+
 ## Aim of this package
 
 The aim of this package is to address the issue of expressing dimensions
