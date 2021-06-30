@@ -15,6 +15,6 @@ auto/
 *.logos
 README
 README.html
-units/*
-ctanbuild/*
-!ctanbuild/private.sh
+texdimens/units/*
+texdimens/ctanbuild/*
+!texdimens/ctanbuild/private.sh
