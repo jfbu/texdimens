@@ -1,23 +1,28 @@
 texdimens
 =========
 
-The descriptions that follow do not explain the details of the exact
-internal TeX procedures of parsing dimensional input, they only describe
-in a faithful manner the exact outcome of those internal procedures.
-
-Also, this project requires the e-TeX extensions `\dimexpr` and
-`\numexpr`.  The reader is supposed to be familiar with their basics,
-and with the basics of TeX numerical and dimensional assignments.
-
-Notice that this is WIP and inaccuracies may exist even relative to
-descriptions of TeX handlings due to  limited time available for the project.
-
 ## Copyright and License
 
 Copyright (c) 2021 Jean-François B.
 
 This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
+
+## Aim of this package
+
+The aim of this package is to address the issue of expressing dimensions
+(or dimension expressions evaluated by `\dimexpr`) in the various TeX
+units, to the extent possible.
+
+The descriptions that follow do not explain the details of the exact
+internal TeX procedures of parsing dimensional input, they only describe
+in a faithful manner the exact outcome of those internal procedures.
+The reader is supposed to be familiar with TeX basics.
+
+This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
+
+Notice that this is WIP and inaccuracies may exist even relative to
+descriptions of TeX handlings due to  limited time available for the project.
 
 ## TeX points and scaled points
 
@@ -143,20 +148,13 @@ the `pt`.
 
 ## Macros of this package
 
-The aim of this package is to address the issue of expressing dimensions
-(or dimension expressions evaluated by `\dimexpr`) in the various TeX
-units, to the extent possible.  This will be done expandably with the
-help of the facilities `\dimexpr` and `\numexpr` and in particular their
-limited ability to temporarily work in increased precision.  But it will
-be constrained by the fact that this works only to provide rounded
-values, not truncated ones.
-
 All macros are expandable.  At time of writing they may not be
-f-expandable, but in future final versions will expand fully in two
-steps.
+f-expandable, but (perhaps) in future final versions will expand fully
+in two steps.  This refinement is anyhow not really important as TeX
+engines now support the `\expanded` primitive.
 
 All macros handle negative dimensions via their absolute value then
-taking the opposite. NOT YET ONLY POSITIVE IMPLEMENTED
+taking the opposite. NOT YET (ONLY SUPPORT FOR POSITIVE DIMENSIONS IMPLEMENTED)
 
 1. At time of writing the `\texdimin<uu>` macros are implemented,
 but not yet the "down" and "up" variants.
