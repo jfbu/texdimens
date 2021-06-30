@@ -191,7 +191,7 @@ usability of the output anyhow.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
-> `\maxdimen` on input produces 16322.78954 and indeed is realized as 16322.78954bp
+> `\maxdimen` on input produces `16322.78954` and indeed is realized as `16322.78954bp`.
 
 `\texdiminbpd{<dim. expr.>}` NOT YET
 
@@ -212,7 +212,7 @@ usability of the output anyhow.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
-> `\maxdimen` on input produces 15355.51532 and indeed is realized as 15355.51532nd
+> `\maxdimen` on input produces `15355.51532` and indeed is realized as `15355.51532nd`.
 
 `\texdiminndd{<dim. expr.>}` NOT YET
 
@@ -233,9 +233,9 @@ usability of the output anyhow.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
-> Warning: the output for `\maxdimen` is 15312.02585 but 15312.02585dd
+> Warning: the output for `\maxdimen` is `15312.02585` but `15312.02585dd`
 > will trigger "Dimension too large" error.
-> `\maxdimen`-1sp is atteignable via 15312.02583dd
+> `\maxdimen-1sp` is atteignable via `15312.02583dd`.
 
 `\texdiminddd{<dim. expr.>}` NOT YET
 
@@ -257,8 +257,8 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> `\maxdimen` as input produces on output 5758.31741 and indeed the
-> maximal attainable dimension is 5758.31741mm (1073741822sp)
+> `\maxdimen` as input produces on output `5758.31741` and indeed the
+> maximal attainable dimension is `5758.31741mm` (`1073741822sp`).
 
 `\texdiminmmd{<dim. expr.>}` NOT YET
 
@@ -279,8 +279,8 @@ usability of the output anyhow.
 > will be the closest representable one (in case of tie, the approximant
 > from above is chosen).
 
-> `\maxdimen` as input produces on output 1365.33333 and indeed the
-> maximal attainable dimension is 1365.33333pc (1073741820sp)
+> `\maxdimen` as input produces on output `1365.33333` and indeed the
+> maximal attainable dimension is `1365.33333pc` (`1073741820sp`).
 
 `\texdiminpcd{<dim. expr.>}` NOT YET
 
@@ -302,9 +302,9 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is 1279.62628 but 1279.62628nc
+> Warning: the output for `\maxdimen` is `1279.62628` but `1279.62628nc`
 > will trigger "Dimension too large" error.
-> `\maxdimen`-9sp is attainable via 1279.62627nc
+> `\maxdimen-9sp` is attainable via `1279.62627nc`.
 
 `\texdiminncd{<dim. expr.>}` NOT YET
 
@@ -326,8 +326,8 @@ usability of the output anyhow.
 > known in advacce which one (and it is not known if the other choice
 > would have been closer).
 
-> `\maxdimen` as input produces on output 1276.00215 and indeed the
-> maximal attainable dimension is 1276.00215cc (1073741821sp)
+> `\maxdimen` as input produces on output `1276.00215` and indeed the
+> maximal attainable dimension is `1276.00215cc` (`1073741821sp`).
 
 `\texdiminccd{<dim. expr.>}` NOT YET
 
@@ -349,8 +349,8 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> `\maxdimen` as input produces on output 575.83174 and indeed the
-> maximal attainable dimension is 575.83174cm (1073741822sp)
+> `\maxdimen` as input produces on output `575.83174` and indeed the
+> maximal attainable dimension is `575.83174cm` (`1073741822sp`).
 
 `\texdimincmd{<dim. expr.>}` NOT YET
 
@@ -372,9 +372,9 @@ usability of the output anyhow.
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is 226.70541 but 226.70541in
+> Warning: the output for `\maxdimen` is `226.70541` but `226.70541in`
 > will trigger "Dimension too large" error.
-> `\maxdimen`-55sp is maximal attainable dimension (via 226.7054in)
+> `\maxdimen-55sp` is maximal attainable dimension (via `226.7054in`).
 
 `\texdiminind{<dim. expr.>}` NOT YET
 
