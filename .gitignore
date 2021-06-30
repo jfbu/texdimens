@@ -13,6 +13,7 @@ auto/
 *.ps
 *.html
 *.logos
+texdimens.zip
 README
 README.html
 texdimens/units/*

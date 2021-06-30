@@ -29,9 +29,14 @@ texdimens.zip: $(docfiles) $(sourcefiles) ctanbuild/private.sh
 	chmod -R ugo+r        ctanbuild/texdimens
 	ls -al                ctanbuild/texdimens
 	umask 0022 && cd ctanbuild && zip -r texdimens.zip texdimens
-	@echo 'texdimens.zip done.'
-	@echo 'This project has no tests, please fix this!'
-	# cd units && ./regressiontest.sh --ctan
+	mv ctanbuild/texdimens.zip CTAN/
+	@echo '********'
+	@echo 'texdimens.zip done and moved to CTAN/ directory.'
+	@echo ''
+	@echo 'This project issued a note during release build:'
+	@echo '        no tests done, please fix this!'
+	@echo '********'
+	@# cd units && ./regressiontest.sh --ctan
 
 ctan: texdimens.zip
 
