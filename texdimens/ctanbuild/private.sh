@@ -1,6 +1,6 @@
 #!/bin/sh
-
-f="texdimens.tex"
+dir="texdimens"
+f="$dir/texdimens.tex"
 g="$f-trimmed"
 aaa="Bu"
 bubu=" B."
@@ -16,7 +16,7 @@ NLAPRES=$(wc -l < "$g")
 echo "$NLAPRES lignes restantes."
 NLDELTA=`expr $NLAVANT - $NLAPRES`
 if [ "$NLCOMMENT" -eq "$NLDELTA" ] ; then
-   cp -f $g $f && rm $g && echo "OK." && ls -l "$f"
+   cp -f $g $f && rm $g && echo "OK."
 else
    echo "ERREUR !!"  # will be triggered if last line begins with %! and no EOF
    exit 1
@@ -25,10 +25,11 @@ fi
 bbb="rn"
 jfbu=" ${aaa}${bbb}${ccc}"
 
-sed -i "s/$bubu/$jfbu/g" LICENSE.md
-sed -i "s/$bubu/$jfbu/g" README.md
-sed -i "s/$bubu/$jfbu/g" texdimens.tex
-sed -i "s/$bubu/$jfbu/g" texdimens.sty
+sed -i "s/$bubu/$jfbu/g" "$dir/LICENSE.md"
+sed -i "s/$bubu/$jfbu/g" "$dir/README.md"
+sed -i "s/$bubu/$jfbu/g" "$dir/texdimens.tex"
+sed -i "s/$bubu/$jfbu/g" "$dir/texdimens.sty"
+echo "Done blowing up jfbu cover in LICENSE.md README.md texdimens.tex texdimens.sty"
 
 # Local variables:
 # coding: utf-8
