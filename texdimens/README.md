@@ -116,11 +116,12 @@ to an integer ratio `12`: only dimensions which in scaled points are
 multiple of `12` are exactly representable in the `pc` unit.
 
 This also means that some dimensions expressible in one unit may not be
-available with another unit.  For example, it turns out that `0.6in` can
-not be expressed as `D cm`, whatever the `D`.  More surprisingly perhaps
-is that `1in==2.54cm` is **false** in TeX! But it is true that
-`100in==254cm`! It is also false that `10in==25.4cm` but it is true that
-`10in==254mm`! It is false though that `1in==25.4mm`!
+available with another unit.  For example, and perhaps surprisingly,
+there is no decimal `D` which would achieve `1in==Dcm`!
+
+In particular `1in==2.54cm` is **false** in TeX, but it is true that
+`100in==254cm`... It is also false that `10in==25.4cm` but it is true that
+`10in==254mm`... It is false though that `1in==25.4mm`!
 
     >>> (\dimexpr1in, \dimexpr2.54cm);
     @_1     4736286, 4736274
