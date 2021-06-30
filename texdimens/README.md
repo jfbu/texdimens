@@ -13,7 +13,7 @@ Development: https://github.com/jfbu/texdimens
 ## Aim of this package
 
 Utilities and documentation related to TeX dimensional units, usable
-both with Plain (\input texdimens) and with LaTeX (\usepackage{texdimens}).
+both with Plain (`\input texdimens`) and with LaTeX (`\usepackage{texdimens}`).
 
 The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
@@ -117,7 +117,13 @@ multiple of `12` are exactly representable in the `pc` unit.
 
 This also means that some dimensions expressible in one unit may not be
 available with another unit.  For example, and perhaps surprisingly,
-there is no decimal `D` which would achieve `1in==Dcm`!
+there is no decimal `D` which would achieve `1in==Dcm`: the "step"
+between attainable dimensions is `72--73sp` for the `in` and `28--29sp`
+for the `cm`, and as `1in` differs internally from `2.54cm` by only
+`12sp` (see below the `xintsession` verbatim) it is impossible to adjust
+either the `in` side or the `cm` side to obtain equality.  See in the
+[TODO] section the closest dimension attainable both via `in` and via
+`cm`.
 
 In particular `1in==2.54cm` is **false** in TeX, but it is true that
 `100in==254cm`... It is also false that `10in==25.4cm` but it is true that
@@ -398,12 +404,38 @@ Implement the "up" and "down" variants.
 
 Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which provides the
 nearest dimension simultaneously representable both in `in` and in `cm`?
+
 According to a reference on the web by an anonymous contributor the
 available positive dimensions in scaled points have the shape
 `floor(3613.5*k) sp` for some integer `k`. So we basically may have a
 delta up to about `1800sp` which is about `0.0275pt` and is still small
-(less than one hundredth of a millimeter), so perhaps such a utility for
-"safe dimensions" may be useful. Simpler however and more efficient
+(less than one hundredth of a millimeter, i.e. less than ten micron),
+so perhaps such a utility for
+"safe dimensions" may be useful.  Here are for example the dimensions
+nearest to `1in` and realizable both in `in` and `cm` units:
+
+    >>> \input texdimens.tex\relax
+    (executing \input texdimens.tex\relax  in background)
+    (./texdimens.tex) 
+    >>> &exact
+    exact mode (floating point evaluations use 16 digits)
+    >>> (\texdiminin{4737298sp});
+    @_10    1.00021
+    >>> (\texdimincm{4737298sp});
+    @_11    2.54054
+    >>> (\dimexpr1.00021in, \dimexpr2.54054cm);
+    @_12    4737298, 4737298
+    >>> (\texdiminin{4733685sp});
+    @_13    0.99945
+    >>> (\texdimincm{4733685sp});
+    @_14    2.5386
+    >>> (\dimexpr0.99945in, \dimexpr2.5386cm);
+    @_15    4733685, 4733685
+
+As promised, one of them, the upper approximation, is at less than
+one hundredth of millimeter from the two nearby targets.
+
+Simpler however and more efficient
 would be for people to finally adopt the French revolution Système
 Métrique (rather than setting up giant financial paradises).
 
