@@ -61,13 +61,13 @@ that `E pt` defines the same dimension as `D pt̀`.
 ## Further units known to TeX on input
 
 TeX understands on input further units: `bp`, `cm`, `mm`, `in`, `pc`,
-`cc`, `dd` and `nd`.  It also understands font-dependent units `ex` and
+`cc`, `nc`, `dd` and `nd`.  It also understands font-dependent units `ex` and
 `em`, and PDFTeX adds the `px` dimension unit.  Japanese engines also
 add specific units.
 
 `ex`, `em`, `px` and other engine-dependent units, are all currently
 excluded from consideration in this project and the rest of this
-documentation is only for the `bp`, `cm`, `mm`, `in`, `pc`, `cc`, `dd`
+documentation is only for the `bp`, `cm`, `mm`, `in`, `pc`, `cc`, `nc`, `dd`
 and `nd` units. When we say "unit" we mean one of those or the `pt` (the
 `sp` is a special case and will be included or not tacitly in the "unit"
 denomination depending on the case).
