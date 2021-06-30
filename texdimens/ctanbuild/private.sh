@@ -3,7 +3,7 @@ dir="texdimens"
 f="$dir/texdimens.tex"
 g="$f-trimmed"
 aaa="Bu"
-bubu=" B."
+bubu=" B\."
 ccc="ol"
 
 NLCOMMENT=$(grep -c ^%! $f)
