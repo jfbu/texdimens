@@ -1,0 +1,82 @@
+% This is file texdimens.tex, part of texdimens package, which
+% is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
+\edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
+\endlinechar13\relax%
+\catcode`\_=11
+% N *positive*, phi>1, psi=1/phi, psi<1
+% U(N,phi)=floor(N phi) is strictly increasing
+%     U(N)<= T <  U(N+1)    iff    N = ceil((T+1)psi) - 1
+%     U(M)<  T <= U(M+1)    iff    M = ceil(T psi)    - 1
+% Either:
+% -  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
+% -  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = floor(N phi) 
+%
+% In the latter case as psi<1, |N - (T+0.5) psi| < 0.5, hence
+% N = R := round((T+0.5) psi)
+%
+% This R can always be computed via \numexpr because 2T+1 will not
+% trigger arithmetic overflow.
+%
+% In the general case, R however can give either N or N+1 (=M+1).
+%
+% If we try computing ceil(x) via round(x+0.5) (\numexpr rounds up)
+% this means for N, we need round((T+1)psi + 0.5), for example with
+% psi = 100/7227 for in, this gives round((((T+1)200)+7227)/14454)
+% feasible via \numexpr only for (circa) 100 T less than \maxdimen.
+%
+% We could rather compute round(T psi) but we don't know if it gives
+% N or N+1. We know it is N if it differs from round((T+1) psi)
+% but if the two are the same we don't know if they are both N or
+% both N+1.
+%
+% It is slightly less costly to compute X = round(T psi) than R,
+% but if we then realize that X uu < T sp we do not yet know
+% if (X+1) uu = T sp or is > Tsp, except if psi<1/2, because
+% if T sp is attainable then X = round(T psi) is then necessarily N
+% so if X uu < T sp we now that T sp is not attainable.
+%
+% We decide with some hesitation to not split whether psi<1/2 or
+% psi>1/2.
+%
+% 1. compute R = round((T+0.5) psi) in \numexpr
+%
+% 2. check whether R uu is <, =, or > T sp. Computation of R uu
+%    may trigger Dimension too large if T sp is not attainable, and
+%    close to \maxdimen itself not attainable either.
+%
+% For the envisioned "safe versions" we would tabulate first per unit
+% what is Rmax such that Rmax uu <= \maxdimen. This will allow safe
+% versions having an extra check of R. But for \texdimeninuuu it will
+% then not be compliant to its definition for inputs close to
+% non-attainable \maxdimen.
+%
+% After having written the macros we will tabulate what is for each unit
+% the maximal attainable dimension.
+%
+% Currently the macros ASSUME TO DEAL WITH POSITIVE INPUT ONLY.
+%
+\def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
+{\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdiminpt_\endcsname#1pt{#1}}%
+% bp 7227/7200 = 803/800
+\def\texdiminbp#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*400/803sp}}%
+% nd 685/642
+\def\texdiminnd#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*321/685sp}}%
+% dd 1238/1157
+\def\texdimindd#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1157/2476sp}}%
+% mm 7227/2540
+\def\texdiminmm#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1270/7227sp}}%
+% pc 12/1 here we can simplify
+\def\texdiminpc#1{\texdiminpt{\numexpr\dimexpr#1\relax/12sp}}%
+% nc 1370/107
+\def\texdiminnc#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*107/2740sp}}%
+% cc 14856/1157
+\def\texdimincc#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*1157/29712sp}}%
+% cm 7227/254
+\def\texdimincm#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*127/7227sp}}%
+% in 7227/100
+\def\texdiminin#1{\texdiminpt{\numexpr(2*\dimexpr#1\relax+1)*50/7227sp}}%
+\texdimensendinput
+%! Local variables:
+%! mode: TeX
+%! fill-column: 1000
+%! End:
