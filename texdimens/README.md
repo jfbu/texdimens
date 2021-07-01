@@ -63,7 +63,6 @@ When `\foo` has been assigned as `D pt`, `\the\foo` will produce some
 `E pt` where `E` is not necessarily the same as `D`.  But it is guaranteed
 that `E pt` defines the same dimension as `D pt̀`.
 
-
 ## Further units known to TeX on input
 
 TeX understands on input further units: `bp`, `cm`, `mm`, `in`, `pc`,
@@ -409,7 +408,6 @@ see 2. and 3. regarding the usability of the output anyhow.
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > in` represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
-
 
 ## TODO
 
