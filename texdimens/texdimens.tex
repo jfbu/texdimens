@@ -41,21 +41,22 @@
 % if T sp is attainable then X = round(T psi) is then necessarily N
 % so if trunc(X phi) < T we now that T sp was not attainable.
 %
-% We decide with some hesitation to not split whether psi<1/2 or
-% psi>1/2. Reverted! Currently following done only for psi>1/2,
-% i.e. bp, nd, dd.
+% For psi>1/2, i.e. bp, nd, dd, we will go via R, not X:
 %
 % 1. compute R = round((T+0.5) psi) in \numexpr. This forces
 %    to check for negative T because then we would want here (T-0.5)psi
 %
-% 2. check for the "up" and "down" variants whether R uu is <, =, or > T sp.
+% 2. check for the "up" and "down" variants whether trunc(R phi)
+%    <, =, or > T (this will go via D uu where D is a decimal obtained
+%    from \the\dimexpr R sp)
 %    But we have to choose here what "up" and "down" mean for T<0.
-%    Also, computation of R uu
+%    Also, computation of D uu
 %    may trigger Dimension too large if T sp is not attainable,
 %    close to \maxdimen, and \maxdimen itself is not attainable.
 %
 % For the envisioned "safe versions" we would tabulate first per unit
-% what is Rmax such that Rmax uu <= \maxdimen. Then the "safe" versions
+% what is the integer Rmax such that trunc(Rmax phi) <= \maxdimen.
+% Then the "safe" versions
 % would have an extra check of R. But for \texdimeninuuu it will
 % then not be compliant to its definition for inputs close to
 % non-attainable \maxdimen.
@@ -63,15 +64,19 @@
 % After having written the macros we will tabulate what is for each unit
 % the maximal attainable dimension.
 %
-% Hesitation about whether using simpler round(T psi) approach
-% for units > 2pt and the \texdimin<uu> macros.
+% There was some hesitation about whether or not using the simpler
+% round(T psi) approach for units > 2pt and the \texdimin<uu>
+% macros.
 %
-% Testing shows that this would not change output for \maxdimen
-% with "nc" and "in": still N+1 is returned... but it has great
-% advantage to not have to check the sign.
+% Testing showed that this did not change the output for \maxdimen
+% with the units "nc" and "in": still N+1 is returned...
 %
-% OK let's do this,
-% especially as I don't know if I will ever implement "up" and "down".
+% As it has great
+% advantage to not have to check the sign of the input, the
+% "simpler" approach was chosen for those units to which it
+% applies, i.e. the units uu > 2pt (phi>2, psi<1/2), i.e.
+% all units except bp, nd and dd.
+%
 \def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
 {\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdiminpt_\endcsname#1pt{#1}}%
 % bp 7227/7200 = 803/800
