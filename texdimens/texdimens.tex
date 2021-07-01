@@ -36,10 +36,10 @@
 % both N+1.
 %
 % It is slightly less costly to compute X = round(T psi) than R,
-% but if we then realize that X uu < T sp we do not yet know
-% if (X+1) uu = T sp or is > Tsp, except if psi<1/2, because
+% but if we then realize that trunc(X phi) < T  we do not yet know
+% if trunc((X+1) phi) = T  or is > T, except if psi<1/2, because
 % if T sp is attainable then X = round(T psi) is then necessarily N
-% so if X uu < T sp we now that T sp was not attainable.
+% so if trunc(X phi) < T we now that T sp was not attainable.
 %
 % We decide with some hesitation to not split whether psi<1/2 or
 % psi>1/2. Reverted! Currently following done only for psi>1/2,
