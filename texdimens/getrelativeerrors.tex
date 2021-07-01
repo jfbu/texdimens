@@ -1,0 +1,20 @@
+\input xintexpr.sty
+
+\xintFor #1 in {
+7227/7200 ,
+685/642   ,
+1238/1157 ,
+7227/2540 ,
+12/1      ,
+1370/107  ,
+14856/1157,
+7227/254  ,
+7227/100  
+}:
+{%
+ \immediate\write128{#1: \xintfloateval{[6] \xintexpr (trunc(#1*65536)/65536-#1)/(#1)\relax}}%
+ \immediate\write128{#1: \xintfloateval{[6] \xintexpr ((trunc(#1*65536)+0.5)/65536-#1)/(#1)\relax}}%
+ \immediate\write128{#1: \xintfloateval{[6] \xintexpr ((trunc(#1*65536)+1)/65536-#1)/(#1)\relax}}%
+ \immediate\write128{}%
+}%
+\bye
