@@ -345,7 +345,7 @@ see 2. and 3. regarding the usability of the output anyhow.
 > Produces a decimal (with up to five decimal places) `D` such that `D
 > cc` represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
-> known in advacce which one (and it is not known if the other choice
+> known in advance which one (and it is not known if the other choice
 > would have been closer).
 
 > `\maxdimen` as input produces on output `1276.00215` and indeed the
