@@ -176,29 +176,31 @@ f-expandable, but (perhaps) in future final versions will expand fully
 in two steps.  This refinement is anyhow not really important as TeX
 engines now support the `\expanded` primitive.
 
-All macros handle negative dimensions via their absolute value then
-taking the opposite.
+Negative dimensions behave as if replaced by their absolute value, then
+at last step the sign (if result is not zero) is applied.
 
 1. At time of writing only the `\texdimin<uu>` macros are implemented,
 The envisioned "down" and "up" variants are not done yet.
 
-2. For `dd`, `nc` and `in`, input equal to (or sufficiently close to)
-`\maxdimen` will produce also with `\texdimin<uu>` an output `D`
-representing the next "attainable" dimension above `\maxdimen` hence
-using `Duu` will trigger "Dimension too large error".
+2. (not yet) For input `X` equal to (or sufficiently close to)
+`\maxdimen` and those units `uu` for which `\maxdimen` is not exactly
+representable (i.e. all units except `pt`, `bp` and `nd`), the output `D`
+of the "up" macros `\texdimin<uu>u{X}`, if used as `Duu` in a dimension
+assignment or expression, will (naturally) trigger a "Dimension too large"
+error.
 
-3. (not yet) For input equal to (or sufficiently close to) `\maxdimen` and those
-units `uu` for which `\maxdimen` is not exactly representable, i.e. all
-units except `pt`, `bp` and `nd`, the output `D` of the "up" variants
-`\texdimin<uu>u` if used as `Duu` in a dimension assignment or
-expression will (naturally) trigger "Dimension too large" error.
+3. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
+close to) `\maxdimen` it turns out that `\texdimin<uu>{X}` produces an
+output `D` such that `Duu` is the first "virtually attainable" TeX
+dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
+"Dimension too large error".
 
-4. (not yet) For some units the "down" and "up" macros may trigger "Dimension too
-large" during their execution if used with an input too close to
-`\maxdimen`. "Safe" variants which are guaranteed never to trigger this
-error but have some extra overhead to filter out inputs too close to
-`\maxdimen` will *perhaps* be provided. But see 2. and 3. regarding the
-usability of the output anyhow.
+4. (not yet) For some units the "down" and "up" macros may trigger
+"Dimension too large" during their execution if used with an input too
+close to `\maxdimen`. "Safe" variants which are guaranteed never to
+trigger this error but have some extra overhead to filter out inputs too
+close to `\maxdimen` will *perhaps* be provided. But
+see 2. and 3. regarding the usability of the output anyhow.
 
 `\texdiminpt{<dim. expr.>}`
 
@@ -255,7 +257,7 @@ usability of the output anyhow.
 
 > Warning: the output for `\maxdimen` is `15312.02585` but `15312.02585dd`
 > will trigger "Dimension too large" error.
-> `\maxdimen-1sp` is atteignable via `15312.02583dd`.
+> `\maxdimen-1sp` is attainable via `15312.02584dd`.
 
 `\texdiminddd{<dim. expr.>}` NOT YET
 
@@ -413,12 +415,13 @@ usability of the output anyhow.
 
 Implement the "up" and "down" variants.
 
-Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which provides the
-nearest dimension simultaneously representable both in `in` and in `cm`?
+Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which would output
+the nearest dimension simultaneously representable both in `in` and in
+`cm`?
 
 According to a reference on the web by an anonymous contributor the
-available positive dimensions in scaled points have the shape
-`floor(3613.5*k) sp` for some integer `k`. So we basically may have a
+dimensions representable with both `in` and `cm` units have the shape
+`trunc(3613.5*k) sp` for some integer `k`. So we basically may have a
 delta up to about `1800sp` which is about `0.0275pt` and is still small
 (less than one hundredth of a millimeter, i.e. less than ten micron),
 so perhaps such a utility for
