@@ -82,7 +82,7 @@ TeX associates to each such unit `uu` a fraction `phi` which is a conversion
 factor.  It is always `>1`:
 
     uu     phi      reduced  real approximation  1uu in sp=   x=[65536phi]/65536  \the<1uu>
-                                                 [65536phi]  (real approximation)
+                             (Python output)     [65536phi]  (real approximation)
     --  ----------  -------  ------------------   ---------  -------------------- ----------
     bp  7227/7200   803/800   1.00375                 65781    1.0037384033203125  1.00374pt
     nd  685/642     same      1.0669781931464175      69925    1.0669708251953125  1.06697pt
