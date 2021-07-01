@@ -148,17 +148,22 @@ In particular `1in==2.54cm` is **false** in TeX, but it is true that
     @_5     47362867, 47362867
 
 `\maxdimen` can be expressed only with `pt`, `bp`, and `nd`.  For the
-other units the maximal attainable dimensions are given in this table:
+other units the maximal attainable dimensions in `sp` unit are given in
+the middle column of the next table.
 
-    16322.78954 bp  (\maxdimen = 1073741823 sp)
-    15355.51532 nd  (\maxdimen = 1073741823 sp)
-    15312.02583 dd  (1073741822 sp)
-     5758.31741 mm  (1073741822 sp)
-     1365.33333 pc  (1073741820 sp)
-     1279.62627 nc  (1073741814 sp)
-     1276.00215 cc  (1073741821 sp)
-      575.83174 cm  (1073741822 sp)
-      226.7054  in  (1073741768 sp)
+    maximal allowed      the corresponding       minimal TeX dimen denotation
+    (with 5 places)   maximal attainable dim.    causing "Dimension too large"
+    ---------------  --------------------------  --------------------------
+    16383.99999 pt   1073741823 sp (=\maxdimen)  16383.99999237060546875 pt
+    16322.78954 bp   1073741823 sp (=\maxdimen)  16322.78954315185546875 bp
+    15355.51532 nd   1073741823 sp (=\maxdimen)  15355.51532745361328125 nd
+    15312.02584 dd   1073741822 sp               15312.02584075927734375 dd
+     5758.31742 mm   1073741822 sp                5758.31742095947265625 mm
+     1365.33333 pc   1073741820 sp                1365.33333587646484375 pc
+     1279.62627 nc   1073741814 sp                1279.62627410888671875 nc
+     1276.00215 cc   1073741821 sp                1276.00215911865234375 cc
+      575.83174 cm   1073741822 sp                 575.83174896240234375 cm
+      226.70540 in   1073741768 sp                 226.70540618896484375 in
 
 Perhaps for these various peculiarities with dimensional units, TeX does
 not provide an output facility for them similar to what `\the` achieves for

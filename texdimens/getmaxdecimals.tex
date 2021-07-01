@@ -1,0 +1,49 @@
+\input xintexpr.sty
+
+% from jfbu's Nachlass :
+
+\xintdeffunc Nmax(psi) := ceil(2**14 * psi) - 1 ;
+
+\xintdeffunc Amax(psi) := 1e17 - 
+             (2 * (2**16 * ceil(2**14 * psi) - ceil(2**30 * psi)) + 1) * 5**17
+                          - 1 ;
+
+% Jeudi 01 juillet 2021
+% bug of xint 1.4i, can not use [Nmax(x), Amax(x)] in seq ?
+% Ah ok, the balancing hiding the inner comma does not work with square
+% brackets. Let's use ([Nmax(x), Amax(x)]) and it works to hide the inner comma
+% And I did not need to use [...] to start with.
+% I probably need to add this to bug/feature list though
+
+\immediate\write128{\xinteval{seq(([Nmax(x), Amax(x)]), x = 
+        1           ,
+        800/803     ,
+        642/685     ,
+        1157/1238   ,
+        2540/7227   ,
+        1/12        ,
+        107/1370    ,
+        1157/14856  ,
+        254/7227    ,
+        100/7227    )}}
+
+\bye
+
+This gives maximal inputs with up to 17 decimal places
+not triggering Dimension too large.
+
+Alternatively, replacing the ending 4 by 5 this gives
+minimal decimals triggering Dimension too large.
+
+[16383, 99999237060546874], [16322, 78954315185546874], [15355, 51532745361328124], [15312, 2584075927734374], [5758, 31742095947265624], [1365, 33333587646484374], [1279, 62627410888671874], [1276, 215911865234374], [575, 83174896240234374], [226, 70540618896484374]
+
+16383, 99999237060546874
+16322, 78954315185546874
+15355, 51532745361328124
+15312, 02584075927734374
+ 5758, 31742095947265624
+ 1365, 33333587646484374
+ 1279, 62627410888671874
+ 1276, 00215911865234374
+  575, 83174896240234374
+  226, 70540618896484374
