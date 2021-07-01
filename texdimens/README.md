@@ -25,9 +25,15 @@ in a faithful manner the exact outcome of those internal procedures.
 The reader is supposed to be familiar with TeX basics.
 
 This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
+The notation `<dim. expr.>` in the macro descriptions refers to a
+*dimensional expression* as accepted by `\dimexpr`.  The syntax has some
+peculiarities: among them the fact that `-(...)` (for example `-(3pt)`)
+is illegal, one must use alternatives such as `0pt-(...)` or a
+sub-expression `-\dimexpr...\relax` for example.
 
 Notice that this is WIP and inaccuracies may exist even relative to
-descriptions of TeX handlings due to  limited time available for the project.
+descriptions of TeX handlings due to limited time available for the
+project.
 
 ## TeX points and scaled points
 
