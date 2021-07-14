@@ -5,10 +5,10 @@
 \newcount\counta
 \def\iter{1000}
 
-\def\testpos{\edef\x{\texdiminbpdown{\counta sp}}%
+\def\testpos{\edef\x{\texdiminbpup{\counta sp}}%
              \edef\y{\the\numexpr\dimexpr\x bp}%
              \edef\z{\the\counta}%
-             \ifnum\y>\z\relax\ERROR\fi
+             \ifnum\y<\z\relax\ERROR\fi
              \immediate\write\out{\x\space(\y, \z, \the\numexpr\y-\z)}}
 
 \loop
@@ -17,10 +17,10 @@
 \ifnum\iter>\counta
 \repeat
 
-\counta 200 % first non atteignable is at -267 sp ...
+\counta 200
 \def\iter{300}
 
-\def\testneg{\edef\x{\texdiminbpdown{-\counta sp}}%
+\def\testneg{\edef\x{\texdiminbpup{-\counta sp}}%
              \immediate\write\out{\x\space(\the\numexpr\dimexpr\x bp, -\the\counta)}}
 
 \loop
