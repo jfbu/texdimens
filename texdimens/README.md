@@ -408,7 +408,7 @@ see 1. and 2. regarding the usability of the output anyhow.
 
 ## TODO
 
-Implement the "up" and "down" variants.
+Currently (most) macros require exhaustive expansion.
 
 Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which would output
 the nearest dimension simultaneously representable both in `in` and in

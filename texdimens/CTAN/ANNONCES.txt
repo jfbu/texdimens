@@ -2,6 +2,32 @@
 
 ------------------------------------------------------------------------
 
+Release 0.9gamma du 14 juillet 2021
+
+Téléversé sur CTAN le 14 juillet 2021 vers 21h30
+
+This gamma release provides
+
+- \texdiminbpdown{<dim. expr.>}: produces a decimal D such that the
+  TeX dimension Dbp either matches exactly the input, if this is
+  possible, else is the closest match from below. For the
+  bp unit this implies Dbp differs by at most 1sp from input.
+
+- Eight similar macros \texdimin<uu>down where <uu> is one of nd,
+  dd, mm, pc, nc, cc, cm, or in.
+
+- \texdiminbpup{<dim. expr.>}: produces a decimal D such that the
+  TeX dimension Dbp either matches exactly the input, if this is
+  possible, else is the closest match from above. For the
+  bp unit this implies Dbp differs by at most 1sp from input.
+
+- Eight similar macros \texdimin<uu>up where <uu> is one of nd,
+  dd, mm, pc, nc, cc, cm, or in.
+
+See README.md for some relevant details.
+
+------------------------------------------------------------------------
+
 Release 0.9beta du 30 juin 2021
 
 Téléversé sur CTAN le 30 juin 2021 vers 15h15
