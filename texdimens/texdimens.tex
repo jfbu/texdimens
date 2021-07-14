@@ -123,13 +123,16 @@
 % this #2 will be \fi
 \def\texdiminuudown_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
 \def\texdiminuuup_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1+1)sp\relax}%
+% this #1 will be \fi
+\def\texdiminuuup_neg#1#2-{#1-#2}%
+%
+% pt
 %
 \def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
 {\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdiminpt_\endcsname#1pt{#1}}%
+%
 % bp 7227/7200 = 803/800
-% complications and annoying overhead caused by sign
-% and we don't want to evaluate #1 twice in a \dimexpr; if #1 was
-% restricted to be a dimen register, we would avoid "\the and re-grab" step.
+%
 \def\texdiminbp#1{\expandafter\texdiminbp_\the\numexpr\dimexpr#1;}%
 \def\texdiminbp_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp}}%
 % \texdiminbpdown: maximal dim exactly expressible in bp and at most equal to input
@@ -140,27 +143,65 @@
 {\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminbpdown_d#1PT};#2;#3;%
    {\ifdim#1bp>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
 }%
-% The problem here is that if close to 0sp, output can be 0, and we do not want
-% -0 as output. So let's do this somewhat brutally. Anyhow, negative inputs are
+% The problem here is that if close to 0sp, output can be 0.0, and we do not want
+% -0.0 as output. So let's do this somewhat brutally. Anyhow, negative inputs are
 % not our priority. #1 is \fi here:
 \def\texdiminbpdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminbpdown_b#3;pt\relax}%
 % \texdiminbpup: minimal dim exactly expressible in bp and at least equal to input
 \def\texdiminbpup#1{\expandafter\texdiminbpup_a\the\numexpr\dimexpr#1;}%
-\def\texdiminbpup_a#1{\if-#1\texdiminbpup_neg\fi\texdiminbpup_b#1}%
+\def\texdiminbpup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminbpup_b#1}%
 \def\texdiminbpup_b#1;{\expandafter\texdiminbpup_c\the\numexpr(2*#1+1)*400/803;#1;}%
 \def\texdiminbpup_c#1;{\expandafter\texdiminbpup_d\the\dimexpr#1sp;#1;}%
 {\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminbpup_d#1PT};#2;#3;%
    {\ifdim#1bp<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
 }%
-\def\texdiminbpup_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminbpup_b#3;pt\relax}%
 %
 % nd 685/642
+%
 \def\texdiminnd#1{\expandafter\texdiminnd_\the\numexpr\dimexpr#1;}%
 \def\texdiminnd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp}}%
+% \texdiminnddown: maximal dim exactly expressible in nd and at most equal to input
+\def\texdiminnddown#1{\expandafter\texdiminnddown_a\the\numexpr\dimexpr#1;}%
+\def\texdiminnddown_a#1{\if-#1\texdiminnddown_neg\fi\texdiminnddown_b#1}%
+\def\texdiminnddown_b#1;{\expandafter\texdiminnddown_c\the\numexpr(2*#1+1)*321/685;#1;}%
+\def\texdiminnddown_c#1;{\expandafter\texdiminnddown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminnddown_d#1PT};#2;#3;%
+   {\ifdim#1nd>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdiminnddown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminnddown_b#3;pt\relax}%
+% \texdiminndup: minimal dim exactly expressible in nd and at least equal to input
+\def\texdiminndup#1{\expandafter\texdiminndup_a\the\numexpr\dimexpr#1;}%
+\def\texdiminndup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminndup_b#1}%
+\def\texdiminndup_b#1;{\expandafter\texdiminndup_c\the\numexpr(2*#1+1)*321/685;#1;}%
+\def\texdiminndup_c#1;{\expandafter\texdiminndup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminndup_d#1PT};#2;#3;%
+   {\ifdim#1nd<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % dd 1238/1157
+%
 \def\texdimindd#1{\expandafter\texdimindd_\the\numexpr\dimexpr#1;}%
 \def\texdimindd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp}}%
+% \texdimindddown: maximal dim exactly expressible in dd and at most equal to input
+\def\texdimindddown#1{\expandafter\texdimindddown_a\the\numexpr\dimexpr#1;}%
+\def\texdimindddown_a#1{\if-#1\texdimindddown_neg\fi\texdimindddown_b#1}%
+\def\texdimindddown_b#1;{\expandafter\texdimindddown_c\the\numexpr(2*#1+1)*1157/2476;#1;}%
+\def\texdimindddown_c#1;{\expandafter\texdimindddown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimindddown_d#1PT};#2;#3;%
+   {\ifdim#1dd>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdimindddown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdimindddown_b#3;pt\relax}%
+% \texdiminddup: minimal dim exactly expressible in dd and at least equal to input
+\def\texdiminddup#1{\expandafter\texdiminddup_a\the\numexpr\dimexpr#1;}%
+\def\texdiminddup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminddup_b#1}%
+\def\texdiminddup_b#1;{\expandafter\texdiminddup_c\the\numexpr(2*#1+1)*1157/2476;#1;}%
+\def\texdiminddup_c#1;{\expandafter\texdiminddup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminddup_d#1PT};#2;#3;%
+   {\ifdim#1dd<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % mm 7227/2540 phi now >2, use from here on the simpler approach
+%
 \def\texdiminmm#1{\expandafter\texdiminpt_\the\dimexpr(#1)*2540/7227\relax}%
 % \texdiminmmdown: maximal dim exactly expressible in mm and at most equal to input
 \def\texdiminmmdown#1{\expandafter\texdiminmmdown_a\the\numexpr\dimexpr#1;}%
@@ -171,25 +212,120 @@
    {\ifdim#1mm>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
 }%
 \def\texdiminmmdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminmmdown_b#3;pt\relax}%
-% \texdiminmmup: maximal dim exactly expressible in mm and at most equal to input
+% \texdiminmmup: minimal dim exactly expressible in mm and at least equal to input
 \def\texdiminmmup#1{\expandafter\texdiminmmup_a\the\numexpr\dimexpr#1;}%
-\def\texdiminmmup_a#1{\if-#1\texdiminmmup_neg\fi\texdiminmmup_b#1}%
+\def\texdiminmmup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminmmup_b#1}%
 \def\texdiminmmup_b#1;{\expandafter\texdiminmmup_c\the\numexpr#1*2540/7227;#1;}%
 \def\texdiminmmup_c#1;{\expandafter\texdiminmmup_d\the\dimexpr#1sp;#1;}%
 {\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminmmup_d#1PT};#2;#3;%
    {\ifdim#1mm<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
 }%
-\def\texdiminmmup_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminmmup_b#3;pt\relax}%
+%
 % pc 12/1
+%
 \def\texdiminpc#1{\expandafter\texdiminpt_\the\dimexpr(#1)/12\relax}%
+% \texdiminpcdown: maximal dim exactly expressible in pc and at most equal to input
+\def\texdiminpcdown#1{\expandafter\texdiminpcdown_a\the\numexpr\dimexpr#1;}%
+\def\texdiminpcdown_a#1{\if-#1\texdiminpcdown_neg\fi\texdiminpcdown_b#1}%
+\def\texdiminpcdown_b#1;{\expandafter\texdiminpcdown_c\the\numexpr#1/12;#1;}%
+\def\texdiminpcdown_c#1;{\expandafter\texdiminpcdown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminpcdown_d#1PT};#2;#3;%
+   {\ifdim#1pc>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdiminpcdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminpcdown_b#3;pt\relax}%
+% \texdiminpcup: minimal dim exactly expressible in pc and at least equal to input
+\def\texdiminpcup#1{\expandafter\texdiminpcup_a\the\numexpr\dimexpr#1;}%
+\def\texdiminpcup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminpcup_b#1}%
+\def\texdiminpcup_b#1;{\expandafter\texdiminpcup_c\the\numexpr#1/12;#1;}%
+\def\texdiminpcup_c#1;{\expandafter\texdiminpcup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminpcup_d#1PT};#2;#3;%
+   {\ifdim#1pc<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % nc 1370/107
+%
 \def\texdiminnc#1{\expandafter\texdiminpt_\the\dimexpr(#1)*107/1370\relax}%
+% \texdiminncdown: maximal dim exactly expressible in nc and at most equal to input
+\def\texdiminncdown#1{\expandafter\texdiminncdown_a\the\numexpr\dimexpr#1;}%
+\def\texdiminncdown_a#1{\if-#1\texdiminncdown_neg\fi\texdiminncdown_b#1}%
+\def\texdiminncdown_b#1;{\expandafter\texdiminncdown_c\the\numexpr#1*107/1370;#1;}%
+\def\texdiminncdown_c#1;{\expandafter\texdiminncdown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminncdown_d#1PT};#2;#3;%
+   {\ifdim#1nc>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdiminncdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminncdown_b#3;pt\relax}%
+% \texdiminncup: minimal dim exactly expressible in nc and at least equal to input
+\def\texdiminncup#1{\expandafter\texdiminncup_a\the\numexpr\dimexpr#1;}%
+\def\texdiminncup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminncup_b#1}%
+\def\texdiminncup_b#1;{\expandafter\texdiminncup_c\the\numexpr#1*107/1370;#1;}%
+\def\texdiminncup_c#1;{\expandafter\texdiminncup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminncup_d#1PT};#2;#3;%
+   {\ifdim#1nc<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % cc 14856/1157
+%
 \def\texdimincc#1{\expandafter\texdiminpt_\the\dimexpr(#1)*1157/14856\relax}%
+% \texdiminccdown: maximal dim exactly expressible in cc and at most equal to input
+\def\texdiminccdown#1{\expandafter\texdiminccdown_a\the\numexpr\dimexpr#1;}%
+\def\texdiminccdown_a#1{\if-#1\texdiminccdown_neg\fi\texdiminccdown_b#1}%
+\def\texdiminccdown_b#1;{\expandafter\texdiminccdown_c\the\numexpr#1*1157/14856;#1;}%
+\def\texdiminccdown_c#1;{\expandafter\texdiminccdown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminccdown_d#1PT};#2;#3;%
+   {\ifdim#1cc>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdiminccdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminccdown_b#3;pt\relax}%
+% \texdiminccup: minimal dim exactly expressible in cc and at least equal to input
+\def\texdiminccup#1{\expandafter\texdiminccup_a\the\numexpr\dimexpr#1;}%
+\def\texdiminccup_a#1{\if-#1\texdiminuuup_neg\fi\texdiminccup_b#1}%
+\def\texdiminccup_b#1;{\expandafter\texdiminccup_c\the\numexpr#1*1157/14856;#1;}%
+\def\texdiminccup_c#1;{\expandafter\texdiminccup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminccup_d#1PT};#2;#3;%
+   {\ifdim#1cc<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % cm 7227/254
+%
 \def\texdimincm#1{\expandafter\texdiminpt_\the\dimexpr(#1)*254/7227\relax}%
+% \texdimincmdown: maximal dim exactly expressible in cm and at most equal to input
+\def\texdimincmdown#1{\expandafter\texdimincmdown_a\the\numexpr\dimexpr#1;}%
+\def\texdimincmdown_a#1{\if-#1\texdimincmdown_neg\fi\texdimincmdown_b#1}%
+\def\texdimincmdown_b#1;{\expandafter\texdimincmdown_c\the\numexpr#1*254/7227;#1;}%
+\def\texdimincmdown_c#1;{\expandafter\texdimincmdown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimincmdown_d#1PT};#2;#3;%
+   {\ifdim#1cm>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdimincmdown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdimincmdown_b#3;pt\relax}%
+% \texdimincmup: minimal dim exactly expressible in cm and at least equal to input
+\def\texdimincmup#1{\expandafter\texdimincmup_a\the\numexpr\dimexpr#1;}%
+\def\texdimincmup_a#1{\if-#1\texdiminuuup_neg\fi\texdimincmup_b#1}%
+\def\texdimincmup_b#1;{\expandafter\texdimincmup_c\the\numexpr#1*254/7227;#1;}%
+\def\texdimincmup_c#1;{\expandafter\texdimincmup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimincmup_d#1PT};#2;#3;%
+   {\ifdim#1cm<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 % in 7227/100
+%
 \def\texdiminin#1{\expandafter\texdiminpt_\the\dimexpr(#1)*100/7227\relax}%
+% \texdiminindown: maximal dim exactly expressible in in and at most equal to input
+\def\texdiminindown#1{\expandafter\texdiminindown_a\the\numexpr\dimexpr#1;}%
+\def\texdiminindown_a#1{\if-#1\texdiminindown_neg\fi\texdiminindown_b#1}%
+\def\texdiminindown_b#1;{\expandafter\texdiminindown_c\the\numexpr#1*100/7227;#1;}%
+\def\texdiminindown_c#1;{\expandafter\texdiminindown_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminindown_d#1PT};#2;#3;%
+   {\ifdim#1in>#3sp \texdiminuudown_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdiminindown_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminindown_b#3;pt\relax}%
+% \texdimininup: minimal dim exactly expressible in in and at least equal to input
+\def\texdimininup#1{\expandafter\texdimininup_a\the\numexpr\dimexpr#1;}%
+\def\texdimininup_a#1{\if-#1\texdiminuuup_neg\fi\texdimininup_b#1}%
+\def\texdimininup_b#1;{\expandafter\texdimininup_c\the\numexpr#1*100/7227;#1;}%
+\def\texdimininup_c#1;{\expandafter\texdimininup_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimininup_d#1PT};#2;#3;%
+   {\ifdim#1in<#3sp \texdiminuuup_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
