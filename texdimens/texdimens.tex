@@ -93,6 +93,20 @@
 \def\texdimindd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp}}%
 % mm 7227/2540 phi now >2, use from here on the simpler approach
 \def\texdiminmm#1{\expandafter\texdiminpt_\the\dimexpr(#1)*2540/7227\relax}%
+% \texdiminmmdown: maximal dim exactly expressible in mm and at most equal to input
+\def\texdiminmmdown#1{\expandafter\texdiminmmd_a\the\numexpr\dimexpr#1;}%
+\def\texdiminmmd_a#1{\if-#1\texdiminmmd_neg\fi\texdiminmmd_b#1}%
+\def\texdiminmmd_b#1;{\expandafter\texdiminmmd_c\the\numexpr#1*2540/7227;#1;}%
+\def\texdiminmmd_c#1;{\expandafter\texdiminmmd_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminmmd_d#1PT};#2;#3;%
+   {\ifdim#1mm>#3sp \texdiminmmd_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+\def\texdimfirstofone#1{#1}%
+\def\texdiminmmd_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
+% The problem here is that if close to 0sp, output can be 0, and we do not want
+% -0 as output. So let's do this somewhat brutally. Anyhow, negative inputs are
+% not our priority
+\def\texdiminmmd_neg#1#2-#3;{\expandafter\texdiminpt_\the\dimexpr-\texdiminmmd_b#3;pt\relax}%
 % pc 12/1
 \def\texdiminpc#1{\expandafter\texdiminpt_\the\dimexpr(#1)/12\relax}%
 % nc 1370/107

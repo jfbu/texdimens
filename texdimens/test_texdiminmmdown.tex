@@ -1,0 +1,34 @@
+\input texdimens
+\newwrite\out
+\immediate\openout\out=\jobname-out.txt
+
+\newcount\counta
+\def\iter{1000}
+
+\def\testpos{\edef\x{\texdiminmmdown{\counta sp}}%
+             \edef\y{\the\numexpr\dimexpr\x mm}%
+             \edef\z{\the\counta}%
+             \ifnum\y>\z\relax\ERROR\fi
+             \immediate\write\out{\x\space(\y, \z, \the\numexpr\y-\z)}}
+
+\loop
+\testpos
+\advance\counta 1
+\ifnum\iter>\counta
+\repeat
+
+\counta 0
+\def\iter{100}
+
+\def\testneg{\edef\x{\texdiminmmdown{-\counta sp}}%
+             \immediate\write\out{\x\space(\the\numexpr\dimexpr\x mm, -\the\counta)}}
+
+\loop
+\testneg
+\advance\counta 1
+\ifnum\iter>\counta
+\repeat
+
+\bye
+
+
