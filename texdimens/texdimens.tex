@@ -119,6 +119,9 @@
 % applies, i.e. the units uu > 2pt (phi>2, psi<1/2), i.e.
 % all units except bp, nd and dd.
 %
+\def\texdimfirstofone#1{#1}%
+\def\texdiminuud_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
+%
 \def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
 {\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdiminpt_\endcsname#1pt{#1}}%
 % bp 7227/7200 = 803/800
@@ -127,6 +130,18 @@
 % restricted to be a dimen register, we would avoid "\the and re-grab" step.
 \def\texdiminbp#1{\expandafter\texdiminbp_\the\numexpr\dimexpr#1;}%
 \def\texdiminbp_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp}}%
+% \texdiminbpdown: maximal dim exactly expressible in bp and at most equal to input
+\def\texdiminbpdown#1{\expandafter\texdiminbpd_a\the\numexpr\dimexpr#1;}%
+\def\texdiminbpd_a#1{\if-#1\texdiminbpd_neg\fi\texdiminbpd_b#1}%
+\def\texdiminbpd_b#1;{\expandafter\texdiminbpd_c\the\numexpr(2*#1+1)*400/803;#1;}%
+\def\texdiminbpd_c#1;{\expandafter\texdiminbpd_d\the\dimexpr#1sp;#1;}%
+{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminbpd_d#1PT};#2;#3;%
+   {\ifdim#1bp>#3sp \texdiminuud_e{#2}\fi\texdimfirstofone{#1}}%
+}%
+% The problem here is that if close to 0sp, output can be 0, and we do not want
+% -0 as output. So let's do this somewhat brutally. Anyhow, negative inputs are
+% not our priority. #1 is \fi here:
+\def\texdiminbpd_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminbpd_b#3;pt\relax}%
 % nd 685/642
 \def\texdiminnd#1{\expandafter\texdiminnd_\the\numexpr\dimexpr#1;}%
 \def\texdiminnd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp}}%
@@ -141,13 +156,8 @@
 \def\texdiminmmd_b#1;{\expandafter\texdiminmmd_c\the\numexpr#1*2540/7227;#1;}%
 \def\texdiminmmd_c#1;{\expandafter\texdiminmmd_d\the\dimexpr#1sp;#1;}%
 {\catcode`P 12\catcode`T 12\lowercase{\gdef\texdiminmmd_d#1PT};#2;#3;%
-   {\ifdim#1mm>#3sp \texdiminmmd_e{#2}\fi\texdimfirstofone{#1}}%
+   {\ifdim#1mm>#3sp \texdiminuud_e{#2}\fi\texdimfirstofone{#1}}%
 }%
-\def\texdimfirstofone#1{#1}%
-\def\texdiminmmd_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
-% The problem here is that if close to 0sp, output can be 0, and we do not want
-% -0 as output. So let's do this somewhat brutally. Anyhow, negative inputs are
-% not our priority. #1 is \fi here:
 \def\texdiminmmd_neg#1#2-#3;{#1\expandafter\texdiminpt_\the\dimexpr-\texdiminmmd_b#3;pt\relax}%
 % pc 12/1
 \def\texdiminpc#1{\expandafter\texdiminpt_\the\dimexpr(#1)/12\relax}%
