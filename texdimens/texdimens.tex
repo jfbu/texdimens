@@ -120,6 +120,7 @@
 % all units except bp, nd and dd.
 %
 \def\texdimfirstofone#1{#1}%
+% this #2 will be \fi
 \def\texdiminuud_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
 %
 \def\texdiminpt#1{\expandafter\texdiminpt_\the\dimexpr#1\relax}%
