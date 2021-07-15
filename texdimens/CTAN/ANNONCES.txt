@@ -2,6 +2,16 @@
 
 ------------------------------------------------------------------------
 
+Release 0.9delta du 15 juillet 2021
+
+Téléversé sur CTAN le 15 juillet 2021 vers 14h50
+
+No announce
+
+Code and documentation refactorings and improvements.
+
+------------------------------------------------------------------------
+
 Release 0.9gamma du 14 juillet 2021
 
 Téléversé sur CTAN le 14 juillet 2021 vers 21h30
