@@ -57,7 +57,7 @@
 % because from X = round(T psi) we get D such as X sp is same as D pt
 % and "D uu" will work.
 % We don't have to take sign into account for this computation.
-% But if T sp was not atteignable we don't know if this X will give
+% But if T sp was not attainable we don't know if this X will give
 % a D such that D uu < T sp or D uu > T sp.
 %
 % If psi > 0.5
@@ -65,7 +65,7 @@
 %
 % For example unit "bp" has phi=803/800.
 %
-% It is then not true that if T sp is atteignable, the X = round(T psi)
+% It is then not true that if T sp is attainable, the X = round(T psi)
 % will always work.
 %
 % But it is true that R = round((T + 0.5) psi) will always work.
@@ -89,18 +89,18 @@
 % if trunc((X+1) phi) = T  or is > T.
 %
 % To recapitulate: we have our algorithm for all units to find out
-% maximal dimension exactly atteignable in "uu" unit and at most equal
+% maximal dimension exactly attainable in "uu" unit and at most equal
 % to (positive) T sp.
 %
 % Unfortunately the check that Y (in case psi < 0.5) or Z (in case psi >
 % 0.5) may trigger a Dimension too large error if T sp was near
-% non-atteignable \maxdimen.
+% non-attainable \maxdimen.
 %
 % For additional envisioned "safe versions" we would tabulate first per unit
 % what is the integer Rmax such that trunc(Rmax phi) <= \maxdimen. Then
 % the "safe" versions would have an extra check of X or R before
 % proceeding further. But the "up macros" supposed to give the next
-% dimension above Tsp and exactly atteignable in "uu" unit, if compliant
+% dimension above Tsp and exactly attainable in "uu" unit, if compliant
 % to their description can not avoid "Dimension too large" for inputs
 % close to non-attainable \maxdimen.
 %
