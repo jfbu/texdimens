@@ -163,6 +163,7 @@
 \def\texdimenup_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr#1+1sp\relax}%
 % negative branch:
 % Here we can me more expeditive than for the "down" macros.
+% But this breaks f-expandability.
 % #1 will be \fi and #2 is \texdimenup_b or _B:
 \def\texdimenup_neg#1#2-{#1-#2}%
 %
