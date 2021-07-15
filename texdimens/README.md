@@ -421,7 +421,7 @@ as input with the corresponding unit will be beyond `\maxdimen` if the
 latter is not atteignable, i.e. for all units except `bp`, and `nd`
 (and `pt` but there is no "up" macro for it).
 
-Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which would output
+Provide a macro `\texdimforbothincm{<dim.expr.>}` which would output
 the nearest dimension simultaneously representable both in `in` and in
 `cm`?
 
