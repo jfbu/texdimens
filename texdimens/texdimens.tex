@@ -4,6 +4,10 @@
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11
+%
+% Mathematics
+% ===========
+%
 % Is T sp attainable from unit "uu"?. Here we suppose T>0.
 % phi>1, psi=1/phi, psi<1
 % U(N,phi)=trunc(N phi) is strictly increasing
@@ -119,6 +123,9 @@
 % applies, i.e. the units uu > 2pt (phi>2, psi<1/2), i.e.
 % all units except bp, nd and dd.
 %
+% Implementation
+% ==============
+%
 \def\texdimenfirstofone#1{#1}%
 %
 % down macros:
@@ -128,6 +135,7 @@
 % for units with phi > 2:
 \def\texdimendown_a#1{\if-#1\texdimendown_neg\fi\texdimendown_b#1}%
 \def\texdimendown_b#1;#2;{\expandafter\texdimendown_c\the\numexpr#1#2;#1;}%
+% shared macros:
 \def\texdimendown_c#1;{\expandafter\texdimendown_d\the\dimexpr#1sp;#1;}%
 {\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimendown_d#1PT};#2;#3;#4;%
    {\ifdim#1#4>#3sp \texdimendown_e{#2}\fi\texdimenfirstofone{#1}}%
@@ -145,7 +153,6 @@
 % up macros:
 \def\texdimenup_A#1{\if-#1\texdimenup_neg\fi\texdimenup_B#1}%
 \def\texdimenup_B#1;#2;{\expandafter\texdimenup_c\the\numexpr(2*#1+1)#2;#1;}%
-%
 \def\texdimenup_a#1{\if-#1\texdimenup_neg\fi\texdimenup_b#1}%
 \def\texdimenup_b#1;#2;{\expandafter\texdimenup_c\the\numexpr#1#2;#1;}%
 \def\texdimenup_c#1;{\expandafter\texdimenup_d\the\dimexpr#1sp;#1;}%
