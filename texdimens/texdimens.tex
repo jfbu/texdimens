@@ -127,6 +127,8 @@
 % ==============
 %
 \def\texdimenfirstofone#1{#1}%
+{\catcode`p 12\catcode`t 12
+ \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
 %
 % down macros:
 % for units with phi < 2:
@@ -170,7 +172,6 @@
 % pt
 %
 \def\texdiminpt#1{\expandafter\texdimenstrippt\the\dimexpr#1\relax}%
-{\catcode`p 12\catcode`t 12\csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
 %
 % bp 7227/7200 = 803/800
 %
