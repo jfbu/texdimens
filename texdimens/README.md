@@ -9,7 +9,8 @@ This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
 Development: https://github.com/jfbu/texdimens
-Release: 0.9delta 2021/07/15
+
+Release: `0.9delta 2021/07/15`
 
 ## Aim of this package
 
@@ -183,29 +184,21 @@ Negative dimensions behave as if replaced by their absolute value, then
 at last step the sign (if result is not zero) is applied (so "down" means
 "towards zero", and "up" means "away from zero").
 
-1. For input `X` equal to (or sufficiently close to)
-`\maxdimen` and those units `uu` for which `\maxdimen` is not exactly
-representable (i.e. all units except `pt`, `bp` and `nd`), the output `D`
-of the "up" macros `\texdimin<uu>up{X}`, if used as `Duu` in a dimension
-assignment or expression, will (naturally) trigger a "Dimension too large"
-error.
-
+1. For input `X` equal to (or sufficiently close to) `\maxdimen` and
+   those units `uu` for which `\maxdimen` is not exactly representable
+   (i.e. all units except `pt`, `bp` and `nd`), the output `D` of the
+   "up" macros `\texdimin<uu>up{X}`, if used as `Duu` in a dimension
+   assignment or expression, will (naturally) trigger a "Dimension too
+   large" error.
 2. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
-close to) `\maxdimen` it turns out that `\texdimin<uu>{X}` produces an
-output `D` such that `Duu` is the first "virtually attainable" TeX
-dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
-"Dimension too large error".
-
-3. For some units the "down" and "up" macros may trigger
-"Dimension too large" during their execution if used with an input very
-close to `\maxdimen` (i.e. a few dozens `sp`'s away but we have not
-tabulated yet the exact limits).
-
-"Safe" variants which are guaranteed never to trigger this error but
-have some extra overhead to filter out inputs very close to `\maxdimen`
-will *perhaps* be provided if there is some demand for it.
-
-But see 1. and 2. regarding the usability of the output anyhow.
+   close to) `\maxdimen` it turns out that `\texdimin<uu>{X}` produces
+   an output `D` such that `Duu` is the first "virtually attainable" TeX
+   dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
+   "Dimension too large error".
+3. For some units the "down" and "up" macros may trigger "Dimension too
+   large" during their execution if used with an input very close to
+   `\maxdimen` (i.e. a few dozens `sp`'s away but we have not tabulated
+   yet the exact limits).
 
 `\texdiminpt{<dim. expr.>}`
 
@@ -415,9 +408,16 @@ But see 1. and 2. regarding the usability of the output anyhow.
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-## TODO
+## Extras?
 
-Currently (most) macros require exhaustive expansion.
+As mentioned the "up" and even the "down" macros may trigger "Dimension
+too large" if used with inputs very near `\maxdimen`.  "Safe" variants
+which are guaranteed never to trigger this error but have some extra
+overhead to filter out inputs very close to `\maxdimen` will *perhaps*
+be provided if there is some demand for it.  But anyhow the output from
+the "up" macros if used as input with the corresponding unit will be
+beyond `\maxdimen` if the latter is not atteignable (i.e. for all units
+except `bp`, `nd`, `dd`).
 
 Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which would output
 the nearest dimension simultaneously representable both in `in` and in
