@@ -173,11 +173,11 @@ the `pt`.
 ## Macros of this package
 
 The macros defined by the package are expandable, and will expand
-completely in an `\edef`, or in a `\dimexpr...\relax` construc.
+completely in an `\edef`, or in a `\dimexpr...\relax` construct.
 As they parse their inputs via `\dimexpr` they can be nested (with
-suitable postfix dimension unit added to inner macro).
+the suitable dimension unit added as postfix to nested macro).
 
-Apart for the `\texdimin<uu>up` in case of a negative input, they will
+Apart from the `\texdimin<uu>up` in case of a negative input, they will
 even expand completely under f-expansion.
 
 Negative dimensions behave as if replaced by their absolute value, then
@@ -197,7 +197,7 @@ at last step the sign (if result is not zero) is applied (so "down" means
    "Dimension too large error".
 3. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
    will trigger "Dimension too large" during their execution if used
-   with an input equal to (or sufficiently close to `\maxdimen`.
+   with an input equal to (or sufficiently close to) `\maxdimen`.
 
 `\texdiminpt{<dim. expr.>}`
 
@@ -418,7 +418,7 @@ some demand for it.
 
 But of course anyhow the output from the "up" macros if used
 as input with the corresponding unit will be beyond `\maxdimen` if the
-latter is not atteignable, i.e. for all units except `bp`, and `nd`
+latter is not attainable, i.e. for all units except `bp`, and `nd`
 (and `pt` but there is no "up" macro for it).
 
 Provide a macro `\texdimforbothincm{<dim.expr.>}` which would output
