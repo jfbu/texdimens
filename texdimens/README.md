@@ -195,10 +195,9 @@ at last step the sign (if result is not zero) is applied (so "down" means
    an output `D` such that `Duu` is the first "virtually attainable" TeX
    dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
    "Dimension too large error".
-3. For some units the "down" and "up" macros may trigger "Dimension too
-   large" during their execution if used with an input very close to
-   `\maxdimen` (i.e. a few dozens `sp`'s away but we have not tabulated
-   yet the exact limits).
+3. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
+   will trigger "Dimension too large" during their execution if used
+   with an input equal to (or sufficiently close to `\maxdimen`.
 
 `\texdiminpt{<dim. expr.>}`
 
@@ -410,14 +409,17 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 ## Extras?
 
-As mentioned the "up" and even the "down" macros may trigger "Dimension
-too large" if used with inputs very near `\maxdimen`.  "Safe" variants
-which are guaranteed never to trigger this error but have some extra
-overhead to filter out inputs very close to `\maxdimen` will *perhaps*
-be provided if there is some demand for it.  But anyhow the output from
-the "up" macros if used as input with the corresponding unit will be
-beyond `\maxdimen` if the latter is not atteignable (i.e. for all units
-except `bp`, `nd`, `dd`).
+As already stated the "up" and also the "down" macros for the `dd`, `nc`
+and `in` units will trigger "Dimension too large" if used with inputs
+equal to or very near `\maxdimen`.  "Safe" variants which are guaranteed
+never to trigger this error but have some extra overhead to filter out
+inputs very close to `\maxdimen` will *perhaps* be provided if there is
+some demand for it.
+
+But of course anyhow the output from the "up" macros if used
+as input with the corresponding unit will be beyond `\maxdimen` if the
+latter is not atteignable, i.e. for all units except `bp`, and `nd`
+(and `pt` but there is no "up" macro for it).
 
 Provide a macro `\texdimnearest{in,cm}{<dim.expr.>}` which would output
 the nearest dimension simultaneously representable both in `in` and in
