@@ -175,7 +175,9 @@
 % bp 7227/7200 = 803/800
 %
 \def\texdiminbp#1{\expandafter\texdiminbp_\the\numexpr\dimexpr#1;}%
-\def\texdiminbp_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp}}%
+\def\texdiminbp_#1#2;{%
+    \expandafter\texdiminpt_\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax
+}%
 % \texdiminbpdown: maximal dim exactly expressible in bp and at most equal to input
 \def\texdiminbpdown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*400/803;bp;}%
 % \texdiminbpup: minimal dim exactly expressible in bp and at least equal to input
@@ -184,7 +186,9 @@
 % nd 685/642
 %
 \def\texdiminnd#1{\expandafter\texdiminnd_\the\numexpr\dimexpr#1;}%
-\def\texdiminnd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp}}%
+\def\texdiminnd_#1#2;{%
+    \expandafter\texdiminpt_\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp\relax
+}%
 % \texdiminnddown: maximal dim exactly expressible in nd and at most equal to input
 \def\texdiminnddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*321/685;nd;}%
 % \texdiminndup: minimal dim exactly expressible in nd and at least equal to input
@@ -193,7 +197,9 @@
 % dd 1238/1157
 %
 \def\texdimindd#1{\expandafter\texdimindd_\the\numexpr\dimexpr#1;}%
-\def\texdimindd_#1#2;{\texdiminpt{\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp}}%
+\def\texdimindd_#1#2;{%
+    \expandafter\texdiminpt_\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
+}%
 % \texdimindddown: maximal dim exactly expressible in dd and at most equal to input
 \def\texdimindddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 % \texdiminddup: minimal dim exactly expressible in dd and at least equal to input
