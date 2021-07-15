@@ -134,7 +134,7 @@
    {\ifdim#1#4>#3sp \texdimendown_e{#2}\fi\texdimenfirstofone{#1}}%
 }%
 % this #2 will be \fi
-\def\texdimendown_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1-1)sp\relax}%
+\def\texdimendown_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr#1-1sp\relax}%
 %
 \def\texdimenup_a#1{\if-#1\texdimenup_neg\fi\texdimenup_b#1}%
 % this #1 will be \fi
@@ -145,7 +145,7 @@
    {\ifdim#1#4<#3sp \texdimenup_e{#2}\fi\texdimenfirstofone{#1}}%
 }%
 % this #2 will be \fi
-\def\texdimenup_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr(#1+1)sp\relax}%
+\def\texdimenup_e#1#2#3#4{#2\expandafter\texdiminpt_\the\dimexpr\numexpr#1+1sp\relax}%
 %
 % pt
 %
