@@ -9,6 +9,7 @@ This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
 Development: https://github.com/jfbu/texdimens
+Release: 0.9delta 2021/07/15
 
 ## Aim of this package
 
@@ -170,13 +171,17 @@ the `pt`.
 
 ## Macros of this package
 
-All macros are expandable.  At time of writing they may not be
-f-expandable, but (perhaps) in future final versions will expand fully
-in two steps.  This refinement is anyhow not really important as TeX
-engines now support the `\expanded` primitive.
+The macros defined by the package are expandable, and will expand
+completely in an `\edef`, or in a `\dimexpr...\relax` construc.
+As they parse their inputs via `\dimexpr` they can be nested (with
+suitable postfix dimension unit added to inner macro).
+
+Apart for the `\texdimin<uu>up` in case of a negative input, they will
+even expand completely under f-expansion.
 
 Negative dimensions behave as if replaced by their absolute value, then
-at last step the sign (if result is not zero) is applied.
+at last step the sign (if result is not zero) is applied (so "down" means
+"towards zero", and "up" means "away from zero").
 
 1. For input `X` equal to (or sufficiently close to)
 `\maxdimen` and those units `uu` for which `\maxdimen` is not exactly
@@ -192,11 +197,15 @@ dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
 "Dimension too large error".
 
 3. For some units the "down" and "up" macros may trigger
-"Dimension too large" during their execution if used with an input too
-close to `\maxdimen`. "Safe" variants which are guaranteed never to
-trigger this error but have some extra overhead to filter out inputs too
-close to `\maxdimen` will *perhaps* be provided. But
-see 1. and 2. regarding the usability of the output anyhow.
+"Dimension too large" during their execution if used with an input very
+close to `\maxdimen` (i.e. a few dozens `sp`'s away but we have not
+tabulated yet the exact limits).
+
+"Safe" variants which are guaranteed never to trigger this error but
+have some extra overhead to filter out inputs very close to `\maxdimen`
+will *perhaps* be provided if there is some demand for it.
+
+But see 1. and 2. regarding the usability of the output anyhow.
 
 `\texdiminpt{<dim. expr.>}`
 
