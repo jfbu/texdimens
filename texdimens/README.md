@@ -224,7 +224,7 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
-`\texdiminndown{<dim. expr.>}`
+`\texdiminnd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nd`
 > represents the dimension exactly if possible. If not possible it
@@ -245,7 +245,7 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
-`\texdiminddown{<dim. expr.>}`
+`\texdimindd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D dd`
 > represents the dimension exactly if possible. If not possible it
