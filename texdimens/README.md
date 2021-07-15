@@ -62,7 +62,7 @@ rounded away from zero.  Only 17 decimal places of `D` are
 kept as it can be shown that going beyond can not change the result.
 
 When `\foo` has been assigned as `D pt`, `\the\foo` will produce some
-`E pt` where `E` is not necessarily the same as `D`.  But it is guaranteed
+`Ept` where `E` is not necessarily the same as `D`.  But it is guaranteed
 that `E pt` defines the same dimension as `D pt̀`.
 
 ## Further units known to TeX on input
