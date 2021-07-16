@@ -129,7 +129,7 @@ between attainable dimensions is `72--73sp` for the `in` and `28--29sp`
 for the `cm`, and as `1in` differs internally from `2.54cm` by only
 `12sp` (see below the `xintsession` verbatim) it is impossible to adjust
 either the `in` side or the `cm` side to obtain equality.  See in the
-[TODO] section the closest dimension attainable both via `in` and via
+[Extras?] section the closest dimension attainable both via `in` and via
 `cm`.
 
 In particular `1in==2.54cm` is **false** in TeX, but it is true that
