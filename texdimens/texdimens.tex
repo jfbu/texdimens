@@ -1,6 +1,9 @@
 % This is file texdimens.tex, part of texdimens package, which
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
+% 2021/07/16 v0.9dev
+% The macros are exactly identical to those of
 % 2021/07/15 v0.9delta
+% only code comments have changed.
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11
@@ -8,22 +11,61 @@
 % Mathematics
 % ===========
 %
-% Is T sp attainable from unit "uu"?. Here we suppose T>0.
-% phi>1, psi=1/phi, psi<1
-% U(N,phi)=trunc(N phi) is strictly increasing
+% Is T sp attainable from unit "uu"?.
+% If not, what is largest dimension < Tsp which is attainable?
+% Here we suppose T>0.
+%
+% phi>1, psi=1/phi, psi<1.
+%
+%     U(N,phi)=trunc(N phi) is the strictly increasing sequence,
+%     indexed by non-negative integers, of attainable dimensions.
+%     (in sp unit)
+%
 %     U(N)<= T <  U(N+1)    iff    N = ceil((T+1)psi) - 1
 %     U(M)<  T <= U(M+1)    iff    M = ceil(T psi)    - 1
-% Either:
-% case1:  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
-% case2:  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = floor(N phi) 
 %
-% Let X = round(T psi). And let Y = trunc(X phi).
+% Stumbling block
+% ---------------
+%
+% The stumbling block is that computing "ceil((T+1)psi) - 1" without
+% overflow is not obvious: yes \numexpr/\dimexpr allow so-called
+% "scaling operations" but only in the "rounding up" variant.
+%
+% If we attempt computing the ceil(x) function via round(x+0.5),
+% for example with psi=100/7227 which corresponds to the unit "in",
+% this necessitates evaluating:
+%
+%     round((((T+1)*200)+7227)/14454)
+%
+% But as far as I can tell currently, for this we need to be able
+% to evaluate without overflow (T+1)*200+7227 and this limits to
+% T's which are (roughly) such that 100 T is less than \maxdimen.
+%
+% A work-around
+% -------------
+%
+% The rest of the discussion is about an algorithm providing an
+% alternative route to N, using \numexpr/\dimexpr/TeX facilities,
+% and working with (almost, as we will see) the full range of allowed
+% T's, 0 < T <= \maxdimen. (that the algorithm works for T=0 is to be
+% checked manually after the main discussion).
+%
+% Let's return to the U(N)<= T < U(N+1) and U(M)< T <= U(M+1) equations.
+%
+% Either (recall in all of this T > 0):
+%
+% case1:  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
+% case2:  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = trunc(N phi)
+%
+% Let X = round(T psi). And let Y = trunc(X phi). We will explain later
+% how X and Y can be computed using \numexpr/\dimexpr/TeX.
 %
 % case1: X can be N or N+1. It will be N+1 iff Y > T.
 % case2: X can be N or N-1. It will be N iff trunc((X+1)phi)>T.
 %
-% This is not convenient: if Y <= T it might still be that we are in case 2
-% and we must check then if trunc((X+1) phi) > T or not.
+% This is not convenient: if Y < T it could be that we are in case 2
+% but to decide we must check if trunc((X+1) phi) = T or not, so
+% this means a second computation.
 %
 % If psi < 0.5
 % ------------
@@ -37,11 +79,11 @@
 % a) compute X = round(T psi)
 % b) compute Y = trunc(X phi) and test if Y > T. If true, we
 %    were in case 1, replace X by X - 1, else we were either
-%    in case 1 or case 2, but we can leave X as is.
+%    in case 1 or case 2, and we leave X as it is.
 % We have thus found N.
 %
 % The operation Y = trunc(X phi) can be achieved this way:
-% i) use \the\dimexpr to convert X sp into D pt, 
+% i) use \the\dimexpr to convert X sp into D pt,
 % ii) use \the\numexpr\dimexpr  to convert "D uu" into sp.
 % These steps give Y.
 %
@@ -50,9 +92,9 @@
 %
 % The computations of X and Y can be done independently of sign of T.
 % But the final test has to be changed to Y < T if T < 0 and then
-% one must replace X by X+1. So we must filter sign.
+% one must replace X by X+1. So we must filter out the sign of the input.
 %
-% If the goal is only to find a decimal D such that "D uu" is 
+% If the goal is only to find a decimal D such that "D uu" is
 % exactly T sp in the case this is possible, then things are simpler
 % because from X = round(T psi) we get D such as X sp is same as D pt
 % and "D uu" will work.
@@ -76,7 +118,7 @@
 %
 % So this gives an approach to find a D such that "D uu" is exactly
 % T sp when this is possible.
-% 
+%
 % If Tsp (positive) is not attainable, this R however can produce
 % either N or N+1.
 %
@@ -86,42 +128,38 @@
 % It is slightly less costly to compute X = round(T psi) than
 % R = round((T + 0.5) psi),
 % but if we then realize that trunc(X phi) < T  we do not yet know
-% if trunc((X+1) phi) = T  or is > T.
+% if trunc((X+1) phi) = T  or is > T. So we proceed via R, not X,
+% to not have to make a second computation if a dimension comparison
+% test goes awry.
 %
 % To recapitulate: we have our algorithm for all units to find out
 % maximal dimension exactly attainable in "uu" unit and at most equal
 % to (positive) T sp.
 %
 % Unfortunately the check that Y (in case psi < 0.5) or Z (in case psi >
-% 0.5) may trigger a Dimension too large error if T sp was near
-% non-attainable \maxdimen.
+% 0.5) verifies or not Y > T may trigger a Dimension too large error if
+% T sp was near non-attainable \maxdimen. It turns out this sad
+% situation happens only for the units `dd`, `nc`, and `in`, and T sp
+% very close to \maxdimen (like for all units apart from `pt`, `bp`,
+% `nd`, the \maxdimen is not attainable, and by bad luck for `dd`, `nc`,
+% and `in`, the X will correspond to a decimal D such that Duu>\maxdimen
+% is the nearest virtually attaible dimensions from above not from
+% below; see the README.md for the tabulation of the maximal usable inputs).
 %
-% For additional envisioned "safe versions" we would tabulate first per unit
-% what is the integer Rmax such that trunc(Rmax phi) <= \maxdimen. Then
-% the "safe" versions would have an extra check of X or R before
-% proceeding further. But the "up macros" supposed to give the next
-% dimension above Tsp and exactly attainable in "uu" unit, if compliant
-% to their description can not avoid "Dimension too large" for inputs
-% close to non-attainable \maxdimen.
+% Regarding the \texdimin<uu> macros, and units with phi > 2, I
+% hesitated using either the round((T+0.5)psi) or round(T psi), but for
+% Tsp = \maxdimen, both formulas turned out to give the same result for
+% all such units, so I chose for these \texdimin<uu> macros and the
+% units with phi>2 to use the simpler round(T psi) which does not need
+% to check the sign of T.
 %
-% After having written the macros we will tabulate what is for each unit
-% the maximal attainable dimension.
-%
-% About the macros such as \texdiminbp whose constraints are:
-% - give a decimal D such that  "Duu" = "T sp" for TeX if possible
-% - else give nearest from below or above without knowing
-%   which one,
-%
-% there was some hesitation about whether or not using the simpler
-% round(T psi) approach for units > 2pt and the \texdimin<uu> macros.
-% Testing showed that this did not change the output for \maxdimen
-% with the units "nc" and "in": still N+1 is returned...
-%
-% As it has great
-% advantage to not have to check the sign of the input, the
-% "simpler" approach was chosen for those units to which it
-% applies, i.e. the units uu > 2pt (phi>2, psi<1/2), i.e.
-% all units except bp, nd and dd.
+% For the "up" and "down" macros, we again use the round(T psi), but do
+% have to check the sign anyhow. We could also have used the
+% round((T+0.5)psi) which requires a sign check too, but it costs a bit
+% more. It would have allowed though to share the same codebase for all
+% units, here we have to prepare some slightly different shared macros
+% for the first batch bp, nd, dd and the second batch mm, pc, nc, cc,
+% cm, in.
 %
 % Implementation
 % ==============

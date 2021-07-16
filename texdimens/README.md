@@ -10,7 +10,7 @@ LPPL 1.3c.  See file LICENSE.md.
 
 Development: https://github.com/jfbu/texdimens
 
-Release: `0.9delta 2021/07/15`
+Release: `0.9dev 2021/07/16`
 
 ## Aim of this package
 
