@@ -46,7 +46,7 @@ of one TeX point `1pt`, or rather `1pt` is represented internally as `65536`.
 
 If `\foo` is a dimen register:
 
-- `\number\foo` produces the integer `N` such as `\foo` is the same as `N sp`,
+- `\number\foo` produces the integer `N` such as `\foo` is the same as `Nsp`,
 
 - inside `\numexpr`, `\foo` is replaced by `N`,
 
@@ -63,7 +63,7 @@ kept as it can be shown that going beyond can not change the result.
 
 When `\foo` has been assigned as `Dpt`, `\the\foo` will produce some
 `Ept` where `E` is not necessarily the same as `D`.  But it is guaranteed
-that `E pt` defines the same dimension as `Dpt̀`.
+that `Ept` defines the same dimension as `Dpt̀`.
 
 ## Further units known to TeX on input
 
@@ -100,8 +100,8 @@ among those listed above, it first handles `U` as with the `pt` unit.
 This means that it computes `N = round(65536*U)`. It then multiplies
 this `N` by the conversion factor `phi` and truncates towards zero the
 mathematically exact result to obtain an integer `T`:
-`T=trunc(N*phi)`. The assignment `U uu` is concluded by defining the
-value of the dimension to be `T sp`.
+`T=trunc(N*phi)`. The assignment `Uuu` is concluded by defining the
+value of the dimension to be `Tsp`.
 
 Attention that although the mnemotic is `phi=1uu/1pt`, this formula
 definitely does not apply with numerator and denominator interpreted as
@@ -152,19 +152,19 @@ In particular `1in==2.54cm` is **false** in TeX, but it is true that
 other units the maximal attainable dimensions in `sp` unit are given in
 the middle column of the next table.
 
-    maximal allowed      the corresponding       minimal TeX dimen denotation
-    (with 5 places)   maximal attainable dim.    causing "Dimension too large"
-    ---------------  --------------------------  --------------------------
-    16383.99999 pt   1073741823 sp (=\maxdimen)  16383.99999237060546875 pt
-    16322.78954 bp   1073741823 sp (=\maxdimen)  16322.78954315185546875 bp
-    15355.51532 nd   1073741823 sp (=\maxdimen)  15355.51532745361328125 nd
-    15312.02584 dd   1073741822 sp               15312.02584075927734375 dd
-     5758.31742 mm   1073741822 sp                5758.31742095947265625 mm
-     1365.33333 pc   1073741820 sp                1365.33333587646484375 pc
-     1279.62627 nc   1073741814 sp                1279.62627410888671875 nc
-     1276.00215 cc   1073741821 sp                1276.00215911865234375 cc
-      575.83174 cm   1073741822 sp                 575.83174896240234375 cm
-      226.70540 in   1073741768 sp                 226.70540618896484375 in
+    maximal allowed      the corresponding      minimal TeX dimen denotation
+    (with 5 places)   maximal attainable dim.   causing "Dimension too large"
+    ---------------  -------------------------  --------------------------
+    16383.99999pt    1073741823sp (=\maxdimen)  16383.99999237060546875pt
+    16322.78954bp    1073741823sp (=\maxdimen)  16322.78954315185546875bp
+    15355.51532nd    1073741823sp (=\maxdimen)  15355.51532745361328125nd
+    15312.02584dd    1073741822sp               15312.02584075927734375dd
+     5758.31742mm    1073741822sp                5758.31742095947265625mm
+     1365.33333pc    1073741820sp                1365.33333587646484375pc
+     1279.62627nc    1073741814sp                1279.62627410888671875nc
+     1276.00215cc    1073741821sp                1276.00215911865234375cc
+      575.83174cm    1073741822sp                 575.83174896240234375cm
+      226.70540in    1073741768sp                 226.70540618896484375in
 
 Perhaps for these various peculiarities with dimensional units, TeX does
 not provide an output facility for them similar to what `\the` achieves for
@@ -449,7 +449,7 @@ latter is not attainable, i.e. for all units except `bp`, and `nd`
 
 According to a reference on the web by an anonymous contributor the
 dimensions representable with both `in` and `cm` units have the shape
-`trunc(3613.5*k) sp` for some integer `k`. The largest one smaller
+`trunc(3613.5*k)sp` for some integer `k`. The largest one smaller
 than a give dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
