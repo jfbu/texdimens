@@ -51,19 +51,19 @@ If `\foo` is a dimen register:
 - inside `\numexpr`, `\foo` is replaced by `N`,
 
 - `\the\foo` produces a decimal `D` (with at most five places) followed
-with `pt` (catcode 12 tokens) and this output `D pt` can serve as input
+with `pt` (catcode 12 tokens) and this output `Dpt` can serve as input
 in a dimen assignment to produce the same dimension as `\foo`.  One can
 also use the catcode 11 characters `pt` for this.  Digits and decimal
 mark must have their standard catcode 12.
 
-When TeX encounters a dimen denotation of the type `D pt` it will
+When TeX encounters a dimen denotation of the type `Dpt` it will
 compute `N` in a way equivalent to `N = round(65536 D)` where ties are
 rounded away from zero.  Only 17 decimal places of `D` are
 kept as it can be shown that going beyond can not change the result.
 
-When `\foo` has been assigned as `D pt`, `\the\foo` will produce some
+When `\foo` has been assigned as `Dpt`, `\the\foo` will produce some
 `Ept` where `E` is not necessarily the same as `D`.  But it is guaranteed
-that `E pt` defines the same dimension as `D pt̀`.
+that `E pt` defines the same dimension as `Dpt̀`.
 
 ## Further units known to TeX on input
 
@@ -205,7 +205,7 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenbp{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D bp`
+> Produces a decimal (with up to five decimal places) `D` such that `Dbp`
 > represents the dimension exactly if possible. If not possible it
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
@@ -214,19 +214,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenbpdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D bp`
+> Produces a decimal (with up to five decimal places) `D` such that `Dbp`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
 `\texdimenbpup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D bp`
+> Produces a decimal (with up to five decimal places) `D` such that `Dbp`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
 `\texdimennd{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nd`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnd`
 > represents the dimension exactly if possible. If not possible it
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
@@ -235,19 +235,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimennddown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nd`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnd`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
 `\texdimenndup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nd`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
 `\texdimendd{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D dd`
+> Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
@@ -258,19 +258,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimendddown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D dd`
+> Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
 `\texdimenddup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D dd`
+> Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
 `\texdimenmm{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D mm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
@@ -281,19 +281,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenmmdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D mm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimenmmup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D mm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimenpc{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D pc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
 > will be the closest representable one (in case of tie, the approximant
 > from above is chosen).
@@ -303,19 +303,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenpcdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D pc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimenpcup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D pc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimennc{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
@@ -327,19 +327,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenncdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimenncup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D nc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimencc{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
@@ -350,19 +350,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenccdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimenccup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cc`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimencm{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
@@ -373,19 +373,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimencmdown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimencmup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimenin{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D in`
+> Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will either be the closest from below or from above, but it is not
 > known in advance which one (and it is not known if the other choice
@@ -397,32 +397,32 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 `\texdimenindown{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D in`
+> Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
 `\texdimeninup{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D in`
+> Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
 `\texdimenbothcmin{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D in`
+> Produces a decimal (with up to five decimal places) `D` such that `Din`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.
 
 `\texdimenbothincm{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D cm`
+> Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.  It thus represents
 > the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
 
 `\texdimenbothincmpt{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `D pt`
+> Produces a decimal (with up to five decimal places) `D` such that `Dpt`
 > is the largest dimension smaller than the original one and
 > exactly representable both in `in` and `cm` units.  It thus represents
 > the same dimension as the one provided by `\texdimenbothcmin` and
