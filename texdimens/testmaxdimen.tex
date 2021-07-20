@@ -2,7 +2,7 @@
 \usepackage{texdimens}
 \usepackage{xinttools}
 \begin{document}
-% This was first done at commit a7a1579 when texdimin<uu> macros
+% This was first done at commit a7a1579 when texdimen<uu> macros
 % all used round((T+0.5)psi) approach.
 % Now round(Tpsi) is used except for "bp", "nd", "dd" but this did not
 % change for "nc" and "in" that the output is still choosing N+1 not N.
@@ -23,7 +23,7 @@
     in}
 :
 {%
-\edef\x{\csname texdimin#1\endcsname\maxdimen}%
+\edef\x{\csname texdimen#1\endcsname\maxdimen}%
 \immediate\write128{#1 -> \x}%
 % is \maxdimen attainable ? 
 % This may raise Dimension too large, ignore terminal output then
@@ -48,13 +48,13 @@
     in}
 :
 {%
-\edef\x{\csname texdimin#1\endcsname\maxdimen}%
+\edef\x{\csname texdimen#1\endcsname\maxdimen}%
 \immediate\write128{\x#1 > maxdimen}%
 \edef\y{\number\dimexpr\x pt}% recover the computed R = N + 1 (as Ruu
                              % triggered Dimension too large)
 \immediate\write128{y est \y}%
 \edef\z{\the\numexpr\y-1}%
-\edef\x{\texdiminpt{\z sp}}%
+\edef\x{\texdimenpt{\z sp}}%
 \immediate\write128{maxdimen (\number\maxdimen) is not attainable with unit "#1"}%
 \immediate\write128{maximal attainable one is \x#1 (\number\dimexpr\x#1)}%
 }

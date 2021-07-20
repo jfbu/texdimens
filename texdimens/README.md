@@ -177,7 +177,7 @@ completely in an `\edef`, or in a `\dimexpr...\relax` construct.
 As they parse their inputs via `\dimexpr` they can be nested (with
 the suitable dimension unit added as postfix to nested macro).
 
-Apart from the `\texdimin<uu>up` in case of a negative input, they will
+Apart from the `\texdimen<uu>up` in case of a negative input, they will
 even expand completely under f-expansion.
 
 Negative dimensions behave as if replaced by their absolute value, then
@@ -187,11 +187,11 @@ at last step the sign (if result is not zero) is applied (so "down" means
 1. For input `X` equal to (or sufficiently close to) `\maxdimen` and
    those units `uu` for which `\maxdimen` is not exactly representable
    (i.e. all units except `pt`, `bp` and `nd`), the output `D` of the
-   "up" macros `\texdimin<uu>up{X}`, if used as `Duu` in a dimension
+   "up" macros `\texdimen<uu>up{X}`, if used as `Duu` in a dimension
    assignment or expression, will (naturally) trigger a "Dimension too
    large" error.
 2. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
-   close to) `\maxdimen` it turns out that `\texdimin<uu>{X}` produces
+   close to) `\maxdimen` it turns out that `\texdimen<uu>{X}` produces
    an output `D` such that `Duu` is the first "virtually attainable" TeX
    dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
    "Dimension too large error".
@@ -199,11 +199,11 @@ at last step the sign (if result is not zero) is applied (so "down" means
    will trigger "Dimension too large" during their execution if used
    with an input equal to (or sufficiently close to) `\maxdimen`.
 
-`\texdiminpt{<dim. expr.>}`
+`\texdimenpt{<dim. expr.>}`
 
 > Does `\the\dimexpr <dim. expr.> \relax` then removes the `pt`.
 
-`\texdiminbp{<dim. expr.>}`
+`\texdimenbp{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D bp`
 > represents the dimension exactly if possible. If not possible it
@@ -212,19 +212,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 > `\maxdimen` on input produces `16322.78954` and indeed is realized as `16322.78954bp`.
 
-`\texdiminbpdown{<dim. expr.>}`
+`\texdimenbpdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D bp`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
-`\texdiminbpup{<dim. expr.>}`
+`\texdimenbpup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D bp`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
-`\texdiminnd{<dim. expr.>}`
+`\texdimennd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nd`
 > represents the dimension exactly if possible. If not possible it
@@ -233,19 +233,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 > `\maxdimen` on input produces `15355.51532` and indeed is realized as `15355.51532nd`.
 
-`\texdiminnddown{<dim. expr.>}`
+`\texdimennddown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nd`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
-`\texdiminndup{<dim. expr.>}`
+`\texdimenndup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
-`\texdimindd{<dim. expr.>}`
+`\texdimendd{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D dd`
 > represents the dimension exactly if possible. If not possible it
@@ -256,19 +256,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > will trigger "Dimension too large" error.
 > `\maxdimen-1sp` is attainable via `15312.02584dd`.
 
-`\texdimindddown{<dim. expr.>}`
+`\texdimendddown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D dd`
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
-`\texdiminddup{<dim. expr.>}`
+`\texdimenddup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D dd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
 
-`\texdiminmm{<dim. expr.>}`
+`\texdimenmm{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D mm`
 > represents the dimension exactly if possible. If not possible it
@@ -279,19 +279,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > `\maxdimen` as input produces on output `5758.31741` and indeed the
 > maximal attainable dimension is `5758.31741mm` (`1073741822sp`).
 
-`\texdiminmmdown{<dim. expr.>}`
+`\texdimenmmdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D mm`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdiminmmup{<dim. expr.>}`
+`\texdimenmmup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D mm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdiminpc{<dim. expr.>}`
+`\texdimenpc{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D pc`
 > represents the dimension exactly if possible. If not possible it
@@ -301,19 +301,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > `\maxdimen` as input produces on output `1365.33333` and indeed the
 > maximal attainable dimension is `1365.33333pc` (`1073741820sp`).
 
-`\texdiminpcdown{<dim. expr.>}`
+`\texdimenpcdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D pc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdiminpcup{<dim. expr.>}`
+`\texdimenpcup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D pc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdiminnc{<dim. expr.>}`
+`\texdimennc{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nc`
 > represents the dimension exactly if possible. If not possible it
@@ -325,19 +325,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > will trigger "Dimension too large" error.
 > `\maxdimen-9sp` is attainable via `1279.62627nc`.
 
-`\texdiminncdown{<dim. expr.>}`
+`\texdimenncdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdiminncup{<dim. expr.>}`
+`\texdimenncup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D nc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdimincc{<dim. expr.>}`
+`\texdimencc{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cc`
 > represents the dimension exactly if possible. If not possible it
@@ -348,19 +348,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > `\maxdimen` as input produces on output `1276.00215` and indeed the
 > maximal attainable dimension is `1276.00215cc` (`1073741821sp`).
 
-`\texdiminccdown{<dim. expr.>}`
+`\texdimenccdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cc`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdiminccup{<dim. expr.>}`
+`\texdimenccup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdimincm{<dim. expr.>}`
+`\texdimencm{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cm`
 > represents the dimension exactly if possible. If not possible it
@@ -371,19 +371,19 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > `\maxdimen` as input produces on output `575.83174` and indeed the
 > maximal attainable dimension is `575.83174cm` (`1073741822sp`).
 
-`\texdimincmdown{<dim. expr.>}`
+`\texdimencmdown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cm`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdimincmup{<dim. expr.>}`
+`\texdimencmup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdiminin{<dim. expr.>}`
+`\texdimenin{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D in`
 > represents the dimension exactly if possible. If not possible it
@@ -395,42 +395,42 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > will trigger "Dimension too large" error.
 > `\maxdimen-55sp` is maximal attainable dimension (via `226.7054in`).
 
-`\texdiminindown{<dim. expr.>}`
+`\texdimenindown{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D in`
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdimininup{<dim. expr.>}`
+`\texdimeninup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D in`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdiminbothcmin{<dim. expr.>}`
+`\texdimenbothcmin{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D in`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.
 
-`\texdiminbothincm{<dim. expr.>}`
+`\texdimenbothincm{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D cm`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.  It thus represents
-> the same dimension as `\texdiminbothcmin{<dim. expr.>}in`.
+> the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
 
-`\texdiminbothincmpt{<dim. expr.>}`
+`\texdimenbothincmpt{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `D pt`
 > is the largest dimension smaller than the original one and
 > exactly representable both in `in` and `cm` units.  It thus represents
-> the same dimension as the one provided by `\texdiminbothcmin` and
-> `\texdiminbothincm`.
+> the same dimension as the one provided by `\texdimenbothcmin` and
+> `\texdimenbothincm`.
 
-`\texdiminbothcminpt{<dim. expr.>}`
+`\texdimenbothcminpt{<dim. expr.>}`
 
-> Same as `\texdiminbothincmpt`.
+> Same as `\texdimenbothincmpt`.
 
 
 ## Extras?
@@ -453,11 +453,11 @@ dimensions representable with both `in` and `cm` units have the shape
 than a give dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
-For example `\texdiminbothincm{1cm}` expands to `0.99994cm` which maps internally
+For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps internally
 to `1864566sp` which differs from TeX's `1cm` by only `113sp`. It can be obtained
 from `0.39368in` or `28.45102pt`.
 
-And `\texdiminbothcmin{1in}` expands to `0.99945in`, maps internally to
+And `\texdimenbothcmin{1in}` expands to `0.99945in`, maps internally to
 `4733685sp` which differs from TeX's `1in` by `2601sp`. It can be obtained
 as `2.5386cm` or `72.2303pt`.
 

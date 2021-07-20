@@ -9,22 +9,22 @@
 
 \immediate\write\out{#1 (\the\numexpr\dimexpr#1\relax\relax)}
 
-\edef\x{\texdiminbothincm{#1}}
+\edef\x{\texdimenbothincm{#1}}
 \immediate\write\out{\x cm, \the\numexpr \dimexpr \x cm<=\the\numexpr\dimexpr#1, \the\dimexpr \x cm\relax}
 
-\edef\y{\texdiminbothcmin{#1}}
+\edef\y{\texdimenbothcmin{#1}}
 \immediate\write\out{\y in, \the\numexpr \dimexpr \y in<=\the\numexpr\dimexpr#1, \the\dimexpr \y in\relax}
 
-\edef\z{\texdiminbothincmpt{#1}}
+\edef\z{\texdimenbothincmpt{#1}}
 \immediate\write\out{\z pt, \the\numexpr \dimexpr \z pt<=\the\numexpr\dimexpr#1, \the\dimexpr \z pt\relax}
 
-\edef\x{\texdiminbothincm{-#1}}
+\edef\x{\texdimenbothincm{-#1}}
 \immediate\write\out{\x cm, \the\numexpr \dimexpr \x cm>=\the\numexpr\dimexpr-#1, \the\dimexpr \x cm\relax}
 
-\edef\y{\texdiminbothcmin{-#1}}
+\edef\y{\texdimenbothcmin{-#1}}
 \immediate\write\out{\y in, \the\numexpr \dimexpr \y in>=\the\numexpr\dimexpr-#1, \the\dimexpr \y in\relax}
 
-\edef\z{\texdiminbothincmpt{-#1}}
+\edef\z{\texdimenbothincmpt{-#1}}
 \immediate\write\out{\z pt, \the\numexpr \dimexpr \z pt>=\the\numexpr\dimexpr-#1, \the\dimexpr \z pt\relax}
 
 \immediate\write\out{}

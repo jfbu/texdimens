@@ -1,10 +1,8 @@
 % This is file texdimens.tex, part of texdimens package, which
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
 % 2021/07/20 v0.9dev
-% The (old) macros are exactly identical to those of
-% 2021/07/15 v0.9delta
-% only code comments have changed and \texdiminincm, \texdimincmin,
-% \texdimincmsp have been added
+% All macros from 0.9delta release have changed names: \texdimen prefix
+% has replaced \texdimin.
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11
@@ -147,10 +145,10 @@
 % is the nearest virtually attaible dimensions from above not from
 % below; see the README.md for the tabulation of the maximal usable inputs).
 %
-% Regarding the \texdimin<uu> macros, and units with phi > 2, I
+% Regarding the \texdimen<uu> macros, and units with phi > 2, I
 % hesitated using either the round((T+0.5)psi) or round(T psi), but for
 % Tsp = \maxdimen, both formulas turned out to give the same result for
-% all such units, so I chose for these \texdimin<uu> macros and the
+% all such units, so I chose for these \texdimen<uu> macros and the
 % units with phi>2 to use the simpler round(T psi) which does not need
 % to check the sign of T.
 %
@@ -210,88 +208,88 @@
 %
 % pt
 %
-\def\texdiminpt#1{\expandafter\texdimenstrippt\the\dimexpr#1\relax}%
+\def\texdimenpt#1{\expandafter\texdimenstrippt\the\dimexpr#1\relax}%
 %
 % bp 7227/7200 = 803/800
 %
-\def\texdiminbp#1{\expandafter\texdiminbp_\the\numexpr\dimexpr#1;}%
-\def\texdiminbp_#1#2;{%
+\def\texdimenbp#1{\expandafter\texdimenbp_\the\numexpr\dimexpr#1;}%
+\def\texdimenbp_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax
 }%
-% \texdiminbpdown: maximal dim exactly expressible in bp and at most equal to input
-\def\texdiminbpdown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*400/803;bp;}%
-% \texdiminbpup: minimal dim exactly expressible in bp and at least equal to input
-\def\texdiminbpup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*400/803;bp;}%
+% \texdimenbpdown: maximal dim exactly expressible in bp and at most equal to input
+\def\texdimenbpdown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*400/803;bp;}%
+% \texdimenbpup: minimal dim exactly expressible in bp and at least equal to input
+\def\texdimenbpup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*400/803;bp;}%
 %
 % nd 685/642
 %
-\def\texdiminnd#1{\expandafter\texdiminnd_\the\numexpr\dimexpr#1;}%
-\def\texdiminnd_#1#2;{%
+\def\texdimennd#1{\expandafter\texdimennd_\the\numexpr\dimexpr#1;}%
+\def\texdimennd_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp\relax
 }%
-% \texdiminnddown: maximal dim exactly expressible in nd and at most equal to input
-\def\texdiminnddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*321/685;nd;}%
-% \texdiminndup: minimal dim exactly expressible in nd and at least equal to input
-\def\texdiminndup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*321/685;nd;}%
+% \texdimennddown: maximal dim exactly expressible in nd and at most equal to input
+\def\texdimennddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*321/685;nd;}%
+% \texdimenndup: minimal dim exactly expressible in nd and at least equal to input
+\def\texdimenndup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*321/685;nd;}%
 %
 % dd 1238/1157
 %
-\def\texdimindd#1{\expandafter\texdimindd_\the\numexpr\dimexpr#1;}%
-\def\texdimindd_#1#2;{%
+\def\texdimendd#1{\expandafter\texdimendd_\the\numexpr\dimexpr#1;}%
+\def\texdimendd_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
 }%
-% \texdimindddown: maximal dim exactly expressible in dd and at most equal to input
-\def\texdimindddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
-% \texdiminddup: minimal dim exactly expressible in dd and at least equal to input
-\def\texdiminddup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+% \texdimendddown: maximal dim exactly expressible in dd and at most equal to input
+\def\texdimendddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+% \texdimenddup: minimal dim exactly expressible in dd and at least equal to input
+\def\texdimenddup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 %
 % mm 7227/2540 phi now >2, use from here on the simpler approach
 %
-\def\texdiminmm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*2540/7227\relax}%
-% \texdiminmmdown: maximal dim exactly expressible in mm and at most equal to input
-\def\texdiminmmdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
-% \texdiminmmup: minimal dim exactly expressible in mm and at least equal to input
-\def\texdiminmmup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
+\def\texdimenmm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*2540/7227\relax}%
+% \texdimenmmdown: maximal dim exactly expressible in mm and at most equal to input
+\def\texdimenmmdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
+% \texdimenmmup: minimal dim exactly expressible in mm and at least equal to input
+\def\texdimenmmup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
 %
 % pc 12/1
 %
-\def\texdiminpc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)/12\relax}%
-% \texdiminpcdown: maximal dim exactly expressible in pc and at most equal to input
-\def\texdiminpcdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;/12;pc;}%
-% \texdiminpcup: minimal dim exactly expressible in pc and at least equal to input
-\def\texdiminpcup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;/12;pc;}%
+\def\texdimenpc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)/12\relax}%
+% \texdimenpcdown: maximal dim exactly expressible in pc and at most equal to input
+\def\texdimenpcdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;/12;pc;}%
+% \texdimenpcup: minimal dim exactly expressible in pc and at least equal to input
+\def\texdimenpcup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;/12;pc;}%
 %
 % nc 1370/107
 %
-\def\texdiminnc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*107/1370\relax}%
-% \texdiminncdown: maximal dim exactly expressible in nc and at most equal to input
-\def\texdiminncdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
-% \texdiminncup: minimal dim exactly expressible in nc and at least equal to input
-\def\texdiminncup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+\def\texdimennc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*107/1370\relax}%
+% \texdimenncdown: maximal dim exactly expressible in nc and at most equal to input
+\def\texdimenncdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+% \texdimenncup: minimal dim exactly expressible in nc and at least equal to input
+\def\texdimenncup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 %
 % cc 14856/1157
 %
-\def\texdimincc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*1157/14856\relax}%
-% \texdiminccdown: maximal dim exactly expressible in cc and at most equal to input
-\def\texdiminccdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
-% \texdiminccup: minimal dim exactly expressible in cc and at least equal to input
-\def\texdiminccup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
+\def\texdimencc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*1157/14856\relax}%
+% \texdimenccdown: maximal dim exactly expressible in cc and at most equal to input
+\def\texdimenccdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
+% \texdimenccup: minimal dim exactly expressible in cc and at least equal to input
+\def\texdimenccup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
 %
 % cm 7227/254
 %
-\def\texdimincm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*254/7227\relax}%
-% \texdimincmdown: maximal dim exactly expressible in cm and at most equal to input
-\def\texdimincmdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
-% \texdimincmup: minimal dim exactly expressible in cm and at least equal to input
-\def\texdimincmup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
+\def\texdimencm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*254/7227\relax}%
+% \texdimencmdown: maximal dim exactly expressible in cm and at most equal to input
+\def\texdimencmdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
+% \texdimencmup: minimal dim exactly expressible in cm and at least equal to input
+\def\texdimencmup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
 %
 % in 7227/100
 %
-\def\texdiminin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
-% \texdiminindown: maximal dim exactly expressible in in and at most equal to input
-\def\texdiminindown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
-% \texdimininup: minimal dim exactly expressible in in and at least equal to input
-\def\texdimininup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+\def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
+% \texdimenindown: maximal dim exactly expressible in in and at most equal to input
+\def\texdimenindown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+% \texdimeninup: minimal dim exactly expressible in in and at least equal to input
+\def\texdimeninup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % both in and cm
 % Mathematics (and Algorithm)
 % -----------
@@ -321,13 +319,13 @@
 % hangdling of negative input from positive one.
 %
 % Some slight under-efficiency added to share macros across 3 targets.
-% I hesitated about a \texdiminbothincmsp which would be a bit faster than
+% I hesitated about a \texdimenbothincmsp which would be a bit faster than
 % the in, cm, or pt unit versions but sharing macros with them a bit
 % annoying.
-\def\texdiminbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*127);}%
-\def\texdiminbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*50);}%
-\def\texdiminbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*7227+1)/2-1;}%
-\let\texdiminbothcminpt\texdiminbothincmpt
+\def\texdimenbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*127);}%
+\def\texdimenbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*50);}%
+\def\texdimenbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*7227+1)/2-1;}%
+\let\texdimenbothcminpt\texdimenbothincmpt
 \def\texdimenic_a#1{\if-#1\texdimenic_neg\fi\texdimenic_b#1}%
 % Opening parenthesis ( is closed in #2, but this is to share "pt" macro
 % with the others

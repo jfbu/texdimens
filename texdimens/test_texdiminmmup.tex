@@ -5,7 +5,7 @@
 \newcount\counta
 \def\iter{1000}
 
-\def\testpos{\edef\x{\texdiminmmup{\counta sp}}%
+\def\testpos{\edef\x{\texdimenmmup{\counta sp}}%
              \edef\y{\the\numexpr\dimexpr\x mm}%
              \edef\z{\the\counta}%
              \ifnum\y<\z\relax\ERROR\fi
@@ -20,7 +20,7 @@
 \counta 0
 \def\iter{100}
 
-\def\testneg{\edef\x{\texdiminmmup{-\counta sp}}%
+\def\testneg{\edef\x{\texdimenmmup{-\counta sp}}%
              \immediate\write\out{\x\space(\the\numexpr\dimexpr\x mm, -\the\counta)}}
 
 \loop
