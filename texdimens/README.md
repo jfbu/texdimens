@@ -407,6 +407,32 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
+`\texdiminbothcmin{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D in`
+> is the largest dimension smaller than the original one and
+> exactly representable both in the `in` and `cm` units.
+
+`\texdiminbothincm{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D cm`
+> is the largest dimension smaller than the original one and
+> exactly representable both in the `in` and `cm` units.  It thus represents
+> the same dimension as `\texdiminbothcmin{<dim. expr.>}in`.
+
+`\texdiminbothincmpt{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that `D pt`
+> is the largest dimension smaller than the original one and
+> exactly representable both in `in` and `cm` units.  It thus represents
+> the same dimension as the one provided by `\texdiminbothcmin` and
+> `\texdiminbothincm`.
+
+`\texdiminbothcminpt{<dim. expr.>}`
+
+> Same as `\texdiminbothincmpt`.
+
+
 ## Extras?
 
 As already stated the "up" and also the "down" macros for the `dd`, `nc`
@@ -421,43 +447,25 @@ as input with the corresponding unit will be beyond `\maxdimen` if the
 latter is not attainable, i.e. for all units except `bp`, and `nd`
 (and `pt` but there is no "up" macro for it).
 
-Provide a macro `\texdimforbothincm{<dim.expr.>}` which would output
-the nearest dimension simultaneously representable both in `in` and in
-`cm`?
-
 According to a reference on the web by an anonymous contributor the
 dimensions representable with both `in` and `cm` units have the shape
-`trunc(3613.5*k) sp` for some integer `k`. So we basically may have a
-delta up to about `1800sp` which is about `0.0275pt` and is still small
-(less than one hundredth of a millimeter, i.e. less than ten micron),
-so perhaps such a utility for
-"safe dimensions" may be useful.  Here are for example the dimensions
-nearest to `1in` and realizable both in `in` and `cm` units:
+`trunc(3613.5*k) sp` for some integer `k`. The largest one smaller
+than a give dimension will thus differ from it by at most about `0.055pt`,
+which is also about `0.02mm`.
 
-    >>> \input texdimens.tex\relax
-    (executing \input texdimens.tex\relax  in background)
-    (./texdimens.tex) 
-    >>> &exact
-    exact mode (floating point evaluations use 16 digits)
-    >>> (\texdiminin{4737298sp});
-    @_10    1.00021
-    >>> (\texdimincm{4737298sp});
-    @_11    2.54054
-    >>> (\dimexpr1.00021in, \dimexpr2.54054cm);
-    @_12    4737298, 4737298
-    >>> (\texdiminin{4733685sp});
-    @_13    0.99945
-    >>> (\texdimincm{4733685sp});
-    @_14    2.5386
-    >>> (\dimexpr0.99945in, \dimexpr2.5386cm);
-    @_15    4733685, 4733685
+For example `\texdiminbothincm{1cm}` expands to `0.99994cm` which maps internally
+to `1864566sp` which differs from TeX's `1cm` by only `113sp`. It can be obtained
+from `0.39368in` or `28.45102pt`.
 
-As promised, one of them, the upper approximation, is at less than
-one hundredth of millimeter from the two nearby targets.
+And `\texdiminbothcmin{1in}` expands to `0.99945in`, maps internally to
+`4733685sp` which differs from TeX's `1in` by `2601sp`. It can be obtained
+as `2.5386cm` or `72.2303pt`.
 
-Simpler however and more efficient
-would be for people to finally adopt the French revolution Système
-Métrique (rather than setting up giant financial paradises).
+Currently the package does not provide analogous approximations from above.
+For the `1in` for example it would be `4737298sp`, i.e. `1.00021in` which
+differs from TeX's `1in` by `1012sp` and is obtained also as `2.54054cm`
+and `72.28543pt`.
+
 
 <!--
 %! Local variables:

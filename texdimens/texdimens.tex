@@ -1,9 +1,10 @@
 % This is file texdimens.tex, part of texdimens package, which
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
 % 2021/07/16 v0.9dev
-% The macros are exactly identical to those of
+% The (old) macros are exactly identical to those of
 % 2021/07/15 v0.9delta
-% only code comments have changed.
+% only code comments have changed and \texdiminincm, \texdimincmin,
+% \texdimincmsp have been added
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11
@@ -291,9 +292,57 @@
 \def\texdiminindown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % \texdimininup: minimal dim exactly expressible in in and at least equal to input
 \def\texdimininup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+% both in and cm
+% Mathematics (and Algorithm)
+% -----------
+% Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
+% floor(b 7227/254).  It can be proven that a=50k, b=127k for some integer k.
+% The proof is left to reader.  So U = floor(7227 k /2) for some k.
 %
+% Let's now find the largest such U <= T. So U = floor(k 7227/2)<= T which is
+% equivalent (as k is integer) to k 7227/2 <= T + 1/2, i.e.
+%     kmax = floor((2T+1)/7227)
+% If we use for x>0 the formula floor(x)=round(x-1/2)=<x-1/2> we will end
+% up basically for the computation of kmax with some 4T intermediary,
+% hence overflow problems even in \numexpr. Here I used <.>
+% to denote rounding in the sense of \numexpr. It is not 1-periodical
+% due to handling of negative inputs, but here x-1/2>-1/2 anyhow.
+% The following lemma holds: let T be a non-negative integer then
+%     floor((2T+1)/7227) = <(2T - 3612)/7227>
+% So we can compute this k, hence a=50k, b=127k, within \numexpr and
+% avoiding overflow.
+%
+% The computation of floor(k 7227/2) as <(7227 k - 1)/2> would require to
+% check if k==0 so we do it rather as <(7227 k + 1)/2> - 1.  No overflow
+% can arise as k = 297147 for \maxdimen, and then 7227 k = 2**31 - 2279 and
+% there is ample room for 7227k+1 using \numexpr.
+%
+% But this step, as well as initial step to get k will require to separate
+% hangdling of negative input from positive one.
+%
+% Some slight under-efficiency added to share macros across 3 targets.
+% I hesitated about a \texdiminbothincmsp which would be a bit faster than
+% the in, cm, or pt unit versions but sharing macros with them a bit
+% annoying.
+\def\texdiminbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*127);}%
+\def\texdiminbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*50);}%
+\def\texdiminbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*7227+1)/2-1;}%
+\let\texdiminbothcminpt\texdiminbothincmpt
+\def\texdimenic_a#1{\if-#1\texdimenic_neg\fi\texdimenic_b#1}%
+% Opening parenthesis ( is closed in #2, but this is to share "pt" macro
+% with the others
+\def\texdimenic_b#1;#2;{\expandafter\texdimenstrippt\the\dimexpr\numexpr(((2*#1-3612)/7227)#2sp\relax}%
+% negative branch:
+% The problem here is that if input very small, output can be 0.0, and we
+% do not want -0.0 as output.
+% So let's do this somewhat brutally and non-efficiently.
+% Anyhow, negative inputs are not our priority.
+% #1 is \fi here and #2 is \texdimenic_b:
+\def\texdimenic_neg#1#2-#3;#4;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;pt\relax}%
+% 
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
 %! fill-column: 1000
+%! sentence-end-double-space: t
 %! End:
