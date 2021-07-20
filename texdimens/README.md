@@ -454,16 +454,16 @@ than a given dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
 For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps internally
-to `1864566sp` which differs from TeX's `1cm` by only `113sp`. It can be obtained
+to `1864566sp` which differs from TeX's `1cm` by only `-113sp`. It can be obtained
 from `0.39368in` or `28.45102pt`.
 
 And `\texdimenbothcmin{1in}` expands to `0.99945in`, maps internally to
-`4733685sp` which differs from TeX's `1in` by `2601sp`. It can be obtained
+`4733685sp` which differs from TeX's `1in` by `-2601sp`. It can be obtained
 as `2.5386cm` or `72.2303pt`.
 
 Currently the package does not provide analogous approximations from above.
 For the `1in` for example it would be `4737298sp`, i.e. `1.00021in` which
-differs from TeX's `1in` by `1012sp` and is obtained also as `2.54054cm`
+differs from TeX's `1in` by `+1012sp` and is obtained also as `2.54054cm`
 and `72.28543pt`.
 
 
