@@ -407,20 +407,20 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdimenbothcmin{<dim. expr.>}`
+`\texdimenbothcmin{<dim. expr.>}` (new with `0.9dev`)
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.
 
-`\texdimenbothincm{<dim. expr.>}`
+`\texdimenbothincm{<dim. expr.>}` (new with `0.9dev`)
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.  It thus represents
 > the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
 
-`\texdimenbothincmpt{<dim. expr.>}`
+`\texdimenbothincmpt{<dim. expr.>}` (new with `0.9dev`)
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpt`
 > is the largest dimension smaller than the original one and
@@ -428,7 +428,7 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > the same dimension as the one provided by `\texdimenbothcmin` and
 > `\texdimenbothincm`.
 
-`\texdimenbothcminpt{<dim. expr.>}`
+`\texdimenbothcminpt{<dim. expr.>}` (new with `0.9dev`)
 
 > Same as `\texdimenbothincmpt`.
 
@@ -450,7 +450,7 @@ latter is not attainable, i.e. for all units except `bp`, and `nd`
 According to a reference on the web by an anonymous contributor the
 dimensions representable with both `in` and `cm` units have the shape
 `trunc(3613.5*k)sp` for some integer `k`. The largest one smaller
-than a give dimension will thus differ from it by at most about `0.055pt`,
+than a given dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
 For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps internally
