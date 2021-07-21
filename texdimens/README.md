@@ -133,8 +133,9 @@ either the `in` side or the `cm` side to obtain equality.  See in the
 `cm`.
 
 In particular `1in==2.54cm` is **false** in TeX, but it is true that
-`100in==254cm`... It is also false that `10in==25.4cm` but it is true that
-`10in==254mm`... It is false though that `1in==25.4mm`!
+`100in==254cm`... (it is already true that `50in==127cm`).  It is also
+false that `10in==25.4cm` but it is true that `10in==254mm`... It is
+false though that `1in==25.4mm`!
 
     >>> (\dimexpr1in, \dimexpr2.54cm);
     @_1     4736286, 4736274
