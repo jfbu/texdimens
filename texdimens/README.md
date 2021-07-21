@@ -108,7 +108,7 @@ definitely does not apply with numerator and denominator interpreted as
 TeX dimensions.  See the above table.  Also, the last column looks like
 `round(.,5)` is applied to the previous one, but `\the\dimexpr1dd\relax`
 is an exception (in the table `[x]` is the integer part, aka for
-non-negative values, the `\trunc()` function).  Notice also that
+non-negative values, the `trunc()` function).  Notice also that
 `1.00375` is the exact value of the `phi` factor for the `bp` unit but
 `1.00375pt>1bp` (`65782>65781`).
 
