@@ -2,6 +2,24 @@
 
 ------------------------------------------------------------------------
 
+Release 0.9 du 21 juillet 2021
+
+Téléversé sur CTAN le 21 juillet 2021 vers 15h00
+
+v0.9 (2021/07/21)
+
+- breaking changes: all user macros have changed their names
+  and now use the \texdimen namespace prefix and not \texdimin
+  as formerly.
+
+- new: \texdimenbothincmsp{<dim. expr.>} expands to an integer N
+  such that Nsp is the largest dimension at most equal to the
+  input and exactly representable with the in and also with the
+  cm units.  And similar macros to produce the same dimension but
+  as a decimal to be used with either in, cm or pt.
+
+------------------------------------------------------------------------
+
 Release 0.9delta du 15 juillet 2021
 
 Téléversé sur CTAN le 15 juillet 2021 vers 14h50
