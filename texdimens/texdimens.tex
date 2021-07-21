@@ -328,22 +328,22 @@
 %
 % There is some slight under-efficiency to share macros across the 3 end targets
 % as I added one layer of parentheses.
-\def\texdimenbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;127);}%
-\def\texdimenbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;50);}%
-\def\texdimenbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
+\def\texdimenbothincm#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;127);}%
+\def\texdimenbothcmin#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;50);}%
+\def\texdimenbothincmpt#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
 \let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenic_a#1{\if-#1\texdimenic_neg\fi\texdimenic_b#1}%
+\def\texdimenboth_a#1{\if-#1\texdimenboth_neg\fi\texdimenboth_b#1}%
 % The opening parenthesis ( is closed in #2, it was added to share "pt" output
 % with the two others
-\def\texdimenic_b#1;#2;%
+\def\texdimenboth_b#1;#2;%
    {\expandafter\texdimenstrippt\the\dimexpr\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
 % negative branch:
 % The problem here is that if input very small, output can be 0.0, and we
 % do not want -0.0 as output.
 % So let's do this somewhat brutally and non-efficiently.
 % Anyhow, negative inputs are not our priority.
-% #1 is \fi here and #2 is \texdimenic_b:
-\def\texdimenic_neg#1#2-#3;#4;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;pt\relax}%
+% #1 is \fi here and #2 is \texdimenboth_b:
+\def\texdimenboth_neg#1#2-#3;#4;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;pt\relax}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
@@ -351,13 +351,13 @@
 % but then they would be less efficient than their current versions.
 % (it is a bit ironical to worry about not creating too many macros
 % in such a small package, by the way)
-\def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenicsp_a\the\numexpr\dimexpr#1;}%
-\def\texdimenicsp_a#1{\if-#1\texdimenicsp_neg\fi\texdimenicsp_b#1}%
-\def\texdimenicsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
+\def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
+\def\texdimenbothsp_a#1{\if-#1\texdimenbothsp_neg\fi\texdimenbothsp_b#1}%
+\def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
 % #1 is \fi
 % we need to regrab here or to add a \numexpr..\relax layer to
-% \texdimenicsp_b (parentheses could do but using 0-(...) syntax)
-\def\texdimenicsp_neg#1#2-#3;{#1-\numexpr#2#3;\relax}%
+% \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
+\def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr#2#3;\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
 \texdimensendinput
