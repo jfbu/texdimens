@@ -340,10 +340,9 @@
 % negative branch:
 % The problem here is that if input very small, output can be 0.0, and we
 % do not want -0.0 as output.
-% So let's do this somewhat brutally and non-efficiently.
-% Anyhow, negative inputs are not our priority.
 % #1 is \fi here and #2 is \texdimenboth_b:
-\def\texdimenboth_neg#1#2-#3;#4;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;pt\relax}%
+\def\texdimenboth_neg#1#2-#3;#4;%
+   {#1\expandafter\texdimenstrippt\the\dimexpr-\numexpr(((2*#3-3612)/7227)*#4sp\relax}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
