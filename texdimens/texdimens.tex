@@ -355,8 +355,8 @@
 \def\texdimenicsp_a#1{\if-#1\texdimenicsp_neg\fi\texdimenicsp_b#1}%
 \def\texdimenicsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
 % #1 is \fi
-% we need to regrab or we add a \numexpr..\relax layer to \texdimenicsp_b
-% (parentheses won't do as \numexpr chokes on -(...))
+% we need to regrab here or to add a \numexpr..\relax layer to
+% \texdimenicsp_b (parentheses could do but using 0-(...) syntax)
 \def\texdimenicsp_neg#1#2-#3;{#1-\numexpr#2#3;\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
