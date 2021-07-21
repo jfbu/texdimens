@@ -328,21 +328,21 @@
 %
 % There is some slight under-efficiency to share macros across the 3 end targets
 % as I added one layer of parentheses.
-\def\texdimenbothincm#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;127);}%
-\def\texdimenbothcmin#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;50);}%
-\def\texdimenbothincmpt#1{\expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
+\def\texdimenbothincm#1{\expandafter\texdimenstrippt\the\dimexpr
+                        \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;127);}%
+\def\texdimenbothcmin#1{\expandafter\texdimenstrippt\the\dimexpr
+                        \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;50);}%
+\def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
+                          \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
 \let\texdimenbothcminpt\texdimenbothincmpt
 \def\texdimenboth_a#1{\if-#1\texdimenboth_neg\fi\texdimenboth_b#1}%
 % The opening parenthesis ( is closed in #2, it was added to share "pt" output
 % with the two others
-\def\texdimenboth_b#1;#2;%
-   {\expandafter\texdimenstrippt\the\dimexpr\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
-% negative branch:
-% The problem here is that if input very small, output can be 0.0, and we
-% do not want -0.0 as output.
+\def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
+% negative branch. This is expanded in a \dimexpr so we can insert the -.
+% And this - will act on a \numexpr.
 % #1 is \fi here and #2 is \texdimenboth_b:
-\def\texdimenboth_neg#1#2-#3;#4;%
-   {#1\expandafter\texdimenstrippt\the\dimexpr-\numexpr(((2*#3-3612)/7227)*#4sp\relax}%
+\def\texdimenboth_neg#1#2-{#1-#2}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
