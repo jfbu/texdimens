@@ -339,10 +339,10 @@
 % The opening parenthesis ( is closed in #2, it was added to share "pt" output
 % with the two others
 \def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
-% negative branch. This is expanded in a \dimexpr so we can insert the -.
-% And this - will act on a \numexpr.
-% #1 is \fi here and #2 is \texdimenboth_b:
-\def\texdimenboth_neg#1#2-{#1-#2}%
+% negative branch. This is expanded in a \dimexpr so we can insert the -
+% in front of the \numexpr.
+% #1 is \fi here and #2 is \texdimenboth_b
+\def\texdimenboth_neg#1#2-#3;#4;{#1-\numexpr(((2*#3-3612)/7227)*#4sp\relax}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
