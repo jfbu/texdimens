@@ -19,3 +19,4 @@ README.html
 texdimens/units/*
 texdimens/ctanbuild/*
 !texdimens/ctanbuild/private.sh
+!texdimens/CTAN/texdimens.zip
