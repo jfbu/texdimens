@@ -18,6 +18,9 @@
 \edef\z{\texdimenbothincmpt{#1}}
 \immediate\write\out{\z pt, \the\numexpr \dimexpr \z pt<=\the\numexpr\dimexpr#1, \the\dimexpr \z pt\relax}
 
+\edef\w{\texdimenbothincmsp{#1}}
+\immediate\write\out{\w sp, \the\numexpr \dimexpr \w sp<=\the\numexpr\dimexpr#1, \the\dimexpr \w sp\relax}
+
 \edef\x{\texdimenbothincm{-#1}}
 \immediate\write\out{\x cm, \the\numexpr \dimexpr \x cm>=\the\numexpr\dimexpr-#1, \the\dimexpr \x cm\relax}
 
@@ -26,6 +29,9 @@
 
 \edef\z{\texdimenbothincmpt{-#1}}
 \immediate\write\out{\z pt, \the\numexpr \dimexpr \z pt>=\the\numexpr\dimexpr-#1, \the\dimexpr \z pt\relax}
+
+\edef\w{\texdimenbothincmsp{-#1}}
+\immediate\write\out{\w sp, \the\numexpr \dimexpr \w sp>=\the\numexpr\dimexpr-#1, \the\dimexpr \w sp\relax}
 
 \immediate\write\out{}
 }

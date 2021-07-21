@@ -7,7 +7,7 @@
 \endlinechar13\relax%
 \catcode`\_=11
 %
-% Mathematics
+% Mathematics (I)
 % ===========
 %
 % Is T sp attainable from unit "uu"?.
@@ -291,45 +291,52 @@
 % \texdimeninup: minimal dim exactly expressible in in and at least equal to input
 \def\texdimeninup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % both in and cm
-% Mathematics (and Algorithm)
-% -----------
+% Mathematics (II)
+% ===========
+%
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
 % floor(b 7227/254).  It can be proven that a=50k, b=127k for some integer k.
 % The proof is left to reader.  So U = floor(7227 k /2) for some k.
 %
 % Let's now find the largest such U <= T. So U = floor(k 7227/2)<= T which is
 % equivalent (as k is integer) to k 7227/2 <= T + 1/2, i.e.
+%
 %     kmax = floor((2T+1)/7227)
-% If we use for x>0 the formula floor(x)=round(x-1/2)=<x-1/2> we will end
-% up basically for the computation of kmax with some 4T intermediary,
-% hence overflow problems even in \numexpr. Here I used <.>
-% to denote rounding in the sense of \numexpr. It is not 1-periodical
-% due to handling of negative inputs, but here x-1/2>-1/2 anyhow.
+%
+% If we used for x>0 the formula floor(x)=round(x-1/2)=<x-1/2> we would end
+% up basically with some 4T hence overflow problems even in \numexpr.
+% Here I used <.> to denote rounding in the sense of \numexpr. It is not
+% 1-periodical due to how negative inputs are handled, but here x-1/2>-1/2.
+%
 % The following lemma holds: let T be a non-negative integer then
+%
 %     floor((2T+1)/7227) = <(2T - 3612)/7227>
-% So we can compute this k, hence a=50k, b=127k, within \numexpr and
+%
+% So we can compute this k, hence get a=50k, b=127k, all within \numexpr and
 % avoiding overflow.
+%
+% Implementation (II)
+% ==============
 %
 % The computation of floor(k 7227/2) as <(7227 k - 1)/2> would require to
 % check if k==0 so we do it rather as <(7227 k + 1)/2> - 1.  No overflow
 % can arise as k = 297147 for \maxdimen, and then 7227 k = 2**31 - 2279 and
 % there is ample room for 7227k+1 using \numexpr.
 %
-% But this step, as well as initial step to get k will require to separate
+% But this step, as well as initial step to get kmax will require to separate
 % hangdling of negative input from positive one.
 %
-% Some slight under-efficiency added to share macros across 3 targets.
-% I hesitated about a \texdimenbothincmsp which would be a bit faster than
-% the in, cm, or pt unit versions but sharing macros with them a bit
-% annoying.
-\def\texdimenbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*127);}%
-\def\texdimenbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*50);}%
-\def\texdimenbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;*7227+1)/2-1;}%
+% There is some slight under-efficiency to share macros across the 3 end targets
+% as I added one layer of parentheses.
+\def\texdimenbothincm#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;127);}%
+\def\texdimenbothcmin#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;50);}%
+\def\texdimenbothincmpt#1{\expandafter\texdimenic_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
 \let\texdimenbothcminpt\texdimenbothincmpt
 \def\texdimenic_a#1{\if-#1\texdimenic_neg\fi\texdimenic_b#1}%
-% Opening parenthesis ( is closed in #2, but this is to share "pt" macro
-% with the others
-\def\texdimenic_b#1;#2;{\expandafter\texdimenstrippt\the\dimexpr\numexpr(((2*#1-3612)/7227)#2sp\relax}%
+% The opening parenthesis ( is closed in #2, it was added to share "pt" output
+% with the two others
+\def\texdimenic_b#1;#2;%
+   {\expandafter\texdimenstrippt\the\dimexpr\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
 % negative branch:
 % The problem here is that if input very small, output can be 0.0, and we
 % do not want -0.0 as output.
@@ -337,7 +344,22 @@
 % Anyhow, negative inputs are not our priority.
 % #1 is \fi here and #2 is \texdimenic_b:
 \def\texdimenic_neg#1#2-#3;#4;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;pt\relax}%
-% 
+%
+% \texdimenbothincmsp is done separately as I found no easy way to share
+% its macros with the others; alternative would have been to make it the
+% core, and derive the others from it, (\texdimencm{\texdimenbothincmsp{...}sp})
+% but then they would be less efficient than their current versions.
+% (it is a bit ironical to worry about not creating too many macros
+% in such a small package, by the way)
+\def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenicsp_a\the\numexpr\dimexpr#1;}%
+\def\texdimenicsp_a#1{\if-#1\texdimenicsp_neg\fi\texdimenicsp_b#1}%
+\def\texdimenicsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
+% #1 is \fi
+% we need to regrab or we add a \numexpr..\relax layer to \texdimenicsp_b
+% (parentheses won't do as \numexpr chokes on -(...))
+\def\texdimenicsp_neg#1#2-#3;{#1-\numexpr#2#3;\relax}%
+%
+\let\texdimenbothcminsp\texdimenbothincmsp
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
