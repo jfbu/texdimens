@@ -357,7 +357,8 @@
 % #1 is \fi
 % we need to regrab here or to add a \numexpr..\relax layer to
 % \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
-\def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr#2#3;\relax}%
+% finally doing the job of \texdimenbothsp_b directly
+\def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr(((2*#3-3612)/7227)*7227+1)/2-1\relax\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
 \texdimensendinput
