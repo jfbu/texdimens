@@ -7,7 +7,7 @@
 \endlinechar13\relax%
 \catcode`\_=11
 %
-% Mathematics (I)
+% Mathematics ("down" and "up" macros)
 % ===========
 %
 % Is T sp attainable from unit "uu"?.
@@ -291,7 +291,7 @@
 % \texdimeninup: minimal dim exactly expressible in in and at least equal to input
 \def\texdimeninup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % both in and cm
-% Mathematics (II)
+% Mathematics ("both" macros)
 % ===========
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
@@ -315,9 +315,10 @@
 % So we can compute this k, hence get a=50k, b=127k, all within \numexpr and
 % avoiding overflow.
 %
-% Implementation (II)
+% Implementation
 % ==============
 %
+% Regarding the output in pt or sp, we seem to need floor(k 7227/2).
 % The computation of floor(k 7227/2) as <(7227 k - 1)/2> would require to
 % check if k==0 so we do it rather as <(7227 k + 1)/2> - 1.  No overflow
 % can arise as k = 297147 for \maxdimen, and then 7227 k = 2**31 - 2279 and
@@ -325,6 +326,13 @@
 %
 % But this step, as well as initial step to get kmax will require to separate
 % hangdling of negative input from positive one.
+%
+% Alternative
+% -----------
+%
+% For non-negative T we can compute U = ((T+1)/7227)*7227. If U <= T keep it,
+% else if U > T, replace it by U - 3614. This is alternative road to the maximal
+% floor(k 7227/2) at most equal to T.
 %
 % There is some slight under-efficiency to share macros across the 3 end targets
 % as I added one layer of parentheses.
