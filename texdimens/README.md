@@ -420,17 +420,27 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > exactly representable both in the `in` and `cm` units.  It thus represents
 > the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
 
-`\texdimenbothincmpt{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothcminpt{<dim. expr.>}` (new with `0.9dev`)
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpt`
 > is the largest dimension smaller than the original one and
-> exactly representable both in `in` and `cm` units.  It thus represents
+> exactly representable both in the `in` and `cm` units.  It thus represents
 > the same dimension as the one provided by `\texdimenbothcmin` and
 > `\texdimenbothincm`.
 
-`\texdimenbothcminpt{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothincmpt{<dim. expr.>}` (new with `0.9dev`)
 
-> Same as `\texdimenbothincmpt`.
+> Same as `\texdimenbothcminpt`.
+
+`\texdimenbothcminsp{<dim. expr.>}` (new with `0.9dev`)
+
+> Produces an integer (explicit digit tokens) `N` such that `Nsp`
+> is the largest dimension smaller than the original one and
+> exactly representable both in the `in` and `cm` units.
+
+`\texdimenbothincmsp{<dim. expr.>}` (new with `0.9dev`)
+
+> Same as `\texdimenbothcminsp`.
 
 
 ## Extras?
@@ -453,9 +463,9 @@ dimensions representable with both `in` and `cm` units have the shape
 than a given dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
-For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps internally
-to `1864566sp` which differs from TeX's `1cm` by only `-113sp`. It can be obtained
-from `0.39368in` or `28.45102pt`.
+For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps
+internally to `1864566sp` which differs from TeX's `1cm` by only
+`-113sp`. It can be obtained from `0.39368in` or `28.45102pt`.
 
 And `\texdimenbothcmin{1in}` expands to `0.99945in`, maps internally to
 `4733685sp` which differs from TeX's `1in` by `-2601sp`. It can be obtained
