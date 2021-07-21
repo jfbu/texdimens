@@ -51,10 +51,10 @@ If `\foo` is a dimen register:
 - inside `\numexpr`, `\foo` is replaced by `N`,
 
 - `\the\foo` produces a decimal `D` (with at most five places) followed
-with `pt` (catcode 12 tokens) and this output `Dpt` can serve as input
-in a dimen assignment to produce the same dimension as `\foo`.  One can
-also use the catcode 11 characters `pt` for this.  Digits and decimal
-mark must have their standard catcode 12.
+  with `pt` (catcode 12 tokens) and this output `Dpt` can serve as input
+  in a dimen assignment to produce the same dimension as `\foo`.  One can
+  also use the catcode 11 characters `pt` for this.  Digits and decimal
+  mark must have their standard catcode 12.
 
 When TeX encounters a dimen denotation of the type `Dpt` it will
 compute `N` in a way equivalent to `N = round(65536 D)` where ties are
