@@ -407,20 +407,20 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
 
-`\texdimenbothcmin{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothcmin{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.
 
-`\texdimenbothincm{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothincm{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.  It thus represents
 > the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
 
-`\texdimenbothcminpt{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothcminpt{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpt`
 > is the largest dimension smaller than the original one and
@@ -428,17 +428,17 @@ at last step the sign (if result is not zero) is applied (so "down" means
 > the same dimension as the one provided by `\texdimenbothcmin` and
 > `\texdimenbothincm`.
 
-`\texdimenbothincmpt{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothincmpt{<dim. expr.>}`
 
 > Same as `\texdimenbothcminpt`.
 
-`\texdimenbothcminsp{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothcminsp{<dim. expr.>}`
 
 > Produces an integer (explicit digit tokens) `N` such that `Nsp`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `in` and `cm` units.
 
-`\texdimenbothincmsp{<dim. expr.>}` (new with `0.9dev`)
+`\texdimenbothincmsp{<dim. expr.>}`
 
 > Same as `\texdimenbothcminsp`.
 
