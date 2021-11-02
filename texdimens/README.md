@@ -21,11 +21,6 @@ The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
 units, to the extent possible.
 
-The descriptions that follow do not explain the details of the exact
-internal TeX procedures of parsing dimensional input, they only describe
-in a faithful manner the exact outcome of those internal procedures.
-The reader is supposed to be familiar with TeX basics.
-
 This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
 The notation `<dim. expr.>` in the macro descriptions refers to a
 *dimensional expression* as accepted by `\dimexpr`.  The syntax has some
@@ -37,7 +32,7 @@ Notice that this is WIP and inaccuracies may exist even relative to
 descriptions of TeX handlings due to limited time available for the
 project.
 
-## TeX points and scaled points
+## Quick review of basics: TeX points and scaled points
 
 TeX dimensions are represented internally by a signed integer which is
 in absolute value at most `0x3FFFFFFF`, i.e. `1073741823`.  The
@@ -72,15 +67,30 @@ TeX understands on input further units: `bp`, `cm`, `mm`, `in`, `pc`,
 `em`, and PDFTeX adds the `px` dimension unit.  Japanese engines also
 add specific units.
 
-`ex`, `em`, `px` and other engine-dependent units, are all currently
-excluded from consideration in this project and the rest of this
-documentation is only for the `bp`, `cm`, `mm`, `in`, `pc`, `cc`, `nc`, `dd`
-and `nd` units. When we say "unit" we mean one of those or the `pt` (the
-`sp` is a special case and will be included or not tacitly in the "unit"
-denomination depending on the case).
+The `ex`, `em`, and `px` units are handled somewhat differently by (pdf)TeX than
+`bp`, `cm`, `mm`, `in`, `pc`, `cc`, `nc`, `dd` and `nd` units. For the former
+(let's use the generic notation `uu`), the exact same dimensions are obtained
+from an input `D uu` where `D` is some decimal or from `D <dimen>` where `<dimen>`
+stands for some dimension register which records `1uu` or `\dimexpr1uu\relax`. In
+contrast, among the latter, i.e. the core TeX units, this is false except for the
+`pc` unit.
 
-TeX associates to each such unit `uu` a fraction `phi` which is a conversion
-factor.  It is always `>1`:
+The explanation is as follows (in this discussion `sp` is kept aside).
+
+TeX associates (explicitly for the core units, implicitly for the units corresponding
+to internal dimensions) to each unit `uu` a fraction `phi` which is a conversion
+factor.  For the internal dimensions `ex`, `em`, `px` or in the case of multiplying
+a dimension by a decimal, this `phi` is morally `f/65536` where `f` is the integer
+such that `1 uu=f sp`.  For core units however, the hard-coded ratio `n/d` never has a
+denominator `d` whici is a power of `2`, except for the `pc` whose associated ratio
+factor is `12/1` (and arguably for the `sp` for which morally `phi` is `1/65536` but
+we keep it separate from the general discussion).
+
+As a result the value of `1 uu` as `f sp` is at best irrelevant
+or at worst misleading regarding the way TeX parses `D uu`.  Notice for example
+that `1.00375` is the exact value of the `phi` factor for the `bp` unit but
+that `1.00375pt>1bp` ...
+Here is a table with the hard-coded conversion factors:
 
     uu     phi      reduced  real approximation  1uu in sp=   x=[65536phi]/65536  \the<1uu>
                              (Python output)     [65536phi]  (real approximation)
@@ -96,26 +106,28 @@ factor.  It is always `>1`:
     in  7227/100    same     72.27                  4736286   72.26998901367188   72.26999pt
 
 When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
-among those listed above, it first handles `U` as with the `pt` unit.
+be it a core unit, or a unit corresponding to an internal dimension,
+it first handles `U` as with the `pt` unit.
 This means that it computes `N = round(65536*U)`. It then multiplies
 this `N` by the conversion factor `phi` and truncates towards zero the
 mathematically exact result to obtain an integer `T`:
 `T=trunc(N*phi)`. The assignment `Uuu` is concluded by defining the
 value of the dimension to be `Tsp`.
 
-Attention that although the mnemotic is `phi=1uu/1pt`, this formula
-definitely does not apply with numerator and denominator interpreted as
-TeX dimensions.  See the above table.  Also, the last column looks like
-`round(.,5)` is applied to the previous one, but `\the\dimexpr1dd\relax`
-is an exception (in the table `[x]` is the integer part, aka for
-non-negative values, the `trunc()` function).  Notice also that
-`1.00375` is the exact value of the `phi` factor for the `bp` unit but
-`1.00375pt>1bp` (`65782>65781`).
+Regarding the core units, we always have `phi>1`.
+The increasing
+sequence `0<=trunc(phi)<=trunc(2phi)<=...` is thus *strictly increasing*
+and, as `phi` is never astronomically close to `1`, 
+**it always has jumps**: not all TeX dimensions can be obtained from an
+assignment using a core unit distinct from the `pt` (and `sp` of course,
+but we already said it was kept out of the discussion here).
 
-As `phi>1` (and is not exceedingly close to `1`), the increasing
-sequence `0<=trunc(phi)<=trunc(2phi)<=...` is *strictly increasing* and
-**it has jumps**: not all TeX dimensions can be obtained from an
-assignment not using the `pt` unit.
+On the other hand when `phi<1`, then the sequence `trunc(N phi)` is not
+strictly increasing, already because `trunc(phi)=0` and besides here
+`phi=f/65536`, so the `65536` integers `0..65535` are mapped to `f`
+integers `0..(f-1)` inducing non one-to-oneness. But
+all integers in the `0..(2**30-1)` range will be attained for some input,
+so there is surjectivity.
 
 The "worst" unit is the largest i.e. the `in` whose conversion factor is
 `72.27`.  The simplest unit to understand is the `pc` as it corresponds
@@ -127,10 +139,8 @@ available with another unit.  For example, and perhaps surprisingly,
 there is no decimal `D` which would achieve `1in==Dcm`: the "step"
 between attainable dimensions is `72--73sp` for the `in` and `28--29sp`
 for the `cm`, and as `1in` differs internally from `2.54cm` by only
-`12sp` (see below the `xintsession` verbatim) it is impossible to adjust
-either the `in` side or the `cm` side to obtain equality.  See in the
-[Extras?] section the closest dimension attainable both via `in` and via
-`cm`.
+`12sp` it is impossible to adjust
+either the `in` side or the `cm` side to obtain equality.
 
 In particular `1in==2.54cm` is **false** in TeX, but it is true that
 `100in==254cm`... (it is already true that `50in==127cm`).  It is also
@@ -150,7 +160,7 @@ false though that `1in==25.4mm`!
     @_5     47362867, 47362867
 
 `\maxdimen` can be expressed only with `pt`, `bp`, and `nd`.  For the
-other units the maximal attainable dimensions in `sp` unit are given in
+other core units the maximal attainable dimensions in `sp` unit are given in
 the middle column of the next table.
 
     maximal allowed      the corresponding      minimal TeX dimen denotation
@@ -171,23 +181,49 @@ Perhaps for these various peculiarities with dimensional units, TeX does
 not provide an output facility for them similar to what `\the` achieves for
 the `pt`.
 
-## Macros of this package
+## Macros of this package (summary)
 
-The macros defined by the package are expandable, and will expand
-completely in an `\edef`, or in a `\dimexpr...\relax` construct.
-As they parse their inputs via `\dimexpr` they can be nested (with
-the suitable dimension unit added as postfix to nested macro).
+This package provides expandable (most are f-expandable, see the code)
+macros (they can be nested as they parse their inputs via `\dimexpr`):
 
-Apart from the `\texdimen<uu>up` in case of a negative input, they will
-even expand completely under f-expansion.
+- `\texdimenpt`,
+- `\texdimenUU`, `\texdimenUUup` and
+  `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
+  `pc`, `cc`, `nc`, `dd` and `nd`,
+- `\texdimenbothincm` (and relatives not listed here, see below),
+- and `\texdimenwithunit`, added at `0.99`.
+
+For example `\texdimenbp` takes on input some dimension or dimension
+expression and produces on output a decimal `D` such that `D bp` is
+guaranteed to be the same dimension as the input, if that one admits any
+representation as `E bp`; else it will be either the closest match from
+above or from below. The `\texdimenbpup` and `\texdimenbpdown` allow to
+choose the direction of approximation.
+
+`\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such
+that `D \dimexpr dimen2\relax` is represented internally the same as
+`dimen1` if at all possible, else is a closest match, but one does not
+know if from below or above. If `dimen2<1pt` all TeX dimensions `dimen1`
+are attainable. If `dimen2>1pt` not all `dimen1` are attainable.
 
 Negative dimensions behave as if replaced by their absolute value, then
 at last step the sign (if result is not zero) is applied (so "down" means
 "towards zero", and "up" means "away from zero").
 
+Do not confuse `\texdimenwithunit{dim}{1bp}` with
+`\texdimenbp{dim}`. The former produces a decimal `D` such that
+`D\dimexpr 1bp\relax` is represented internally as is `dim` if at all
+possible, whereas the latter produces a decimal `D` such that `D bp` is
+the one aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax`
+implies a conversion factor equal to `65781/65536`, whereas `D bp`
+involves the `803/800` conversion factor.
+
+
+## Macros of this package (full list)
+
 1. For input `X` equal to (or sufficiently close to) `\maxdimen` and
    those units `uu` for which `\maxdimen` is not exactly representable
-   (i.e. all units except `pt`, `bp` and `nd`), the output `D` of the
+   (i.e. all core units except `pt`, `bp` and `nd`), the output `D` of the
    "up" macros `\texdimen<uu>up{X}`, if used as `Duu` in a dimension
    assignment or expression, will (naturally) trigger a "Dimension too
    large" error.
@@ -199,6 +235,12 @@ at last step the sign (if result is not zero) is applied (so "down" means
 3. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
    will trigger "Dimension too large" during their execution if used
    with an input equal to (or sufficiently close to) `\maxdimen`.
+4. With `\texdimenwithunit{dimen1}{dimen2}` and if `\maxdimen`
+   is not representable exactly by `dimen2` used as a base dimension,
+   (which may happen only if `dimen2>1pt`) it might
+   be that the decimal `D` produced from `\maxdimen` or nearby dimensions
+   will trigger "Dimension too large" if an attempt to use `D <dimen2>` is
+   made.
 
 `\texdimenpt{<dim. expr.>}`
 
@@ -443,6 +485,12 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 > Same as `\texdimenbothcminsp`.
 
+`\texdimenwithunit{<dim. expr. 1>}{<dim expr. 2>}`
+
+> Produces a decimal `D` such that `D\dimexpr <dim expr. 2>\relax` is
+> considered by TeX the same as `<dim. expr. 1>` if at all possible.
+> If not possible it will be a closest match either from above or below.
+
 
 ## Extras?
 
@@ -458,7 +506,7 @@ as input with the corresponding unit will be beyond `\maxdimen` if the
 latter is not attainable, i.e. for all units except `bp`, and `nd`
 (and `pt` but there is no "up" macro for it).
 
-According to a reference on the web by an anonymous contributor the
+The
 dimensions representable with both `in` and `cm` units have the shape
 `trunc(3613.5*k)sp` for some integer `k`. The largest one smaller
 than a given dimension will thus differ from it by at most about `0.055pt`,
@@ -477,6 +525,13 @@ For the `1in` for example it would be `4737298sp`, i.e. `1.00021in` which
 differs from TeX's `1in` by `+1012sp` and is obtained also as `2.54054cm`
 and `72.28543pt`.
 
+## Acknowledgements
+
+Thanks to Denis Bitouzé for raising an issue on the LaTeX3 tracker which
+gave the initial motivation for this package.
+
+Thanks to Ruixi Zhang for reviving the topic about handling also
+the `ex` and `em` cases, which led to `\texdimenwithunit`.
 
 <!--
 %! Local variables:
