@@ -9,7 +9,7 @@ Téléversé sur CTAN le 2 novembre 2021 vers 23h45
 v0.99 (2021/11/02)
 
 - new: \texdimenwithunit{<dim1>}{<dim2>} outputs a decimal D
-  such that D <dim2> attemps to represent the same dimension
+  such that D <dim2> attempts to represent the same dimension
   as <dim1>. For example with <dim2> being 1ex or 1em.
 
 ------------------------------------------------------------------------
