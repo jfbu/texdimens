@@ -10,6 +10,12 @@ TEST =
 README: README.md
 	pandoc -t plain -o README README.md
 
+# added 21/11/02 but I will have to check options
+# only for alternative rendering easyingup finding
+# misprints in README.md
+README.html: README.md
+	pandoc -t html -o README.html README.md
+
 test:
 	cd units && ./regressiontest.sh $(TEST)
 
