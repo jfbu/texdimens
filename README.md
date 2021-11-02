@@ -9,5 +9,5 @@ For project information refer to the [source README.md](texdimens/README.md).
 This is work in progress and this repo was created to receive
 suggestions/comments/bug reports.
 
-Created: 2021/06/29
+Package starting date: 2021/06/29
 
