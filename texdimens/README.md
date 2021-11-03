@@ -10,7 +10,7 @@ LPPL 1.3c.  See file LICENSE.md.
 
 Development: https://github.com/jfbu/texdimens
 
-Release: `0.99 2021/11/02`
+Release: `0.99+dev 2021/11/03`
 
 ## Aim of this package
 
@@ -532,8 +532,8 @@ Thanks to Denis Bitouzé for raising an
 on the LaTeX3 tracker which became the initial stimulus for this package.
 
 Thanks to Ruixi Zhang for reviving the above linked-to thread
-and opening up here issue #2 asking to add handling also
-of the `ex`,`em`, and `px` cases. This was handled
+and opening up here [issue #2](https://github.com/jfbu/texdimens/issues/2)
+asking to add handling of the `ex`,`em`, and `px` cases. This was done
 at release `0.99` via the addition of `\texdimenwithunit`.
 
 <!--
