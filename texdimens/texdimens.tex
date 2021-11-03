@@ -379,19 +379,23 @@
 % ===========
 %
 % As explained in the README.md, the ex and em units are
-% handled by TeX via a conversion factor f/65536 where f sp = 1ex
-% resp. 1em. In particular input D em is handled the exact same
-% way as D\dimexpr 1em\relax for any decimal D; this was not
-% the case for the core units apart pt and sp, as the conversion
-% factor n/d for them neither has power of 2 denominator. The other
-% difference is that n/d>1 for the core units whereas 1ex may be <1pt.
+% handled by TeX as if multiplying by a conversion factor f/65536
+% (here f sp = 1ex resp. = 1em).
+% In particular, for any decimal D, input "D em" is handled the exact
+% same way as input "D\dimexpr 1em\relax"; this is not
+% the case for the core units except for pt and pc (and sp), whose
+% conversion factors are the sole ones with a power of 2 denominator
+% (respectively 1, 1, and 65536).  The further difference is that
+% for the core units apart from sp, the conversion factor is >1.
 %
+% We assume for this discussion T is non-negative.
 % If f/65536 > 1, the analysis is as above : some dimensions T sp
-% are not attainable as D uu, but N=round((2T+1)*32768/f) will give
-% a suitable decimal D via \the\dimexpr N sp\relax (here assume T>0),
-% such as D uu = T sp if such a thing is at all possible else it
-% will be nearest either from above or below (not necessarily
-% nearest overall).
+% are not attainable as D uu, but the formula
+%     N=round((2T+1)*32768/f)
+% will give a suitable decimal D via \the\dimexpr N sp\relax.
+% This D will let TeX convert D uu into T sp, if the dimension
+% is attainable else it will be a closest match
+% either from above or below (not necessarily nearest overall).
 %
 % If f/65536<1, all dimensions Tsp are attainable as D uu. Indeed
 % D uu is parsed by TeX via N=round(D*65536), then T=trunc(N*phi),
