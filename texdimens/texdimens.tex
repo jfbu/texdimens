@@ -1,9 +1,10 @@
 % This is file texdimens.tex, part of texdimens package, which
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
 % 2021/11/03 v0.99+dev
-\edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
+\edef\texdimensendinput{\endlinechar\the\endlinechar%
+\catcode`\noexpand _=\the\catcode`\_\catcode`@=\the\catcode`@\relax\noexpand\endinput}%
 \endlinechar13\relax%
-\catcode`\_=11
+\catcode`\_=11 \catcode`@=11 % only for using \p@ of Plain
 %
 % Mathematics ("down" and "up" macros)
 % ===========
@@ -431,8 +432,8 @@
 % pre-multiplication of #1 by 2 here
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_
     \the\numexpr\dimexpr#2\expandafter;\the\numexpr2*\dimexpr#1;}%
-\def\texdimenwithunit_#1;#2{\ifnum#1>65535
-    \expandafter\texdimenwithunit_A\else\expandafter\texdimenwithunit_B\fi
+\def\texdimenwithunit_#1;#2{\ifnum#1<\p@
+    \expandafter\texdimenwithunit_B\else\expandafter\texdimenwithunit_A\fi
     #2#1;%
 }%
 % unit>=1pt, handle this as for bp
@@ -452,7 +453,7 @@
 %
 % This means (see the nota bene above) that we could apply this procedure
 % also for f>=65536, because at worst we will get a \the\numexprk+1.0, which
-% gives the correct result. I tested and found about 37% longer execution time
+% gives the correct result. I tested and found about 39% longer execution time
 % if dim2>1pt does same calculations as for dim2<1pt, and at the same time
 % dim2<1pt was improved about 11% from skipping the conditional
 \def\texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
