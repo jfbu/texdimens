@@ -527,11 +527,14 @@ and `72.28543pt`.
 
 ## Acknowledgements
 
-Thanks to Denis Bitouzé for raising an issue on the LaTeX3 tracker which
-gave the initial motivation for this package.
+Thanks to Denis Bitouzé for raising an
+[issue](https://github.com/latex3/latex3/issues/953)
+on the LaTeX3 tracker which became the initial stimulus for this package.
 
-Thanks to Ruixi Zhang for reviving the topic about handling also
-the `ex` and `em` cases, which led to `\texdimenwithunit`.
+Thanks to Ruixi Zhang for reviving the above linked-to thread
+and opening up here issue #2 asking to add handling also
+of the `ex`,`em`, and `px` cases. This was handled
+at release `0.99` via the addition of `\texdimenwithunit`.
 
 <!--
 %! Local variables:

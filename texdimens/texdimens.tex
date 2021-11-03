@@ -1,6 +1,6 @@
 % This is file texdimens.tex, part of texdimens package, which
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
-% 2021/11/02 v0.99
+% 2021/11/03 v0.99+dev
 % All macros from 0.9delta release have changed names: \texdimen prefix
 % has replaced \texdimin.
 \edef\texdimensendinput{\endlinechar\the\endlinechar\catcode`\noexpand _=\the\catcode`\_\relax\noexpand\endinput}%
@@ -12,7 +12,7 @@
 %
 % In the entire discussion here, "uu" stands for some core unit,
 % or some unit corresponding to a dimension > 1pt. For the case
-% of a unit corresponding to a dimension < 1pt, i.e. to 
+% of a unit corresponding to a dimension < 1pt, i.e. to
 % \texdimenwithunit macro added at 0.99, refer to the
 % comments of issue #2 on the tracker site.
 %
@@ -378,18 +378,62 @@
 % Mathematics
 % ===========
 %
-% <comments to be added> (see discussion #2)
-% 
+% As explained in the README.md, the ex and em units are
+% handled by TeX via a conversion factor f/65536 where f sp = 1ex
+% resp. 1em. In particular input D em is handled the exact same
+% way as D\dimexpr 1em\relax for any decimal D; this was not
+% the case for the core units apart pt and sp, as the conversion
+% factor n/d for them neither has power of 2 denominator. The other
+% difference is that n/d>1 for the core units whereas 1ex may be <1pt.
+%
+% If f/65536 > 1, the analysis is as above : some dimensions T sp
+% are not attainable as D uu, but N=round((2T+1)*32768/f) will give
+% a suitable decimal D via \the\dimexpr N sp\relax (here assume T>0),
+% such as D uu = T sp if such a thing is at all possible else it
+% will be nearest either from above or below (not necessarily
+% nearest overall).
+%
+% If f/65536<1, all dimensions Tsp are attainable as D uu. Indeed
+% D uu is parsed by TeX via N=round(D*65536), then T=trunc(N*phi),
+% with phi=f/65536. Starting from T we need to find an N such that
+% T/phi <= N< (T+1)/phi. We first consider v=(T+0.5)/phi. As its
+% distance to the extremities is 0.5/phi>0.5, its rounding M
+% to an integer verifies automatically T/phi < M < (T+1)/phi, so
+% is a candidate. The TeX core conversion of Msp to a Dpt with
+% D a decimal of at most 5 fractional digits will provide a D
+% such that indeed M=round(D*65536).
+%
+% The above was explained for positive T.
+%
 % Implementation
 % ==============
 %
-% <comments to be added> (see discussion #2)
-% #2 is unit, assumed positive. We will need to branch whether
-% #2 is <1pt or >1pt.
+% \texdimenwithunit{dim1}{dim2}. dim2>0 assumed.
+% We first get f from dim2 and branch according to whether f>=65536 or
+% f<65536. We will also need to check the sign of T (dim1=T sp).
+% We then compute in both branches round((2T+1)*32768/f), but
+% in an indirect way in the f<65536 branch to avoid overflow.
+%
+% In the f<65536 branch we first do the Euclidean division
+% 2T+1 = k*2*f + R with 0<=R<2f. The k is obtained as round((2T+1-f)/(2f))
+% which can be computed in a numexpr (and never gives -1 even for T=0)
+% Then (2T+1)*32768/f=65536*k + R*32768/f
+% Then R*32768/f<=65536-32768/f<65536-32768/65536=65536-0.5
+% Hence the numexpr evaluation gives an integer B<65536.
+%
+% N.B.: if f>=65536, we still have R*32768/f<65536 as R<2f
+% so the only difference is that the B could be here 65536
+%
+% From \the\dimexpr Bsp, we get a decimal E < 1, so E=0.ddddd
+% (or less digits) and the looked for D will be the contatenation
+% k.ddddd with k as obtained earlier. This procedure has no possible
+% arithmetic overflow.
+%
+% #2 is assumed positive.
 % pre-multiplication of #1 by 2 here
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_
     \the\numexpr\dimexpr#2\expandafter;\the\numexpr2*\dimexpr#1;}%
-\def\texdimenwithunit_#1;#2{\ifnum#1>65535 
+\def\texdimenwithunit_#1;#2{\ifnum#1>65535
     \expandafter\texdimenwithunit_A\else\expandafter\texdimenwithunit_B\fi
     #2#1;%
 }%
@@ -398,19 +442,26 @@
     \the\dimexpr\numexpr(#1#3+\if-#1-\fi1)*32768/#2sp\relax
 }%
 % unit<1pt
-% if dim1<0, simply negate result for dim1>0 as it can not be 0.0
+% if dim1<0, simply negate result for dim1>0 as it can not possibly be 0.0
+% Indeed (2T+1)*32768/f will be at least 3*32768/f so its rounding at least 2.
 \def\texdimenwithunit_B#1{\if-#1\expandafter\texdimenwithunit_Bneg\fi\texdimenwithunit_Ba#1}%
 \def\texdimenwithunit_Ba#1#2;#3;{\expandafter\texdimenwithunit_Bb\the\numexpr#1#3+1;#2;}%
 \def\texdimenwithunit_Bb#1;#2;{\expandafter\texdimenwithunit_Bc\the\numexpr(#1-#2)/(2*#2);#1;#2;}%
-% not adding f-expandability slight overhead here
-% oh well, let's do \the\numexpr..+0.ddddd which does the trick and allows
-% recycling strippt here with no need of another utility
-% (thinking about it it means we could do this for unit >1pt as this method
-% works even for \the\dimexpr producing 1pt or more... (as TeX outputs 1.0pt, not 1pt
-% so the dot remains to stop the \numexpr scan)
+% I was hesitating between leaving k in the stream (breaking f-expandability)
+% and then remove the "0" and trailing "pt" from 0.ddddd pt, but opted
+% finally for doing \the\numexpr..+0.ddddd which is f-expandable and allows
+% recycling strippt here with no need of another utility.
+%
+% But this means (see the nota bene above) that we could apply this procedure
+% also for f>=65536, because at worst we will get a \the\numexprk+1.0, which
+% gives the correct result. This would spare us the branching and now we
+% are in the usual conundrum: should we test at all or not if dim2<1pt?
+% If the \ifnum costs more than the overhead it tries then to spare
+% for the dim2>=1pt case, then we should drop this \ifnum branching!
+% (maybe I will test this)
 \def\texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
                                   \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax}%
-% definitly not caring about f-expandability here
+% Here, definitely not caring about f-expandability
 \def\texdimenwithunit_Bneg\texdimenwithunit_Ba-#1;#2;%
     {-\expandafter\texdimenwithunit_Bb\the\numexpr#2+1;#1;}%
 \texdimensendinput
