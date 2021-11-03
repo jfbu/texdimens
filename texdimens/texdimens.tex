@@ -2,9 +2,10 @@
 % is distributed under the LPPL 1.3c. Copyright (c) 2021 Jean-François B.
 % 2021/11/03 v0.99+dev
 \edef\texdimensendinput{\endlinechar\the\endlinechar%
-\catcode`\noexpand _=\the\catcode`\_\catcode`@=\the\catcode`@\relax\noexpand\endinput}%
+\catcode`\noexpand _=\the\catcode`\_%
+\catcode`\noexpand @=\the\catcode`\@\relax\noexpand\endinput}%
 \endlinechar13\relax%
-\catcode`\_=11 \catcode`@=11 % only for using \p@ of Plain
+\catcode`\_=11 \catcode`\@=11 % only for using \p@ of Plain. Check exists?
 %
 % Mathematics ("down" and "up" macros)
 % ===========
