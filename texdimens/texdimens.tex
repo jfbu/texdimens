@@ -452,13 +452,11 @@
 % finally for doing \the\numexpr..+0.ddddd which is f-expandable and allows
 % recycling strippt here with no need of another utility.
 %
-% But this means (see the nota bene above) that we could apply this procedure
+% This means (see the nota bene above) that we could apply this procedure
 % also for f>=65536, because at worst we will get a \the\numexprk+1.0, which
-% gives the correct result. This would spare us the branching and now we
-% are in the usual conundrum: should we test at all or not if dim2<1pt?
-% If the \ifnum costs more than the overhead it tries then to spare
-% for the dim2>=1pt case, then we should drop this \ifnum branching!
-% (maybe I will test this)
+% gives the correct result. I tested and found about 37% longer execution time
+% if dim2>1pt does same calculations as for dim2<1pt, and at the same time
+% dim2<1pt was improved about 11% from skipping the conditional
 \def\texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
                                   \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax}%
 % Here, definitely not caring about f-expandability

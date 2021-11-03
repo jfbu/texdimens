@@ -1,0 +1,53 @@
+% Trying to see if branching according to dim2<1pt or not
+% makes any sense in \texdimenwithunit
+
+\input texdimens
+
+% define variant not branching (as original it assumes dim2>0pt)
+\catcode`_ 11
+\def\ALTtexdimenwithunit#1#2{\expandafter\ALT_texdimenwithunit_B
+    \the\numexpr2*\dimexpr#1\expandafter;\the\numexpr\dimexpr#2;}%
+\def\ALT_texdimenwithunit_B#1{\if-#1\expandafter\ALT_texdimenwithunit_Bneg\fi\ALT_texdimenwithunit_Ba#1}%
+\def\ALT_texdimenwithunit_Ba{\expandafter\ALT_texdimenwithunit_Bb\the\numexpr1+}%
+\def\ALT_texdimenwithunit_Bb#1;#2;{\expandafter\ALT_texdimenwithunit_Bc\the\numexpr(#1-#2)/(2*#2);#1;#2;}%
+\def\ALT_texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
+                                  \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax}%
+\def\ALT_texdimenwithunit_Bneg\ALT_texdimenwithunit_Ba-{-\ALT_texdimenwithunit_Ba}%
+
+
+\input xintkernel.sty
+
+\def\test#1#2#3#4{%
+\pdfresettimer
+\xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\texdimenwithunit{#3}{#4}}}}%
+\edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
+\immediate\write128{\T s (#3/#4, WITH check, \the\numexpr#1*#2\relax\space reps)}%
+\pdfresettimer
+\xintReplicate{#1}{\xintReplicate{#2}{\edef\y{\ALTtexdimenwithunit{#3}{#4}}}}%
+\edef\U{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
+\immediate\write128{\U s (#3/#4, NO check, \the\numexpr#1*#2\relax\space reps)}%
+\immediate\write128{\U/\T\space about \texdimenwithunit{\U pt}{\T pt}}%
+\immediate\write128{}%
+\ifx\x\y\else\ERROR\fi
+}
+
+\test{100}{1000}{100pt}{3.45678pt}
+
+\test{100}{1000}{100pt}{0.345678pt}
+
+\test{100}{1000}{100pt}{27.1828pt}
+
+\test{100}{1000}{100pt}{0.0271828pt}
+
+\test{100}{1000}{100pt}{1.0123pt}
+
+\test{100}{1000}{100pt}{0.0987pt}
+
+\bye
+
+% not checking if unit > 1pt, i.e. applying always as for unit < 1pt
+% consistently induces :
+
+% about 37% worsening   for unit > 1pt (from more complicated calculations)
+% about 11% improvement for unit < 1pt (from skipped conditional and induced
+%                                       reorganization of code)
