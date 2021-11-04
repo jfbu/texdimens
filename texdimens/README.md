@@ -26,6 +26,43 @@ The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
 units, to the extent possible.
 
+## Macros of this package (summary)
+
+This package provides expandable (most are f-expandable, see the code)
+macros (they can be nested as they parse their inputs via `\dimexpr`):
+
+- `\texdimenpt`,
+- `\texdimenUU`, `\texdimenUUup` and
+  `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
+  `pc`, `cc`, `nc`, `dd` and `nd`,
+- `\texdimenbothincm` (and relatives not listed here, see below),
+- and `\texdimenwithunit`, added at `0.99`.
+
+For example `\texdimenbp` takes on input some dimension or dimension
+expression and produces on output a decimal `D` such that `D bp` is
+guaranteed to be the same dimension as the input, if that one admits any
+representation as `E bp`; else it will be either the closest match from
+above or from below. The `\texdimenbpup` and `\texdimenbpdown` allow to
+choose the direction of approximation.
+
+`\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such
+that `D \dimexpr dimen2\relax` is represented internally the same as
+`dimen1` if at all possible, else is a closest match, but one does not
+know if from below or above. If `dimen2<1pt` all TeX dimensions `dimen1`
+are attainable. If `dimen2>1pt` not all `dimen1` are attainable.
+
+Negative dimensions behave as if replaced by their absolute value, then
+at last step the sign (if result is not zero) is applied (so "down" means
+"towards zero", and "up" means "away from zero").
+
+Do not confuse `\texdimenwithunit{dim}{1bp}` with
+`\texdimenbp{dim}`. The former produces a decimal `D` such that
+`D\dimexpr 1bp\relax` is represented internally as is `dim` if at all
+possible, whereas the latter produces a decimal `D` such that `D bp` is
+the one aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax`
+implies a conversion factor equal to `65781/65536`, whereas `D bp`
+involves the `803/800` conversion factor.
+
 ## Quick review of basics: TeX points and scaled points
 
 This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
@@ -183,44 +220,6 @@ the middle column of the next table.
 Perhaps for these various peculiarities with dimensional units, TeX does
 not provide an output facility for them similar to what `\the` achieves for
 the `pt`.
-
-## Macros of this package (summary)
-
-This package provides expandable (most are f-expandable, see the code)
-macros (they can be nested as they parse their inputs via `\dimexpr`):
-
-- `\texdimenpt`,
-- `\texdimenUU`, `\texdimenUUup` and
-  `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
-  `pc`, `cc`, `nc`, `dd` and `nd`,
-- `\texdimenbothincm` (and relatives not listed here, see below),
-- and `\texdimenwithunit`, added at `0.99`.
-
-For example `\texdimenbp` takes on input some dimension or dimension
-expression and produces on output a decimal `D` such that `D bp` is
-guaranteed to be the same dimension as the input, if that one admits any
-representation as `E bp`; else it will be either the closest match from
-above or from below. The `\texdimenbpup` and `\texdimenbpdown` allow to
-choose the direction of approximation.
-
-`\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such
-that `D \dimexpr dimen2\relax` is represented internally the same as
-`dimen1` if at all possible, else is a closest match, but one does not
-know if from below or above. If `dimen2<1pt` all TeX dimensions `dimen1`
-are attainable. If `dimen2>1pt` not all `dimen1` are attainable.
-
-Negative dimensions behave as if replaced by their absolute value, then
-at last step the sign (if result is not zero) is applied (so "down" means
-"towards zero", and "up" means "away from zero").
-
-Do not confuse `\texdimenwithunit{dim}{1bp}` with
-`\texdimenbp{dim}`. The former produces a decimal `D` such that
-`D\dimexpr 1bp\relax` is represented internally as is `dim` if at all
-possible, whereas the latter produces a decimal `D` such that `D bp` is
-the one aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax`
-implies a conversion factor equal to `65781/65536`, whereas `D bp`
-involves the `803/800` conversion factor.
-
 
 ## Macros of this package (full list)
 
