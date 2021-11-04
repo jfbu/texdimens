@@ -33,10 +33,6 @@ peculiarities: among them the fact that `-(...)` (for example `-(3pt)`)
 is illegal, one must use alternatives such as `0pt-(...)` or a
 sub-expression `-\dimexpr...\relax` for example.
 
-Notice that this is WIP and inaccuracies may exist even relative to
-descriptions of TeX handlings due to limited time available for the
-project.
-
 ## Quick review of basics: TeX points and scaled points
 
 TeX dimensions are represented internally by a signed integer which is
