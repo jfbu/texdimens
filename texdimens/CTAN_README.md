@@ -8,7 +8,7 @@ Copyright (c) 2021 Jean-François B.
 This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
-Repository: https://github.com/jfbu/texdimens/texdimens
+Repository: https://github.com/jfbu/texdimens
 
 Release: `0.99+dev 2021/11/03`
 
