@@ -79,8 +79,6 @@ register which records `1uu` or `\dimexpr1uu\relax`. In contrast, among
 the latter, i.e. the core TeX units, this is false except for the `pc`
 unit.
 
-The explanation is as follows (in this discussion `sp` is kept aside).
-
 TeX associates (explicitly for the core units, implicitly for the units
 corresponding to internal dimensions) to each unit `uu` a fraction `phi`
 which is a conversion factor.  For the internal dimensions `ex`, `em`,
@@ -92,25 +90,38 @@ associated ratio factor is `12/1` (and arguably for the `sp` for which
 morally `phi` is `1/65536` but we keep it separate from the general
 discussion).
 
-As a result the value of `1 uu` as `f sp` is at best irrelevant or at
-worst misleading regarding the way TeX parses `D uu`.  Notice for
-example that `1.00375` is the exact value of the `phi` factor for the
-`bp` unit but that `1.00375pt>1bp` ...
-
 Here is a table with the hard-coded conversion factors:
 
-    uu     phi      reduced  real approximation  1uu in sp=   x=[65536phi]/65536  \the<1uu>
-                             (Python output)     [65536phi]  (real approximation)
-    --  ----------  -------  ------------------   ---------  -------------------- ----------
-    bp  7227/7200   803/800   1.00375                 65781    1.0037384033203125  1.00374pt
-    nd  685/642     same      1.0669781931464175      69925    1.0669708251953125  1.06697pt
-    dd  1238/1157   same      1.070008643042351       70124    1.07000732421875    1.07pt   
-    mm  7227/2540   same      2.8452755905511813     186467    2.8452606201171875  2.84526pt
-    pc  12/1        12       12.0                    786432   12.0                12.0pt    
-    nc  1370/107    same     12.80373831775701       839105   12.803726196289062  12.80373pt
-    cc  14856/1157  same     12.84010371650821       841489   12.840103149414062  12.8401pt 
-    cm  7227/254    same     28.45275590551181      1864679   28.452743530273438  28.45274pt
-    in  7227/100    same     72.27                  4736286   72.26998901367188   72.26999pt
+    uu     phi      reduced  real approximation 
+                             (Python output)    
+    --  ----------  -------  ------------------ 
+    bp  7227/7200   803/800   1.00375           
+    nd  685/642     same      1.0669781931464175
+    dd  1238/1157   same      1.070008643042351 
+    mm  7227/2540   same      2.8452755905511813
+    pc  12/1        12       12.0               
+    nc  1370/107    same     12.80373831775701  
+    cc  14856/1157  same     12.84010371650821  
+    cm  7227/254    same     28.45275590551181  
+    in  7227/100    same     72.27              
+
+And now the values of `1uu` in the `sp` and `pt` units. These values are
+irrelevant and even misleading regarding the TeX parsing of `D uu` input.
+Notice for example that `\the\dimexpr1bp\relax` gives `1.00374pt` but
+the actual conversion factor is `1.00375`.
+
+    uu 1uu in sp=   x=[65536phi]/65536  \the<1uu>
+       [65536phi]  (real approximation)
+    --  ---------  -------------------- ----------
+    bp      65781    1.0037384033203125  1.00374pt
+    nd      69925    1.0669708251953125  1.06697pt
+    dd      70124    1.07000732421875    1.07pt   
+    mm     186467    2.8452606201171875  2.84526pt
+    pc     786432   12.0                12.0pt    
+    nc     839105   12.803726196289062  12.80373pt
+    cc     841489   12.840103149414062  12.8401pt 
+    cm    1864679   28.452743530273438  28.45274pt
+    in    4736286   72.26998901367188   72.26999pt
 
 When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
 be it a core unit, or a unit corresponding to an internal dimension,
