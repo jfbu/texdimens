@@ -10,6 +10,17 @@ v0.99a (2021/11/04)
 
 Documentation now available in pdf format
 
+administrative note to CTAN maintainers:
+
+The README.md is now much shorter for the web interface. The
+long version has been renamed texdimens.md. I hesitated
+including it in the zip, as there is now its pdf conversion
+texdimens.pdf. Perhaps distros would be fine with only
+texdimens.pdf, then I can remove texdimens.md. I also hesitated
+about removing all the numerous code comments from the
+texdimens.tex, as anyhow there is a public repo with the full
+source, but left it as is.
+
 ------------------------------------------------------------------------
 
 Release 0.99 du 2 novembre 2021
