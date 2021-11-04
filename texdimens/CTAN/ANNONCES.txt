@@ -4,6 +4,22 @@
 
 Release 0.99b du 4 novembre 2021
 
+Téléversé sur CTAN le 4 novembre 2021 vers 19h25
+
+v0.99c (2021/11/04)
+
+Documentation now available in pdf format
+
+administrative note to CTAN maintainers:
+
+Sorry for this bugfix of the bugfix. Alas...
+Can you drop announcement of 0.99a and 0.99b and
+only announce this one? Best, Jean-François.
+
+------------------------------------------------------------------------
+
+Release 0.99b du 4 novembre 2021
+
 Téléversé sur CTAN le 4 novembre 2021 vers 18h30
 
 v0.99b (2021/11/04)
