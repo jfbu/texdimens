@@ -34,7 +34,7 @@ This package provides expandable macros:
 - `\texdimenUU`, `\texdimenUUup` and
   `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
   `pc`, `cc`, `nc`, `dd` and `nd`,
-- `\texdimenbothincm` (and relatives not listed here, see below),
+- `\texdimenbothincm` (and relatives, see full documentation),
 - `\texdimenwithunit`.
 
 For example `\texdimenbp` takes on input some dimension or dimension
