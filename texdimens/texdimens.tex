@@ -36,7 +36,9 @@
 % overflow is not obvious: yes \numexpr/\dimexpr allow so-called
 % "scaling operations" but only in the "rounding up" variant.
 %
-% If we attempt computing the ceil(x) function via round(x+0.5),
+% If we attempt computing the ceil(x) function via round(x+0.5)
+% (note: if x>=0 is an integer this would fail anyhow but let's
+% forget this for the sake of the general x argument)
 % for example with psi=100/7227 which corresponds to the unit "in",
 % this necessitates evaluating:
 %
@@ -72,12 +74,12 @@
 % but to decide we must check if trunc((X+1) phi) = T or not, so
 % this means a second computation.
 %
-% If psi < 0.5
+% If psi < 0.5 (i.e. the unit is > 2pt)
 % ------------
 %
 % The situation then simplifies:
 %
-% case1: X can be N or N+1. It will be N+1 iff Y = trunc(X phi) > T.
+% case1: (same)
 % case2: X is necessarily N.
 %
 % Thus:
@@ -107,7 +109,7 @@
 % But if T sp was not attainable we don't know if this X will give
 % a D such that D uu < T sp or D uu > T sp.
 %
-% If psi > 0.5
+% If 1 > psi > 0.5 (i.e. 1pt < unit < 2pt)
 % ------------
 %
 % For example unit "bp" has phi=803/800.
@@ -118,17 +120,25 @@
 % But it is true that R = round((T + 0.5) psi) will always work.
 % Here we must use -0.5 if T < 0, though.
 %
+% Indeed we saw that "T sp" is attained iff there is an integer N
+% such that T psi <= N < (T+1) psi. The distance of N to the mid-point
+% (T + 0.5) psi is at most 0.5 psi. But psi < 1, so this distance is
+% always < 0.5 and N must be R = round((T + 0.5) psi).
+%
 % This R=round((T+0.5) psi) can always be computed via \numexpr because 2T+1
 % will not trigger arithmetic overflow.
 %
 % So this gives an approach to find a D such that "D uu" is exactly
 % T sp when this is possible.
 %
-% If Tsp (positive) is not attainable, this R however can produce
+% If "T sp" is not attainable, we are in the N < T psi < (T+1) psi <= N+1
+% situation then N < (T + 0.5) psi < N+1 and the rounding R can produce
 % either N or N+1.
 %
-% But we can decide what happened by computing Z = trunc(R phi).
-% If and only if Z > T this means R was N+1.
+% We can decide what happened by computing Z = trunc(R phi).
+% Z > T if and only if R was in fact N+1. So we can provide
+% the largest attainable dimension smaller than Tsp as well
+% as the smalleast attainable one larger than Tsp.
 %
 % It is slightly less costly to compute X = round(T psi) than
 % R = round((T + 0.5) psi),
