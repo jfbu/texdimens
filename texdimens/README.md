@@ -28,40 +28,30 @@ units, to the extent possible.
 
 ## Macros of this package (summary)
 
-This package provides expandable (most are f-expandable, see the code)
-macros (they can be nested as they parse their inputs via `\dimexpr`):
+This package provides expandable macros:
 
 - `\texdimenpt`,
 - `\texdimenUU`, `\texdimenUUup` and
   `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
   `pc`, `cc`, `nc`, `dd` and `nd`,
 - `\texdimenbothincm` (and relatives not listed here, see below),
-- and `\texdimenwithunit`, added at `0.99`.
+- `\texdimenwithunit`.
 
 For example `\texdimenbp` takes on input some dimension or dimension
 expression and produces on output a decimal `D` such that `D bp` is
 guaranteed to be the same dimension as the input, if that one admits any
 representation as `E bp`; else it will be either the closest match from
-above or from below. The `\texdimenbpup` and `\texdimenbpdown` allow to
+above or from below (for this unit the error is at most `1sp`).
+The `\texdimenbpup` and `\texdimenbpdown` allow to
 choose the direction of approximation.
 
-`\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such
-that `D \dimexpr dimen2\relax` is represented internally the same as
-`dimen1` if at all possible, else is a closest match, but one does not
-know if from below or above. If `dimen2<1pt` all TeX dimensions `dimen1`
-are attainable. If `dimen2>1pt` not all `dimen1` are attainable.
-
-Negative dimensions behave as if replaced by their absolute value, then
-at last step the sign (if result is not zero) is applied (so "down" means
-"towards zero", and "up" means "away from zero").
-
-Do not confuse `\texdimenwithunit{dim}{1bp}` with
-`\texdimenbp{dim}`. The former produces a decimal `D` such that
-`D\dimexpr 1bp\relax` is represented internally as is `dim` if at all
-possible, whereas the latter produces a decimal `D` such that `D bp` is
-the one aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax`
-implies a conversion factor equal to `65781/65536`, whereas `D bp`
-involves the `803/800` conversion factor.
+`\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
+`D \dimexpr dimen2\relax` is parsed by TeX into the same dimension as
+`dimen1` if at all possible, else it will be a closest match, but one
+does not know if from below or above (and whether the approximation from
+the other direction is a better or worst match).  If `dimen2<1pt` all
+TeX dimensions `dimen1` are attainable. If `dimen2>1pt` not all `dimen1`
+are attainable.
 
 ## Quick review of basics: TeX points and scaled points
 
@@ -223,25 +213,37 @@ the `pt`.
 
 ## Macros of this package (full list)
 
+The macros are all expandable, and most are f-expandable (check the
+source code). They parse their arguments via `\dimexpr` so can be nested
+(with appropriate units added, as the outputs always are bare decimal
+numbers).
+
+Negative dimensions behave as if replaced by their absolute value, then
+at last step the sign (if result is not zero) is applied (so "down" means
+"towards zero", and "up" means "away from zero").
+
+Remarks about "Dimension too large" issues:
+
 1. For input `X` equal to (or sufficiently close to) `\maxdimen` and
    those units `uu` for which `\maxdimen` is not exactly representable
    (i.e. all core units except `pt`, `bp` and `nd`), the output `D` of the
    "up" macros `\texdimen<uu>up{X}`, if used as `Duu` in a dimension
    assignment or expression, will (naturally) trigger a "Dimension too
    large" error.
-2. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
+2. The same potentially happens with `\texdimenwithunit{dimen1}{dimen2}`
+   if `\maxdimen`
+   is not representable exactly by `dimen2` used as a base dimension,
+   (which may happen only if `dimen2>1pt`): it is possible that the
+   output `D`, if consequently used as `D\dimexpr dimen2\relax` will
+   will trigger "Dimension too large".
+3. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
    close to) `\maxdimen` it turns out that `\texdimen<uu>{X}` produces
    an output `D` such that `Duu` is the first "virtually attainable" TeX
-   dimension *beyond* `\maxdimen`.  Hence `Duu` will trigger on use
+   dimension *beyond* `\maxdimen`.  Hence here also `Duu` will trigger on use
    "Dimension too large error".
-3. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
-   will trigger "Dimension too large" during their execution if used
+4. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
+   will trigger "Dimension too large" *during their execution* if used
    with an input equal to (or sufficiently close to) `\maxdimen`.
-4. With `\texdimenwithunit{dimen1}{dimen2}` and if `\maxdimen`
-   is not representable exactly by `dimen2` used as a base dimension,
-   (which may happen only if `dimen2>1pt`) it might
-   be that the decimal `D` produced from `\maxdimen` or nearby dimensions
-   will trigger "Dimension too large" if an attempt to use `D <dimen2>` is
    made.
 
 `\texdimenpt{<dim. expr.>}`
@@ -492,8 +494,18 @@ the `pt`.
 `\texdimenwithunit{<dim. expr. 1>}{<dim expr. 2>}`
 
 > Produces a decimal `D` such that `D\dimexpr <dim expr. 2>\relax` is
-> considered by TeX the same as `<dim. expr. 1>` if at all possible.
-> If not possible it will be a closest match either from above or below.
+> considered by TeX the same as `<dim. expr. 1>` if at all possible.  If
+> not possible it will be a closest match either from above or below
+> (but one does not know if the other direction is a better or worst
+> match).
+>
+> `\texdimenwithunit{dim}{1bp}` and `\texdimenbp{dim}` are not
+> the same: The former produces a decimal `D` such that `D\dimexpr
+> 1bp\relax` is represented internally as is `dim` if at all possible,
+> whereas the latter produces a decimal `D` such that `D bp` is the one
+> aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax` implies
+> a conversion factor equal to `65781/65536`, whereas `D bp` involves
+> the `803/800` conversion factor.
 
 
 ## Extras?
