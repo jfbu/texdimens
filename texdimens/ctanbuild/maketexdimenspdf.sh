@@ -12,8 +12,12 @@ latex -halt-on-error -interaction=batchmode README.tex
 latex -halt-on-error -interaction=batchmode README.tex
 dvipdfmx README.dvi
 mv README.pdf texdimens.pdf
+mv README.md texdimens.md
 rm README*
-echo "... done and auxiliary files removed"
+mv CTAN_README.md README.md
+echo "... done"
+echo "auxiliary files removed, README.md renamed texdimens.md"
+echo "and CTAN_README.md renamed into README.md"
 
 # Local variables:
 # coding: utf-8
