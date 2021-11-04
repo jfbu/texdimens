@@ -3,7 +3,7 @@ aaa="Bu"
 dir="texdimens"
 bubu=" B\."
 
-for file in texdimens.tex README.md
+for file in texdimens.tex README.md CTAN_README.md
 do
     f="$dir/$file"
     g="$f-trimmed"
@@ -28,9 +28,10 @@ bbb="rn"
 ccc="ol"
 jfbu=" ${aaa}${bbb}${ccc}"
 
-echo "Blowing up jfbu cover in LICENSE.md README.md texdimens.tex texdimens.sty ..."
+echo "Blowing up jfbu cover in LICENSE.md README.md CTAN_README.md texdimens.tex texdimens.sty ..."
 sed -i "s/$bubu/$jfbu/g" "$dir/LICENSE.md"
 sed -i "s/$bubu/$jfbu/g" "$dir/README.md"
+sed -i "s/$bubu/$jfbu/g" "$dir/CTAN_README.md"
 sed -i "s/$bubu/$jfbu/g" "$dir/texdimens.tex"
 sed -i "s/$bubu/$jfbu/g" "$dir/texdimens.sty"
 echo "... done"
