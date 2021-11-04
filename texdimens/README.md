@@ -8,7 +8,7 @@ Copyright (c) 2021 Jean-François B.
 This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
-Development: https://github.com/jfbu/texdimens/texdimens
+Repository: https://github.com/jfbu/texdimens/texdimens
 
 Release: `0.99+dev 2021/11/03`
 
@@ -22,9 +22,9 @@ Utilities and documentation related to TeX dimensional units, usable:
 
 ## Aim of this package
 
-The aim of this package is to address the issue of expressing dimensions
-(or dimension expressions evaluated by `\dimexpr`) in the various TeX
-units, to the extent possible.
+The aim of this package is to provide facilities to express dimensions
+(or dimension expressions evaluated by `\dimexpr`) using the various
+available TeX units, to the extent possible.
 
 ## Macros of this package (summary)
 
@@ -42,16 +42,21 @@ expression and produces on output a decimal `D` such that `D bp` is
 guaranteed to be the same dimension as the input, if that one admits any
 representation as `E bp`; else it will be either the closest match from
 above or from below (for this unit the error is at most `1sp`).
-The `\texdimenbpup` and `\texdimenbpdown` allow to
-choose the direction of approximation.
+
+The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
+direction of approximation.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
 `D \dimexpr dimen2\relax` is parsed by TeX into the same dimension as
-`dimen1` if at all possible, else it will be a closest match, but one
-does not know if from below or above (and whether the approximation from
-the other direction is a better or worst match).  If `dimen2<1pt` all
-TeX dimensions `dimen1` are attainable. If `dimen2>1pt` not all `dimen1`
-are attainable.
+`dimen1` if this is at all possible.  If `dimen2<1pt` all TeX dimensions
+`dimen1` are attainable.  If `dimen2>1pt` not all `dimen1` are
+attainable.  If not attainable, the decimal `D` will ensure a closest
+match from below or from above but one does not know if the
+approximation from the other direction is better or worst).
+
+In a sense, this macro divides `<dimen1>` by `<dimen2>` but please continue
+reading this documentation for relevant
+information on how TeX handles dimensions.
 
 ## Quick review of basics: TeX points and scaled points
 
