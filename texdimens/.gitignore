@@ -1,5 +1,6 @@
 auto/
 .DS_Store
+*.ltx
 *.dvi
 *.log
 *.aux
