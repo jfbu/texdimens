@@ -14,8 +14,11 @@ Release: `0.99+dev 2021/11/03`
 
 ## Aim of this package
 
-Utilities and documentation related to TeX dimensional units, usable
-both with Plain (`\input texdimens`) and with LaTeX (`\usepackage{texdimens}`).
+Utilities and documentation related to TeX dimensional units, usable:
+
+- with Plain TeX: `\input texdimens`
+
+- with LaTeX: `\usepackage{texdimens}`
 
 The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
@@ -63,33 +66,37 @@ that `Ept` defines the same dimension as `Dpt̀`.
 ## Further units known to TeX on input
 
 TeX understands on input further units: `bp`, `cm`, `mm`, `in`, `pc`,
-`cc`, `nc`, `dd` and `nd`.  It also understands font-dependent units `ex` and
-`em`, and PDFTeX adds the `px` dimension unit.  Japanese engines also
-add specific units.
+`cc`, `nc`, `dd` and `nd`.  It also understands font-dependent units
+`ex` and `em`, and PDFTeX adds the `px` dimension unit.  Japanese
+engines also add specific units.
 
-The `ex`, `em`, and `px` units are handled somewhat differently by (pdf)TeX than
-`bp`, `cm`, `mm`, `in`, `pc`, `cc`, `nc`, `dd` and `nd` units. For the former
-(let's use the generic notation `uu`), the exact same dimensions are obtained
-from an input `D uu` where `D` is some decimal or from `D <dimen>` where `<dimen>`
-stands for some dimension register which records `1uu` or `\dimexpr1uu\relax`. In
-contrast, among the latter, i.e. the core TeX units, this is false except for the
-`pc` unit.
+The `ex`, `em`, and `px` units are handled somewhat differently by
+(pdf)TeX than `bp`, `cm`, `mm`, `in`, `pc`, `cc`, `nc`, `dd` and `nd`
+units. For the former (let's use the generic notation `uu`), the exact
+same dimensions are obtained from an input `D uu` where `D` is some
+decimal or from `D <dimen>` where `<dimen>` stands for some dimension
+register which records `1uu` or `\dimexpr1uu\relax`. In contrast, among
+the latter, i.e. the core TeX units, this is false except for the `pc`
+unit.
 
 The explanation is as follows (in this discussion `sp` is kept aside).
 
-TeX associates (explicitly for the core units, implicitly for the units corresponding
-to internal dimensions) to each unit `uu` a fraction `phi` which is a conversion
-factor.  For the internal dimensions `ex`, `em`, `px` or in the case of multiplying
-a dimension by a decimal, this `phi` is morally `f/65536` where `f` is the integer
-such that `1 uu=f sp`.  For core units however, the hard-coded ratio `n/d` never has a
-denominator `d` whici is a power of `2`, except for the `pc` whose associated ratio
-factor is `12/1` (and arguably for the `sp` for which morally `phi` is `1/65536` but
-we keep it separate from the general discussion).
+TeX associates (explicitly for the core units, implicitly for the units
+corresponding to internal dimensions) to each unit `uu` a fraction `phi`
+which is a conversion factor.  For the internal dimensions `ex`, `em`,
+`px` or in the case of multiplying a dimension by a decimal, this `phi`
+is morally `f/65536` where `f` is the integer such that `1 uu=f sp`.
+For core units however, the hard-coded ratio `n/d` never has a
+denominator `d` whici is a power of `2`, except for the `pc` whose
+associated ratio factor is `12/1` (and arguably for the `sp` for which
+morally `phi` is `1/65536` but we keep it separate from the general
+discussion).
 
-As a result the value of `1 uu` as `f sp` is at best irrelevant
-or at worst misleading regarding the way TeX parses `D uu`.  Notice for example
-that `1.00375` is the exact value of the `phi` factor for the `bp` unit but
-that `1.00375pt>1bp` ...
+As a result the value of `1 uu` as `f sp` is at best irrelevant or at
+worst misleading regarding the way TeX parses `D uu`.  Notice for
+example that `1.00375` is the exact value of the `phi` factor for the
+`bp` unit but that `1.00375pt>1bp` ...
+
 Here is a table with the hard-coded conversion factors:
 
     uu     phi      reduced  real approximation  1uu in sp=   x=[65536phi]/65536  \the<1uu>
@@ -253,7 +260,8 @@ involves the `803/800` conversion factor.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
-> `\maxdimen` on input produces `16322.78954` and indeed is realized as `16322.78954bp`.
+> `\maxdimen` on input produces `16322.78954` and indeed is realized as
+> `16322.78954bp`.
 
 `\texdimenbpdown{<dim. expr.>}`
 
@@ -274,7 +282,8 @@ involves the `803/800` conversion factor.
 > will differ by `1sp` from the original dimension, but it is not
 > known in advance if it will be above or below.
 
-> `\maxdimen` on input produces `15355.51532` and indeed is realized as `15355.51532nd`.
+> `\maxdimen` on input produces `15355.51532` and indeed is realized as
+> `15355.51532nd`.
 
 `\texdimennddown{<dim. expr.>}`
 
