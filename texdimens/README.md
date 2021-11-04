@@ -115,7 +115,7 @@ which is a conversion factor.  For the internal dimensions `ex`, `em`,
 `px` or in the case of multiplying a dimension by a decimal, this `phi`
 is morally `f/65536` where `f` is the integer such that `1 uu=f sp`.
 For core units however, the hard-coded ratio `n/d` never has a
-denominator `d` whici is a power of `2`, except for the `pc` whose
+denominator `d` which is a power of `2`, except for the `pc` whose
 associated ratio factor is `12/1` (and arguably for the `sp` for which
 morally `phi` is `1/65536` but we keep it separate from the general
 discussion).
@@ -240,7 +240,7 @@ Remarks about "Dimension too large" issues:
    is not representable exactly by `dimen2` used as a base dimension,
    (which may happen only if `dimen2>1pt`): it is possible that the
    output `D`, if consequently used as `D\dimexpr dimen2\relax` will
-   will trigger "Dimension too large".
+   trigger "Dimension too large".
 3. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
    close to) `\maxdimen` it turns out that `\texdimen<uu>{X}` produces
    an output `D` such that `Duu` is the first "virtually attainable" TeX
@@ -249,7 +249,6 @@ Remarks about "Dimension too large" issues:
 4. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
    will trigger "Dimension too large" *during their execution* if used
    with an input equal to (or sufficiently close to) `\maxdimen`.
-   made.
 
 `\texdimenpt{<dim. expr.>}`
 
