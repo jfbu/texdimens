@@ -110,18 +110,18 @@ irrelevant and even misleading regarding the TeX parsing of `D uu` input.
 Notice for example that `\the\dimexpr1bp\relax` gives `1.00374pt` but
 the actual conversion factor is `1.00375`.
 
-    uu 1uu in sp=   x=[65536phi]/65536  \the<1uu>
-       [65536phi]  (real approximation)
-    --  ---------  -------------------- ----------
-    bp      65781    1.0037384033203125  1.00374pt
-    nd      69925    1.0669708251953125  1.06697pt
-    dd      70124    1.07000732421875    1.07pt   
-    mm     186467    2.8452606201171875  2.84526pt
-    pc     786432   12.0                12.0pt    
-    nc     839105   12.803726196289062  12.80373pt
-    cc     841489   12.840103149414062  12.8401pt 
-    cm    1864679   28.452743530273438  28.45274pt
-    in    4736286   72.26998901367188   72.26999pt
+    uu 1uu in sp=  \the<1uu>
+       [65536phi]  
+    --  ---------  ----------
+    bp      65781   1.00374pt
+    nd      69925   1.06697pt
+    dd      70124   1.07pt   
+    mm     186467   2.84526pt
+    pc     786432  12.0pt    
+    nc     839105  12.80373pt
+    cc     841489  12.8401pt 
+    cm    1864679  28.45274pt
+    in    4736286  72.26999pt
 
 When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
 be it a core unit, or a unit corresponding to an internal dimension,
