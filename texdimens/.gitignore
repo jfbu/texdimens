@@ -16,7 +16,8 @@ auto/
 *.zip
 README
 README.html
-texdimens/units/*
-texdimens/ctanbuild/*
-!texdimens/ctanbuild/private.sh
-!texdimens/CTAN/texdimens.zip
+units/*
+ctanbuild/*
+!ctanbuild/private.sh
+!ctanbuild/maketexdimenspdf.sh
+!CTAN/texdimens.zip
