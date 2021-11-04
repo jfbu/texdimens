@@ -461,8 +461,10 @@
         \ifnum#1>\p@\texdimendothis\texdimenwithunit_A\fi
         \texdimenorthat\texdimenwithunit_B#2#1;%
 }%
-% we premultiplied the first argument by 2... must be undone now! what a waste.
-\def\texdimenwithunit_p@#1#2;#3;{\expandafter\texdimenstrippt\the\dimexpr#1#3sp/2\relax}%
+% we premultiplied the first argument by 2... must be undone now!
+% and we must avoid overflow. Very underoptimal, but user is not
+% supposed to do something as silly as actually using this unit=1pt case!
+\def\texdimenwithunit_p@#1#2;#3;{\expandafter\texdimenstrippt\the\dimexpr\numexpr#1#3/2sp\relax}%
 % unit>1pt, handle this as for bp. Attention it would be wrong for unit=1pt!
 \def\texdimenwithunit_A#1#2;#3;{\expandafter\texdimenstrippt
     \the\dimexpr\numexpr(#1#3+\if-#1-\fi1)*32768/#2sp\relax

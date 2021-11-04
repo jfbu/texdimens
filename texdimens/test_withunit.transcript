@@ -116,5 +116,7 @@ entering extended mode
 0.01884
 *\m{\number\dimexpr0.01884pt}
 1235
+*\m{\texdimenwithunit{9000pt}{1pt}}
+9000.0
 *\bye
 
