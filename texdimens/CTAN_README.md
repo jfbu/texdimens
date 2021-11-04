@@ -52,7 +52,7 @@ direction of approximation.
 `dimen1` are attainable.  If `dimen2>1pt` not all `dimen1` are
 attainable.  If not attainable, the decimal `D` will ensure a closest
 match from below or from above but one does not know if the
-approximation from the other direction is better or worst).
+approximation from the other direction is better or worst.
 
 In a sense, this macro divides `<dimen1>` by `<dimen2>` but please refer
 to the full documentation (`texdimens.md`, `texdimens.pdf`) for relevant
