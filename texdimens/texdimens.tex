@@ -393,9 +393,13 @@
 % are not attainable as D uu, but the formula
 %     N=round((2T+1)*32768/f)
 % will give a suitable decimal D via \the\dimexpr N sp\relax.
+% (if T=0, we get N=0 as 32768/f<0.5)
 % This D will let TeX convert D uu into T sp, if the dimension
 % is attainable else it will be a closest match
 % either from above or below (not necessarily nearest overall).
+%
+% If f/65536=1, attention that above formula would give N=1 for
+% T=0 (was bug #4).
 %
 % If f/65536<1, all dimensions Tsp are attainable as D uu. Indeed
 % D uu is parsed by TeX via N=round(D*65536), then T=trunc(N*phi),
@@ -407,14 +411,25 @@
 % D a decimal of at most 5 fractional digits will provide a D
 % such that indeed M=round(D*65536).
 %
+% Attention that if T=0, the M=round(0.5/phi) will be at least 1,
+% so the produced decimal D will not be 0.0, although it will
+% be true that D \dimexpr f sp\relax produces the zero dimension,
+% the above analysis being correct even for T=0.
+%
 % Implementation
 % ==============
 %
 % \texdimenwithunit{dim1}{dim2}. dim2>0 assumed.
-% We first get f from dim2 and branch according to whether f>=65536 or
-% f<65536. We will also need to check the sign of T (dim1=T sp).
+% We first get f from dim2 and branch according to whether f>65536 or
+% f<=65536 (handling f=65536 with <65536 case is in view of issue #4
+% mentioned above; it is not worth the trouble testing for it, as
+% user knows there is \texdimenpt for the faster job).
+% We will also need to check the sign of T (dim1=T sp).
 % We then compute in both branches round((2T+1)*32768/f), but
 % in an indirect way in the f<65536 branch to avoid overflow.
+% We will need also to intercept T=0 to avoid producing a non
+% pleasing positive D in that case (still correct for f<65536;
+% this is issue #3).
 %
 % In the f<65536 branch we first do the Euclidean division
 % 2T+1 = k*2*f + R with 0<=R<2f. The k is obtained as round((2T+1-f)/(2f))
@@ -435,18 +450,24 @@
 % pre-multiplication of #1 by 2 here
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_
     \the\numexpr\dimexpr#2\expandafter;\the\numexpr2*\dimexpr#1;}%
-\def\texdimenwithunit_#1;#2{\ifnum#1<\p@
-    \expandafter\texdimenwithunit_B\else\expandafter\texdimenwithunit_A\fi
+\def\texdimenwithunit_#1;#2{\ifnum#1>\p@
+    \expandafter\texdimenwithunit_A\else\expandafter\texdimenwithunit_B\fi
     #2#1;%
 }%
-% unit>=1pt, handle this as for bp
+% unit>1pt, handle this as for bp
 \def\texdimenwithunit_A#1#2;#3;{\expandafter\texdimenstrippt
     \the\dimexpr\numexpr(#1#3+\if-#1-\fi1)*32768/#2sp\relax
 }%
-% unit<1pt
+% unit<1pt or unit=1pt (to fix #4)
 % if dim1<0, simply negate result for dim1>0 as it can not possibly be 0.0
 % Indeed (2T+1)*32768/f will be at least 3*32768/f so its rounding at least 2.
-\def\texdimenwithunit_B#1{\if-#1\expandafter\texdimenwithunit_Bneg\fi\texdimenwithunit_Ba#1}%
+% Add a check for dim1=0 to fix #3 and #4
+\def\texdimenzerominusfork #10-#2#3\krof {#2}%
+\def\texdimenwithunit_B#1{\texdimenzerominusfork
+                           #1-\texdimenwithunit_Bzero
+                           0#1\texdimenwithunit_Bneg
+                           0-\texdimenwithunit_Ba
+                          \krof#1}%
 \def\texdimenwithunit_Ba#1#2;#3;{\expandafter\texdimenwithunit_Bb\the\numexpr#1#3+1;#2;}%
 \def\texdimenwithunit_Bb#1;#2;{\expandafter\texdimenwithunit_Bc\the\numexpr(#1-#2)/(2*#2);#1;#2;}%
 % I was hesitating between leaving k in the stream (breaking f-expandability)
@@ -461,9 +482,9 @@
 % dim2<1pt was improved about 11% from skipping the conditional
 \def\texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
                                   \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax}%
-% Here, definitely not caring about f-expandability
-\def\texdimenwithunit_Bneg\texdimenwithunit_Ba-#1;#2;%
-    {-\expandafter\texdimenwithunit_Bb\the\numexpr#2+1;#1;}%
+% Here, definitely not caring about f-expandability. Or efficiency.
+\def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
+\def\texdimenwithunit_Bzero#1;#2;{0.0}%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX

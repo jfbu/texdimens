@@ -98,5 +98,15 @@ entering extended mode
 -0.65536
 *\m{\texdimenwithunit{-1pt-2sp}{99999sp}}
 -0.6554
+*\m{\texdimenwithunit{0pt}{1pt}}
+0.0
+*\m{\texdimenwithunit{0pt}{65535sp}}
+0.0
+*\m{\texdimenwithunit{0pt}{1sp}}
+0.0
+*\m{\texdimenwithunit{0pt}{12345sp}}
+0.0
+*\m{\texdimenwithunit{0pt}{123450sp}}
+0.0
 *\bye
 
