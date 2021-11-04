@@ -5,7 +5,7 @@ docfiles    = README.md LICENSE.md
 sourcefiles = texdimens.tex texdimens.sty
 TEST = 
 
-.PHONY: test testctan ctan
+.PHONY: test testctan ctan clean
 
 README: README.md
 	pandoc -t plain -o README README.md
@@ -56,3 +56,10 @@ texdimens.zip: $(docfiles) $(sourcefiles) ctanbuild/private.sh ctanbuild/maketex
 
 ctan: texdimens.zip
 
+clean:
+	rm -f texdimens.dvi
+	rm -f texdimens.aux
+	rm -f texdimens.log
+	rm -f texdimens.out
+	rm -f texdimens.ltx
+	rm -f texdimens.toc
