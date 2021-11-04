@@ -61,7 +61,7 @@ kept as it can be shown that going beyond can not change the result.
 
 When `\foo` has been assigned as `Dpt`, `\the\foo` will produce some
 `Ept` where `E` is not necessarily the same as `D`.  But it is guaranteed
-that `Ept` defines the same dimension as `Dpt̀`.
+that `Ept` defines the same dimension as `Dpt`.
 
 ## Further units known to TeX on input
 
