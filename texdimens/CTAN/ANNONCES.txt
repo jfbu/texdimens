@@ -2,6 +2,16 @@
 
 ------------------------------------------------------------------------
 
+Release 0.99a du 4 novembre 2021
+
+Téléversé sur CTAN le 4 novembre 2021 vers 11h45
+
+v0.99a (2021/11/04)
+
+Documentation now available in pdf format
+
+------------------------------------------------------------------------
+
 Release 0.99 du 2 novembre 2021
 
 Téléversé sur CTAN le 2 novembre 2021 vers 23h45
