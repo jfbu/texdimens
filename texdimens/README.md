@@ -26,14 +26,14 @@ The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
 units, to the extent possible.
 
+## Quick review of basics: TeX points and scaled points
+
 This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
 The notation `<dim. expr.>` in the macro descriptions refers to a
 *dimensional expression* as accepted by `\dimexpr`.  The syntax has some
 peculiarities: among them the fact that `-(...)` (for example `-(3pt)`)
 is illegal, one must use alternatives such as `0pt-(...)` or a
 sub-expression `-\dimexpr...\relax` for example.
-
-## Quick review of basics: TeX points and scaled points
 
 TeX dimensions are represented internally by a signed integer which is
 in absolute value at most `0x3FFFFFFF`, i.e. `1073741823`.  The
