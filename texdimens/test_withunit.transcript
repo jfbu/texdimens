@@ -109,12 +109,12 @@ entering extended mode
 *\m{\texdimenwithunit{0pt}{123450sp}}
 0.0
 *\m{\texdimenwithunit{1234sp}{1pt}}
+0.01883
+*\m{\number\dimexpr0.01883pt}
+1234
+*\m{\texdimenwithunit{1235sp}{1pt}}
 0.01884
 *\m{\number\dimexpr0.01884pt}
 1235
-*\m{\texdimenwithunit{1235sp}{1pt}}
-0.01886
-*\m{\number\dimexpr0.01886pt}
-1236
 *\bye
 
