@@ -8,17 +8,19 @@ Copyright (c) 2021 Jean-François B.
 This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
-Development: https://github.com/jfbu/texdimens
+Development: https://github.com/jfbu/texdimens/texdimens
 
 Release: `0.99+dev 2021/11/03`
 
-## Aim of this package
+## Usage
 
 Utilities and documentation related to TeX dimensional units, usable:
 
 - with Plain TeX: `\input texdimens`
 
 - with LaTeX: `\usepackage{texdimens}`
+
+## Aim of this package
 
 The aim of this package is to address the issue of expressing dimensions
 (or dimension expressions evaluated by `\dimexpr`) in the various TeX
