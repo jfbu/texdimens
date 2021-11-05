@@ -34,6 +34,8 @@ testctan:
 # ATTENTION à un truc comme ctanbuild/$(sourcefiles) !
 # le ctanbuild/ ne s'applique qu'au premier !
 texdimens.zip: $(docfiles) $(sourcefiles) ctanbuild/private.sh ctanbuild/maketexdimenspdf.sh
+	@echo 'Removing CTAN/texdimens.zip if it exists!'
+	rm -fr CTAN/texdimens.zip
 	rm -fr                ctanbuild/texdimens
 	rm -f                 ctanbuild/texdimens.zip
 	mkdir -p              ctanbuild/texdimens
@@ -45,14 +47,13 @@ texdimens.zip: $(docfiles) $(sourcefiles) ctanbuild/private.sh ctanbuild/maketex
 	chmod -R ugo+r        ctanbuild/texdimens
 	ls -al                ctanbuild/texdimens
 	umask 0022 && cd ctanbuild && zip -r texdimens.zip texdimens
+	@echo 'Test coverage is not enough, improve that!'
+	@echo 'Now executing the few unit tests we have'
+	cd units && ./regressiontest.sh --ctan
 	mv ctanbuild/texdimens.zip CTAN/
 	@echo '********'
-	@echo 'texdimens.zip done and moved to CTAN/ directory.'
-	@echo ''
-	@echo 'This project issued a note during release build:'
-	@echo '        no tests done, please fix this!'
+	@echo 'new texdimens.zip done and moved to CTAN/ directory.'
 	@echo '********'
-	@# cd units && ./regressiontest.sh --ctan
 
 ctan: texdimens.zip
 
