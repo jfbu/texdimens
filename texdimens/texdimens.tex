@@ -440,15 +440,18 @@
 \def\texdimenbothbpmm_b#1;{\expandafter\texdimenbothbpmm_c
     \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
 % now we have X;a;T;
-% if X>T, our candidate "a=#2" must be decreased by 1.
-% Else we
-% check if X sp is expressible in bp unit. If yes we are done, if not
-% we decrease "a" by 1. The check could be done by computing X modulo 803
-% but we do otherwise, using the math underlying the \texdimenbp macro.
+% if X>T, our candidate "a=#2" must be decreased by 1 and we go to _ca
 \def\texdimenbothbpmm_c#1;#2;#3;{\ifnum#1>#3 \expandafter\texdimenbothbpmm_ca\fi
     \texdimenbothbpmm_d#1;#2;}%
+% Here we
+% check if X sp is expressible in bp unit. If not we decrease "a" by 1.
+% The check could be done by computing X modulo 803
+% but we do otherwise, using the math underlying the \texdimenbp macro.
 % Recall that all this expansion is after an
-% \expandafter\texdimenstrippt\the\dimexpr
+% \expandafter\texdimenstrippt\the\dimexpr, and the decimal multiple of
+% pt obtained from \the\dimexpr "a"sp=D pt is such that Dmm matches
+% trunc(a 7227/2540)sp. We don't need for the \texdimenbothbpmm
+% the actual value of the latter if a needed adjustment.
 \def\texdimenbothbpmm_d#1;#2;{#2sp%
     \ifnum\dimexpr
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1+1)*400/803spbp=#1
