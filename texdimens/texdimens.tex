@@ -431,7 +431,7 @@
 % because this is *inside* a pre-positioned \dimexpr, we don't have
 % to worry about zero output ending up as -0.0
 \def\texdimenbothbpmm_neg-{-\texdimenbothbpmm_a{}}%
-\def\texdimenbothbpmm_zero#1;{\z@}%
+\def\texdimenbothbpmm_zero#1;{\z@\relax}%
 % now, find X sp <= T sp maximal and expressible in mm unit
 % it will be X=trunc(a 7227/2540), we first get a candidate for "a"
 \def\texdimenbothbpmm_a#1;{\expandafter\texdimenbothbpmm_b
