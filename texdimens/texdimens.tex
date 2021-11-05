@@ -483,15 +483,10 @@
 % done...
 % now the lazy way for \texdimenbothmmbp
 \def\texdimenbothmmbp#1{\expandafter\texdimenstrippt\the\dimexpr
-                        \expandafter\texdimenbothmmbp_fork\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
-\def\texdimenbothmmbp_fork#1{\texdimenzerominusfork
-                             #1-\texdimenbothmmbp_zero
-                             0#1\texdimenbothmmbp_neg
-                             0-\texdimenbothmmbp_a
-                             \krof#1}%
-\def\texdimenbothmmbp_zero#1;{\z@\relax}%
-\def\texdimenbothmmbp_neg-{-\texdimenbothmmbp_a{}}%
-\def\texdimenbothmmbp_a#1;{\numexpr(2*#1+1)*400/803sp\relax}%
+    \expandafter\texdimenbothmmbp_a\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
+% or remove the + and do \if-#1-\else+\fi1 ?
+% If zero at this stage, we will correctly get 0.0 in the end
+\def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax}%
 % and \texdimenbothbpmmpt
 \def\texdimenbothbpmmpt#1{\texdimenpt{\texdimenbothbpmm{#1}mm}}%
 % and \texdimenbothbpmmsp

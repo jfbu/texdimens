@@ -224,13 +224,33 @@ entering extended mode
 3.38171pt, 3.38171pt
 *\m{\the\dimexpr\numexpr1693+2540*30sp}
 1.18855pt
-*\m{\texdimenbothmmbp{1.18855pt}}
+*\m{\texdimenbothmmbp{1.18854pt}}
 1.1841
 *\m{\the\dimexpr1.1841bp}
 1.18854pt
-*\m{\texdimenbothbpmm{1.18855pt}}
+*\m{\texdimenbothmmbp{1.18855pt}}
+1.1841
+*\m{\texdimenbothmmbp{1.18856pt}}
+1.1841
+*\m{\texdimenbothmmbp{1.18857pt}}
+1.1841
+*\m{\texdimenbothmmbp{1.18858pt}}
+1.18414
+*\m{\the\dimexpr1.1841bp,\the\dimexpr1.18414bp}
+1.18854pt,1.18858pt
+*\m{\texdimenbothbpmm{1.18854pt}}
 0.41772
 *\m{\the\dimexpr0.41772mm}
 1.18854pt
+*\m{\texdimenbothbpmm{1.18855pt}}
+0.41772
+*\m{\texdimenbothbpmm{1.18856pt}}
+0.41772
+*\m{\texdimenbothbpmm{1.18857pt}}
+0.41772
+*\m{\texdimenbothbpmm{1.18858pt}}
+0.41774
+*\m{\the\dimexpr0.41772mm,\the\dimexpr0.41774mm}
+1.18854pt,1.18858pt
 *\bye
 
