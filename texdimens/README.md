@@ -347,7 +347,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimenpc{<dim. expr.>}`
 
@@ -369,7 +369,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimennc{<dim. expr.>}`
 
@@ -393,7 +393,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimencc{<dim. expr.>}`
 
@@ -416,7 +416,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimencm{<dim. expr.>}`
 
@@ -439,7 +439,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimenin{<dim. expr.>}`
 
@@ -463,7 +463,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
-> will be smallest representable dimension larger than the original one.
+> will be smallest representable dimension at least equal to the original one.
 
 `\texdimenbothcmin{<dim. expr.>}`
 
