@@ -5,7 +5,7 @@
 \catcode`\noexpand _=\the\catcode`\_%
 \catcode`\noexpand @=\the\catcode`\@\relax\noexpand\endinput}%
 \endlinechar13\relax%
-\catcode`\_=11 \catcode`\@=11 % only for using \p@ of Plain. Check exists?
+\catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
 %
 % Mathematics ("down" and "up" macros)
 % ===========
@@ -93,6 +93,14 @@
 % i) use \the\dimexpr to convert X sp into D pt,
 % ii) use \the\numexpr\dimexpr  to convert "D uu" into sp.
 % These steps give Y.
+%
+% **** MEMO: this has advantage of brevity and hacks into
+% **** TeX way of multiplying by such a factor say 7227/2540
+% **** but with more \numexpr we could do this (with some pain
+% **** as it rounds, not truncate): here prepare
+% **** X as k 2540 + R, then Y = 7227*k + trunc(R*7227/2540)
+% **** where the product R*7227<2540*7227 can be computed
+% **** without overflow so we again have a Euclidean division
 %
 % This way we find the maximal dimension at most T sp exactly
 % representable in "uu" unit.
@@ -384,6 +392,69 @@
 \def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr(((2*#3-3612)/7227)*7227+1)/2-1\relax\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
+% both mm and bp, cf issue #10 on tracker
+% Mathematics and Algorithm
+% =========================
+% We start from a dimension expressed in sp unit, "T sp". Assume T positive.
+% We know how to get largest "X sp <= T sp" exactly
+% expressible in "mm", i.e. means X=trunc(a 7227/2540) for some integer a.
+% We want to achieve X=trunc(b 803/800)=trunc(b 7227/7200) for some b.
+% Only the congruence of X modulo 803 matters and it turns out that
+% the excluded values for X mod. 803 are 267, 535, 802.
+% (see issue #10 for the corresponding 9 excluded values of a modulo 2540
+% found by Ruixi Zhang; a<-a+2540 makes X<-X+9*803 hence X mod. 803
+% is invariant; turns out this excludes in total 3+3+3=9 "a" values).
+% If X is not excluded we are done, if it is, we replace a<-a-1. Automatically
+% the new X (which differs from initial one by -2 or -3) will be allowed
+% and we are now done. To express the final output in "mm" unit, we use
+% the found adjusted "a". To express it in "sp" or "bp" unit, we do
+% compute the new X and we done in "sp", from which we get it in "bp".
+%
+% In this first round of I will not try to share macros among bothbpmm,
+% bothmmbp, or bothbpmmsp/bothbpmmpt. (I provided bothincmpt, but would
+% it not have been better only bothincmsp? I will only do bothbpmmsp)
+\def\texdimenbothbpmm#1{\expandafter\texdimenstrippt\the\dimexpr
+                        \expandafter\texdimenbothbpmm_fork\the\numexpr\dimexpr#1;}%
+% the \texdimenzerominusfork is defined in the \texdimenwithunit section
+\def\texdimenbothbpmm_fork#1{\texdimenzerominusfork
+                             #1-\texdimenbothbpmm_zero
+                             0#1\texdimenbothbpmm_neg
+                             0-\texdimenbothbpmm_a
+                             \krof#1}%
+% because this is *inside* a pre-positioned \dimexpr, we don't have
+% to worry about zero output ending up as -0.0
+\def\texdimenbothbpmm_neg-{-\texdimenbothbpmm_a{}}%
+\def\texdimenbothbpmm_zero#1;{\z@}%
+% now, find X sp <= T sp maximal and expressible in mm unit
+% it will be X=trunc(a 7227/2540), we first get a candidate for "a"
+\def\texdimenbothbpmm_a#1;{\expandafter\texdimenbothbpmm_b
+    \the\numexpr#1*2540/7227;#1;}%
+% we get the X from this candidate, hijacking TeX built-in *7227/2540
+\def\texdimenbothbpmm_b#1;{\expandafter\texdimenbothbpmm_c
+    \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
+% now we have X;a;T;
+% if X>T, our candidate "a=#2" must be decreased by 1.
+% Else we
+% check if X sp is expressible in bp unit. If yes we are done, if not
+% we decrease "a" by 1. The check could be done by computing X modulo 803
+% but we do otherwise, using the math underlying the \texdimenbp macro.
+\def\texdimenbothbpmm_c#1;#2;#3;{\ifnum#1>#3 \expandafter\texdimenbothbpmm_ca\fi
+    \texdimenbothbpmm_d#1;#2;}%
+% Recall that all this expansion is after an
+% \expandafter\texdimenstrippt\the\dimexpr
+\def\texdimenbothbpmm_d#1;#2;{#2sp%
+    \ifnum\dimexpr
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1+1)*400/803spbp=#1
+    \else-1sp\fi\relax}%
+% Here we must decrease "a=#2" by 1 and recompute X=#1, then we loop
+% back to the final possible adjustment of "a" done in \texdimenbothbpmm_d
+\def\texdimenbothbpmm_ca\texdimenbothbpmm_d#1;#2;{%
+    \expandafter\texdimenbothbpmm_cb\the\numexpr#2-1;%
+}%
+\def\texdimenbothbpmm_cb#1;{\expandafter\texdimenbothbpmm_d
+    \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
+% done...
+%  
 % (\texdimenwithunit, added at 0.99)
 % Mathematics
 % ===========
