@@ -488,10 +488,12 @@
 % or remove the + and do \if-#1-\else+\fi1 ?
 % If zero at this stage, we will correctly get 0.0 in the end
 \def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax}%
-% and \texdimenbothbpmmpt
+% \texdimenbothbpmmpt and its alias \texdimenbothmmbppt
 \def\texdimenbothbpmmpt#1{\texdimenpt{\texdimenbothbpmm{#1}mm}}%
-% and \texdimenbothbpmmsp
+\let\texdimenbothmmbppt\texdimenbothbpmmpt
+% \texdimenbothbpmmsp and its alias \texdimenbothmmbpsp
 \def\texdimenbothbpmmsp#1{\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm\relax\relax}%
+\let\texdimenbothmmbpsp\texdimenbothbpmmsp
 % (\texdimenwithunit, added at 0.99)
 % Mathematics
 % ===========

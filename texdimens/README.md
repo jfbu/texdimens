@@ -490,7 +490,7 @@ Remarks about "Dimension too large" issues:
 
 `\texdimenbothincmpt{<dim. expr.>}`
 
-> Same as `\texdimenbothcminpt`.
+> Alias for `\texdimenbothcminpt`.
 
 `\texdimenbothcminsp{<dim. expr.>}`
 
@@ -500,7 +500,7 @@ Remarks about "Dimension too large" issues:
 
 `\texdimenbothincmsp{<dim. expr.>}`
 
-> Same as `\texdimenbothcminsp`.
+> Alias for `\texdimenbothcminsp`.
 
 `\texdimenbothbpmm{<dim. expr.>}`
 
@@ -523,11 +523,19 @@ Remarks about "Dimension too large" issues:
 > `Dpt` is the largest dimension smaller than the original one and
 > exactly representable both in the `bp` and `mm` units.
 
+`\texdimenbothmmbppt{<dim. expr.>}`
+
+> Alias for `\texdimenbothbpmmpt`.
+
 `\texdimenbothbpmmsp{<dim. expr.>}`
 
 > Produces an integer (explicit digit tokens) `N` such that `Nsp`
 > is the largest dimension smaller than the original one and
 > exactly representable both in the `bp` and `mm` units.
+
+`\texdimenbothmmbpsp{<dim. expr.>}`
+
+> Alias for `\texdimenbothbpmmsp`.
 
 `\texdimenwithunit{<dim. expr. 1>}{<dim expr. 2>}`
 
