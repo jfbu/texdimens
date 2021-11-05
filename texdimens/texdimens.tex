@@ -475,6 +475,10 @@
 \def\texdimenbothmmbp_zero#1;{\z@\relax}%
 \def\texdimenbothmmbp_neg-{-\texdimenbothmmbp_a{}}%
 \def\texdimenbothmmbp_a#1;{\numexpr(2*#1+1)*400/803sp\relax}%
+% and \texdimenbothbpmmpt
+\def\texdimenbothbpmmpt#1{\texdimenpt{\texdimenbothbpmm{#1}mm}}%
+% and \texdimenbothbpmmsp
+\def\texdimenbothbpmmsp#1{\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm\relax\relax}%
 % (\texdimenwithunit, added at 0.99)
 % Mathematics
 % ===========
