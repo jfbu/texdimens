@@ -464,7 +464,17 @@
 \def\texdimenbothbpmm_cb#1;{\expandafter\texdimenbothbpmm_d
     \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
 % done...
-%  
+% now the lazy way for \texdimenbothmmbp
+\def\texdimenbothmmbp#1{\expandafter\texdimenstrippt\the\dimexpr
+                        \expandafter\texdimenbothmmbp_fork\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
+\def\texdimenbothmmbp_fork#1{\texdimenzerominusfork
+                             #1-\texdimenbothmmbp_zero
+                             0#1\texdimenbothmmbp_neg
+                             0-\texdimenbothmmbp_a
+                             \krof#1}%
+\def\texdimenbothmmbp_zero#1;{\z@\relax}%
+\def\texdimenbothmmbp_neg-{-\texdimenbothmmbp_a{}}%
+\def\texdimenbothmmbp_a#1;{\numexpr(2*#1+1)*400/803sp\relax}%
 % (\texdimenwithunit, added at 0.99)
 % Mathematics
 % ===========
