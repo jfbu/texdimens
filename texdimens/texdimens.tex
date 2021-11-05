@@ -396,30 +396,39 @@
 % Mathematics and Algorithm
 % =========================
 % We start from a dimension expressed in sp unit, "T sp". Assume T positive.
-% We know how to get largest "X sp <= T sp" exactly
-% expressible in "mm", i.e. means X=trunc(a 7227/2540) for some integer a.
-% We want to achieve X=trunc(b 803/800)=trunc(b 7227/7200) for some b.
-% Only the congruence of X modulo 803 matters and it turns out that
-% the excluded values for X mod. 803 are 267, 535, 802.
-% (see issue #10 for the corresponding 9 excluded values of a modulo 2540
-% found by Ruixi Zhang; a<-a+2540 makes X<-X+9*803 hence X mod. 803
-% is invariant; turns out this excludes in total 3+3+3=9 "a" values).
+% We know how to get largest "X sp <= T sp" which is exactly expressible
+% i.e. can be written X=trunc(a 7227/2540) for some non-negative integer a.
+% We want to achieve X=trunc(b 803/800) for some b.
 %
-% If X is not excluded we are done, if it is excluded, we replace a<-a-1.
+%    Only the congruence of X modulo 803 matters for this.
+%    It turns out that the mod 803 impossible values are 267, 535, 802.
+%    As pointed out by Ruixi Zhang on the package repo issue #10,
+%    when a<--a+2540, X increases by 7227=9*803 hence the value
+%    modulo 803 does not change. Thus only "a modulo 2540" matters
+%    to check if X(a) is attainable with bp unit. Ruixi Zhang found by
+%    brute force that there are modulo 2540 nine excluded a-values
 %
-% Implementation update: the check if X sp is attainable via bp unit is
-% *not* done via computation of X mod 803 but via the math of
-% \texdimenbp to check if its output is same (in sp unit) as X.
+% Rather than checking if "a mod. 2540" avoids the 9 Ruixi Zhang values
+% or if "X mod. 803" avoids  267, 535, 802, we will simply basically
+% check if X sp = \texdimenbp{X sp}bp, as this approach is probably
+% about the same cost or even less than computing "X mod. 803" and
+% correspondingly branching.
 %
-% Automatically
-% the new X (which differs from initial one by -2 or -3) will be allowed
-% and we are now done. To express the final output in "mm" unit, we use
-% the found adjusted "a". To express it in "sp" or "bp" unit, we do
-% compute the new X then we are one in "sp", and we get it in "bp".
+% The key is that if "a" is bad, then "a-1" is automatically good as
+% pointed out by R.Z. on #10, which can be seen without knowing the 9
+% bad congruences, simply by noticing that a<--a-1 modifies X either to
+% X-2 or X-3, so if X was bad certainly the new one is not.
 %
-% In this first round of I will not try to share macros among bothbpmm,
-% bothmmbp, or bothbpmmsp/bothbpmmpt. (I provided bothincmpt, but would
-% it not have been better only bothincmsp? I will only do bothbpmmsp)
+% Once "a" has gotten its final value, we apply "\the\dimexpr a sp
+% = D pt" trick to recover the D such that "D mm" gives rise to the found
+% dimension.  We go via this "Dmm" intermediary also to express the final
+% result as "X sp", because anyhow the "X" we worked with and had in
+% our token stream has to be recomputed if a<--a-1, so lets always
+% recompute it from final "a", and this goes via "D mm" (but see
+% the paragraph MEMO for alternative for this trunc(a 7227/2540) step).
+%
+% I will copy here the style I used for bothincm expansion triggering
+% via an already positioned \dimexpr waiting to output final result.
 \def\texdimenbothbpmm#1{\expandafter\texdimenstrippt\the\dimexpr
                         \expandafter\texdimenbothbpmm_fork\the\numexpr\dimexpr#1;}%
 % the \texdimenzerominusfork is defined in the \texdimenwithunit section
@@ -434,35 +443,43 @@
 \def\texdimenbothbpmm_zero#1;{\z@\relax}%
 % now, find X sp <= T sp maximal and expressible in mm unit
 % it will be X=trunc(a 7227/2540), we first get a candidate for "a"
-\def\texdimenbothbpmm_a#1;{\expandafter\texdimenbothbpmm_b
-    \the\numexpr#1*2540/7227;#1;}%
-% we get the X from this candidate, hijacking TeX built-in *7227/2540
+\def\texdimenbothbpmm_a#1;%
+    {\expandafter\texdimenbothbpmm_b\the\numexpr#1*2540/7227;#1;}%
+% we get in a single line the X from this candidate, hijacking TeX's
+% built-in *7227/2540... the "MEMO" above explains one could do this
+% purely within \numexpr, working around its division rounds, and
+% avoiding overflow, but I suspect this would be more costly.
 \def\texdimenbothbpmm_b#1;{\expandafter\texdimenbothbpmm_c
     \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
 % now we have X;a;T;
-% if X>T, our candidate "a=#2" must be decreased by 1 and we go to _ca
-\def\texdimenbothbpmm_c#1;#2;#3;{\ifnum#1>#3 \expandafter\texdimenbothbpmm_ca\fi
-    \texdimenbothbpmm_d#1;#2;}%
-% Here we
-% check if X sp is expressible in bp unit. If not we decrease "a" by 1.
-% The check could be done by computing X modulo 803
-% but we do otherwise, using the math underlying the \texdimenbp macro.
-% Recall that all this expansion is after an
-% \expandafter\texdimenstrippt\the\dimexpr, and the decimal multiple of
-% pt obtained from \the\dimexpr "a"sp=D pt is such that Dmm matches
-% trunc(a 7227/2540)sp. We don't need for the \texdimenbothbpmm
-% the actual value of the latter if a needed adjustment.
+\def\texdimenbothbpmm_c#1;#2;#3;{%
+% If X>T, our candidate "a=#2" must be decreased by 1 and we go to _ca
+% The original #3 is not needed anymore
+    \ifnum#1>#3 \expandafter\texdimenbothbpmm_ca\fi
+% Else we decide whether it is "a" or "a-1" we must use. I preferred
+% to induce a re-grabbing cost here, rather than have \texdimenbothbpmm_ca
+% re-grab its arguments from \texdimenbothbpmm_d replacement text.
+    \texdimenbothbpmm_d#1;#2;%
+}%
+% Here, dynamically at the time of the concluding \dimexpr, we
+% check if X sp is expressible in bp unit and then use "a" or "a-1"
+% accordingly
 \def\texdimenbothbpmm_d#1;#2;{#2sp%
     \ifnum\dimexpr
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1+1)*400/803spbp=#1
-    \else-1sp\fi\relax}%
-% Here we must decrease "a=#2" by 1 and recompute X=#1, then we loop
-% back to the final possible adjustment of "a" done in \texdimenbothbpmm_d
-\def\texdimenbothbpmm_ca\texdimenbothbpmm_d#1;#2;{%
-    \expandafter\texdimenbothbpmm_cb\the\numexpr#2-1;%
+    \else-1sp\fi
+% and a \relax to stop the concluding \dimexpr
+    \relax
 }%
-\def\texdimenbothbpmm_cb#1;{\expandafter\texdimenbothbpmm_d
-    \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;}%
+% Here we must decrease "a=#2" by 1, recompute X=#1, then loop
+% back to \texdimenbothbpmm_d. Hesitation between forcing a
+% re-grab or doing it in one step with the subtraction of 1 done twice
+\def\texdimenbothbpmm_ca\texdimenbothbpmm_d#1;#2;%
+   {\expandafter\texdimenbothbpmm_cb\the\numexpr#2-1;}%
+\def\texdimenbothbpmm_cb#1;{%
+    \expandafter\texdimenbothbpmm_d
+    \the\numexpr\dimexpr\expandafter\texdimenstrippt\the\dimexpr#1spmm;#1;%
+}%
 % done...
 % now the lazy way for \texdimenbothmmbp
 \def\texdimenbothmmbp#1{\expandafter\texdimenstrippt\the\dimexpr
