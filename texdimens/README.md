@@ -341,7 +341,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimenmmup{<dim. expr.>}`
 
@@ -363,7 +363,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimenpcup{<dim. expr.>}`
 
@@ -387,7 +387,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimenncup{<dim. expr.>}`
 
@@ -410,7 +410,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimenccup{<dim. expr.>}`
 
@@ -433,7 +433,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimencmup{<dim. expr.>}`
 
@@ -457,7 +457,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension not exceeding the original one.
+> will be largest representable dimension smaller than the original one.
 
 `\texdimeninup{<dim. expr.>}`
 
@@ -570,8 +570,8 @@ latter is not attainable, i.e. for all units except `bp`, and `nd`
 
 The
 dimensions representable with both `in` and `cm` units have the shape
-`trunc(3613.5*k)sp` for some integer `k`. The largest one smaller
-than a given dimension will thus differ from it by at most about `0.055pt`,
+`trunc(3613.5*k)sp` for some integer `k`. The largest one not exceeding
+a given dimension will thus differ from it by at most about `0.055pt`,
 which is also about `0.02mm`.
 
 For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps
