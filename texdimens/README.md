@@ -34,7 +34,8 @@ This package provides expandable macros:
 - `\texdimenUU`, `\texdimenUUup` and
   `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
   `pc`, `cc`, `nc`, `dd` and `nd`,
-- `\texdimenbothincm` (and relatives not listed here, see below),
+- `\texdimenbothincm` and relatives,
+- `\texdimenbothbpmm` and relatives,
 - `\texdimenwithunit`.
 
 For example `\texdimenbp` takes on input some dimension or dimension
@@ -45,6 +46,10 @@ above or from below (for this unit the error is at most `1sp`).
 
 The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
 direction of approximation.
+
+`\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest
+(in absolute value) dimension smaller than input which is exactly
+representable both with `in` and `cm` units, respectively `bp` and `mm`.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
 `D \dimexpr dimen2\relax` is parsed by TeX into the same dimension as
@@ -462,24 +467,26 @@ Remarks about "Dimension too large" issues:
 
 `\texdimenbothcmin{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `Din`
-> is the largest dimension smaller than the original one and
-> exactly representable both in the `in` and `cm` units.
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Din` is the largest dimension smaller than the original one (in
+> absolute value) and exactly representable both in the `in` and `cm`
+> units.
 
 `\texdimenbothincm{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `Dcm`
-> is the largest dimension smaller than the original one and
-> exactly representable both in the `in` and `cm` units.  It thus represents
-> the same dimension as `\texdimenbothcmin{<dim. expr.>}in`.
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Dcm` is the largest dimension smaller than the original one (in
+> absolute value) and exactly representable both in the `in` and `cm`
+> units. Thus both expressions `\texdimenbothcmin{<dim. expr.>}in` and
+> `\texdimenbothincm{<dim. expr.>}cm` represent the same dimension.
 
 `\texdimenbothcminpt{<dim. expr.>}`
 
-> Produces a decimal (with up to five decimal places) `D` such that `Dpt`
-> is the largest dimension smaller than the original one and
-> exactly representable both in the `in` and `cm` units.  It thus represents
-> the same dimension as the one provided by `\texdimenbothcmin` and
-> `\texdimenbothincm`.
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Dpt` is the largest dimension smaller than the original one (in
+> absolute value) and exactly representable both in the `in` and `cm`
+> units.  It thus represents the same dimension as the one determined by
+> `\texdimenbothcmin` and `\texdimenbothincm`.
 
 `\texdimenbothincmpt{<dim. expr.>}`
 
@@ -487,13 +494,40 @@ Remarks about "Dimension too large" issues:
 
 `\texdimenbothcminsp{<dim. expr.>}`
 
-> Produces an integer (explicit digit tokens) `N` such that `Nsp`
-> is the largest dimension smaller than the original one and
+> Produces an integer (explicit digit tokens) `N` such that `Nsp` is the
+> largest dimension smaller than the original one in absolute value and
 > exactly representable both in the `in` and `cm` units.
 
 `\texdimenbothincmsp{<dim. expr.>}`
 
 > Same as `\texdimenbothcminsp`.
+
+`\texdimenbothbpmm{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Dmm` is the largest dimension smaller (in absolute value) than the
+> original one and exactly representable both in the `bp` and `mm`
+> units.
+
+`\texdimenbothmmbp{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Dbp` is the largest dimension smaller (in absolute value) than the
+> original one and exactly representable both in the `bp` and `mm`
+> units.  Thus `\texdimenbothmmbp{<dim. expr.>}bp` is the same
+> dimension as `\texdimenbothbpmm{<dim. expr.>}mm`.
+
+`\texdimenbothbpmmpt{<dim. expr.>}`
+
+> Produces a decimal (with up to five decimal places) `D` such that
+> `Dpt` is the largest dimension smaller than the original one and
+> exactly representable both in the `bp` and `mm` units.
+
+`\texdimenbothbpmmsp{<dim. expr.>}`
+
+> Produces an integer (explicit digit tokens) `N` such that `Nsp`
+> is the largest dimension smaller than the original one and
+> exactly representable both in the `bp` and `mm` units.
 
 `\texdimenwithunit{<dim. expr. 1>}{<dim expr. 2>}`
 
@@ -551,10 +585,17 @@ Thanks to Denis Bitouzé for raising an
 [issue](https://github.com/latex3/latex3/issues/953)
 on the LaTeX3 tracker which became the initial stimulus for this package.
 
-Thanks to Ruixi Zhang for reviving the above linked-to thread
-and opening up here [issue #2](https://github.com/jfbu/texdimens/issues/2)
-asking to add handling of the `ex`,`em`, and `px` cases. This was done
-at release `0.99` via the addition of `\texdimenwithunit`.
+Thanks to Ruixi Zhang for reviving the above linked-to thread and
+opening up on the package issue tracker the
+[issue #2](https://github.com/jfbu/texdimens/issues/2) asking to add
+handling of the `ex` and `em` cases. This was done at release `0.99` via
+the addition of `\texdimenwithunit`.
+
+Renewed thanks to Ruixi Zhang for analyzing at
+[issue #10](https://github.com/jfbu/texdimens/issues/10) what is at
+stake into finding dimensions exactly representable both in the `bp` and
+`mm` units. Macros `\texdimenbothbpmm` and `\texdimenbothmmbp` now
+address this.
 
 <!--
 %! Local variables:

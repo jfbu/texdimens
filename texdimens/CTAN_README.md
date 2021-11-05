@@ -34,7 +34,8 @@ This package provides expandable macros:
 - `\texdimenUU`, `\texdimenUUup` and
   `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
   `pc`, `cc`, `nc`, `dd` and `nd`,
-- `\texdimenbothincm` (and relatives, see full documentation),
+- `\texdimenbothincm` and relatives,
+- `\texdimenbothbpmm` and relatives,
 - `\texdimenwithunit`.
 
 For example `\texdimenbp` takes on input some dimension or dimension
@@ -45,6 +46,10 @@ above or from below (for this unit the error is at most `1sp`).
 
 The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
 direction of approximation.
+
+`\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest
+(in absolute value) dimension smaller than input which is exactly
+representable both with `in` and `cm` units, respectively `bp` and `mm`.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
 `D \dimexpr dimen2\relax` is parsed by TeX into the same dimension as
