@@ -544,7 +544,14 @@
 % Implementation
 % ==============
 %
-% \texdimenwithunit{dim1}{dim2}. dim2>0 assumed.
+% \texdimenwithunit{dim1}{dim2}
+%
+% dim2>0pt was initially assumed.
+% To handle dim2<0pt, we simply simultaneously do
+% dim1<-- -dim1 and dim2<-- -dim2. The case dim2=0pt is not intercepted
+% and will cause division by zero low-level error.
+% Code comments below were not adjusted and handle only dim2>0pt.
+% 
 % We first get f from dim2 and branch according to whether f>65536,
 % f=65536 or f<65536.
 % We will also need to check the sign of T (dim1=T sp).
@@ -569,14 +576,32 @@
 % k.ddddd with k as obtained earlier. This procedure has no possible
 % arithmetic overflow.
 %
-% #2 is assumed positive. The case #2=1pt=65536sp is special, and
-% must be filtered out (issues #4, #6).
+% Negative #2 are converted into positive #2 by replacing both
+% arguments by their opposites.
+% The case #2=1pt=65536sp is special, and must be filtered out (issues #4, #6).
 % pre-multiplication of #1 by 2 here
-\def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_
+\def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_i
     \the\numexpr\dimexpr#2\expandafter;\the\numexpr2*\dimexpr#1;}%
+% so tempted to do \input xintkernel.sty to have some utilities...
+% not even a \@gobble in Plain...
 \let\texdimenorthat\texdimenfirstofone
 \def\texdimendothis#1#2\texdimenorthat#3{\fi#1}%
-\def\texdimenwithunit_#1;#2{%
+\def\texdimengobtominus#1-{}%
+\def\texdimenwithunit_i#1{\texdimengobtominus#1\texdimenwithunit_switchsigns-%
+                          \texdimenwithunit_j#1}%
+\def\texdimenwithunit_switchsigns-\texdimenwithunit_j-#1;#2%
+{%
+% due to \texdimenwithunit_Bneg we can not simply prefix dim1
+% with -, as -0 is bad there. So let's check also if #2 is 0
+    \texdimenzerominusfork
+      #2-\texdimenwithunit_Bzero % abuse
+      0#2\texdimenwithunit_j     % also
+       0-{\texdimenwithunit_ic#2}% I should have left the #2 after \krof
+    \krof
+    #1;%
+}%
+\def\texdimenwithunit_ic#1#2;{\texdimenwithunit_j#2;-#1}%
+\def\texdimenwithunit_j#1;#2{%
         \ifnum#1=\p@\texdimendothis\texdimenwithunit_p@\fi
         \ifnum#1>\p@\texdimendothis\texdimenwithunit_A\fi
         \texdimenorthat\texdimenwithunit_B#2#1;%
