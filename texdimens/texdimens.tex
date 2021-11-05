@@ -404,11 +404,18 @@
 % (see issue #10 for the corresponding 9 excluded values of a modulo 2540
 % found by Ruixi Zhang; a<-a+2540 makes X<-X+9*803 hence X mod. 803
 % is invariant; turns out this excludes in total 3+3+3=9 "a" values).
-% If X is not excluded we are done, if it is, we replace a<-a-1. Automatically
+%
+% If X is not excluded we are done, if it is excluded, we replace a<-a-1.
+%
+% Implementation update: the check if X sp is attainable via bp unit is
+% *not* done via computation of X mod 803 but via the math of
+% \texdimenbp to check if its output is same (in sp unit) as X.
+%
+% Automatically
 % the new X (which differs from initial one by -2 or -3) will be allowed
 % and we are now done. To express the final output in "mm" unit, we use
 % the found adjusted "a". To express it in "sp" or "bp" unit, we do
-% compute the new X and we done in "sp", from which we get it in "bp".
+% compute the new X then we are one in "sp", and we get it in "bp".
 %
 % In this first round of I will not try to share macros among bothbpmm,
 % bothmmbp, or bothbpmmsp/bothbpmmpt. (I provided bothincmpt, but would
