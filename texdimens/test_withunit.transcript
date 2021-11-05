@@ -252,5 +252,19 @@ entering extended mode
 0.41774
 *\m{\the\dimexpr0.41772mm,\the\dimexpr0.41774mm}
 1.18854pt,1.18858pt
+*\m{\texdimenbothbpmm{1mm}}
+1.0
+*\m{\texdimenbothmmbp{1bp}}
+0.99997
+*\m{\texdimenmm{0.99997bp}}
+0.35277
+*\m{\the\numexpr\dimexpr0.35277mm,\the\numexpr\dimexpr0.99997bp}
+65779,65779
+*\m{\the\numexpr\dimexpr1bp}
+65781
+*\m{\texdimenbothbpmmsp{65781sp}}
+65779
+*\m{\texdimenbothbpmmsp{65782sp}}
+65782
 *\bye
 
