@@ -1,11 +1,19 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=etex 2021.7.3)  2 NOV 2021 23:24
-entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**texdimens
-(./texdimens.tex)
-*\let\m\message
-
+% etex this file to check current macros obtain same results as in the past
+\input texdimens
+\catcode`*\active\catcode`\^^M=\active
+\def*{\catcode`*12\relax}% as * may be used in some \numexpr
+\def\m#1^^M#2^^M{\catcode`*\active%
+                 % things such as \the \numexpr \texdimenbp {803804sp}bp will
+                 % have catcode 11 bp, but the \y will be with catcode 12,
+                 % so we must detokenize
+                 \edef\x{\detokenize\expandafter{\expanded{#1}}}%
+                 % a \the\dimexpr gives catcode 12 pt
+                 \edef\y{\detokenize{#2}}%
+                 \ifx\x\y\else\errmessage{\detokenize{#1} gave \x\space not \y}\fi}%
+% **texdimens
+% (./texdimens.tex)
+% *\let\m\message
+%
 *\m{\texdimenbothbpmm{1000pt}}
 351.45981
 *\m{\texdimenpt{351.45981mm}}
@@ -154,5 +162,4 @@ entering extended mode
 65779
 *\m{\texdimenbothbpmmsp{65782sp}}
 65782
-*\bye
-
+\bye
