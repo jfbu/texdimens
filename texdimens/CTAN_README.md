@@ -48,7 +48,7 @@ The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
 direction of approximation.
 
 `\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest
-(in absolute value) dimension smaller than input which is exactly
+(in absolute value) dimension not exceeding input which is exactly
 representable both with `in` and `cm` units, respectively `bp` and `mm`.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that

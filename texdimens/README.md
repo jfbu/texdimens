@@ -48,7 +48,7 @@ The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
 direction of approximation.
 
 `\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest
-(in absolute value) dimension smaller than input which is exactly
+(in absolute value) dimension not exceeding input which is exactly
 representable both with `in` and `cm` units, respectively `bp` and `mm`.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
@@ -341,7 +341,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimenmmup{<dim. expr.>}`
 
@@ -363,7 +363,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimenpcup{<dim. expr.>}`
 
@@ -387,7 +387,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimenncup{<dim. expr.>}`
 
@@ -410,7 +410,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimenccup{<dim. expr.>}`
 
@@ -433,7 +433,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimencmup{<dim. expr.>}`
 
@@ -457,7 +457,7 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
-> will be largest representable dimension smaller than the original one.
+> will be largest representable dimension not exceeding the original one.
 
 `\texdimeninup{<dim. expr.>}`
 
@@ -468,14 +468,14 @@ Remarks about "Dimension too large" issues:
 `\texdimenbothcmin{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that
-> `Din` is the largest dimension smaller than the original one (in
+> `Din` is the largest dimension not exceeding the original one (in
 > absolute value) and exactly representable both in the `in` and `cm`
 > units.
 
 `\texdimenbothincm{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that
-> `Dcm` is the largest dimension smaller than the original one (in
+> `Dcm` is the largest dimension not exceeding the original one (in
 > absolute value) and exactly representable both in the `in` and `cm`
 > units. Thus both expressions `\texdimenbothcmin{<dim. expr.>}in` and
 > `\texdimenbothincm{<dim. expr.>}cm` represent the same dimension.
@@ -483,7 +483,7 @@ Remarks about "Dimension too large" issues:
 `\texdimenbothcminpt{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that
-> `Dpt` is the largest dimension smaller than the original one (in
+> `Dpt` is the largest dimension not exceeding the original one (in
 > absolute value) and exactly representable both in the `in` and `cm`
 > units.  It thus represents the same dimension as the one determined by
 > `\texdimenbothcmin` and `\texdimenbothincm`.
@@ -495,7 +495,7 @@ Remarks about "Dimension too large" issues:
 `\texdimenbothcminsp{<dim. expr.>}`
 
 > Produces an integer (explicit digit tokens) `N` such that `Nsp` is the
-> largest dimension smaller than the original one in absolute value and
+> largest dimension not exceeding the original one in absolute value and
 > exactly representable both in the `in` and `cm` units.
 
 `\texdimenbothincmsp{<dim. expr.>}`
@@ -520,7 +520,7 @@ Remarks about "Dimension too large" issues:
 `\texdimenbothbpmmpt{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that
-> `Dpt` is the largest dimension smaller than the original one and
+> `Dpt` is the largest dimension not exceeding the original one and
 > exactly representable both in the `bp` and `mm` units.
 
 `\texdimenbothmmbppt{<dim. expr.>}`
@@ -530,7 +530,7 @@ Remarks about "Dimension too large" issues:
 `\texdimenbothbpmmsp{<dim. expr.>}`
 
 > Produces an integer (explicit digit tokens) `N` such that `Nsp`
-> is the largest dimension smaller than the original one and
+> is the largest dimension not exceeding the original one and
 > exactly representable both in the `bp` and `mm` units.
 
 `\texdimenbothmmbpsp{<dim. expr.>}`
