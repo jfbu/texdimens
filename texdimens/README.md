@@ -60,9 +60,8 @@ match from below or from above but one does not know if the
 approximation from the other direction is better or worst.
 
 In a sense, this macro divides `<dimen1>` by `<dimen2>`, but check the
-macro documentation for some details.  Also, please continue reading
-this documentation for relevant information on how TeX handles
-dimensions.
+macro documentation for some details.  Also, please continue reading for
+relevant information on how TeX handles dimensions.
 
 ## Quick review of basics: TeX points and scaled points
 
