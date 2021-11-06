@@ -564,9 +564,10 @@ Remarks about "Dimension too large" issues:
 >
 > `\texdimenwithunit{D1pt}{D2pt} where `D1` and `D2` are decimals is
 > near `D1/D2`. But as TeX truncates when it multiplies a dimension by
-> factor, and as the macro output `R` specification is to make `R`
-> "times" `D2pt` as close to `D1pt` as possible, the actual value of `R`
-> is usually a bit above the exact quotient `D1/D2`.
+> a decimal, and as the specification of the output `R` is to have `R`
+> "times" `D2pt` equal to `D1pt` if possible, the `R` will usually be
+> slightly larger than the exact quotient `D1/D2` (the smaller the `D1`,
+> the stronger will be the relative effect).
 
 `\texdimendivide{<dim. expr. 1>}{<dim expr. 2>}`
 
