@@ -616,6 +616,46 @@
 % Here, definitely not caring about f-expandability. Or efficiency.
 \def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
 \def\texdimenwithunit_Bzero#1;#2;{0.0}%
+% \texdimendivide
+% (second argument must be positive)
+\def\texdimendivide#1#2{%
+    \expandafter\texdimendivide_i
+    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;%
+}%
+\def\texdimendivide_i#1;#2{%
+        %\ifnum#1=\p@\texdimendothis\texdimendivide_p@\fi
+        \ifnum#1<\p@\texdimendothis\texdimendivide_B\fi
+        \texdimenorthat\texdimendivide_A#2#1;%
+}%
+% \def\texdimendivide_p@#1#2;#3;{%
+%     \expandafter\texdimenstrippt\the\dimexpr#1#3sp\relax
+% }%
+% dim2>=1pt
+\def\texdimendivide_A#1#2;#3;{%
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr#1#3*\p@/#2sp\relax
+}%
+% dim2<1pt
+% if dim1<0, simply negate result for dim1>0 as it can not possibly be 0.0
+% Indeed N*1pt/dim2 will be at least N.
+\def\texdimendivide_B#1{\texdimenzerominusfork
+                           #1-\texdimendivide_Bzero
+                           0#1\texdimendivide_Bneg
+                           0-\texdimendivide_Bb
+                        \krof#1}%
+\def\texdimendivide_Bb#1#2;#3;{%
+% we excluded #1#3=0 to avoid -1/2 --> -1 in numexpr
+% 2*#1#3 can not cause overflow in \numexpr as #1#3 is < 2**30. This \numexpr
+% computes the truncated to an integer quotient of dim1 by dim2
+    \expandafter\texdimendivide_Bc\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
+}%
+\def\texdimendivide_Bc#1;#2;#3;{%
+% MEMO: decide if I use a delimited macro in place of this \numexpr..+0.ddddd
+    \the\numexpr#1+\expandafter\texdimenstrippt
+    \the\dimexpr\numexpr(#2-#1*#3)*\p@/#3sp\relax
+}%
+\def\texdimendivide_Bneg-{-\texdimendivide_Bb{}}%
+\def\texdimendivide_Bzero#1;#2;{0.0}%
+%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
