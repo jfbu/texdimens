@@ -123,7 +123,7 @@ For core units however, the hard-coded ratio `n/d` never has a
 denominator `d` which is a power of `2`, except for the `pc` whose
 associated ratio factor is `12/1` (and arguably for the `sp` for which
 morally `phi` is `1/65536` but we keep it separate from the general
-discussion).
+discussion; as well as `pt` with its unit conversion factor).
 
 Here is a table with the hard-coded conversion factors:
 
@@ -143,7 +143,15 @@ Here is a table with the hard-coded conversion factors:
 The values of `1uu` in the `sp` and `pt` units are irrelevant and even
 misleading regarding the TeX parsing of `D uu` input.  Notice for
 example that `\the\dimexpr1bp\relax` gives `1.00374pt` but the actual
-conversion factor is `1.00375`.
+conversion factor is `1.00375` (and
+`1.00375pt=65782sp>1bp`...). Similarly `\the\dimexpr1in\relax` outputs
+`72.26999pt` and is represented internally as `4736286sp` but the actual
+conversion factor is `72.27=7227/100`, and
+`72.27pt=4736287sp>1in`... And for the other units except the `pc`, the
+conversion factors are not decimal numbers, so even less likely to match
+`\the<1uu>` as listed in the last column. Their denominators are not
+powers of `2` so they don't match exactly either `(1uu in sp)/65536` but
+are only close.
 
 When TeX parses an assignment `U uu` with a decimal `U` and a unit `uu`,
 be it a core unit, or a unit corresponding to an internal dimension,
