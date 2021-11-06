@@ -588,8 +588,10 @@
     \expandafter\texdimenstrippt\the\dimexpr#1#3sp/2\relax
 }%
 % unit>1pt, handle this as for bp. Attention it would be wrong for unit=1pt!
-\def\texdimenwithunit_A#1#2;#3;{\expandafter\texdimenstrippt
+\def\texdimenwithunit_A#1#2;#3;{%
+    \expandafter\texdimenstrippt
     \the\dimexpr\numexpr(#1#3+\if-#1-\fi1)*32768/#2sp\relax
+    % with *\p@ better but an early doubled dim2 would complicate 1pt test
 }%
 % unit<1pt. Attention it would be wrong for unit=1pt!
 % if dim1<0, simply negate result for dim1>0 as it can not possibly be 0.0
@@ -601,8 +603,13 @@
                            0#1\texdimenwithunit_Bneg
                            0-\texdimenwithunit_Ba
                           \krof#1}%
-\def\texdimenwithunit_Ba#1#2;#3;{\expandafter\texdimenwithunit_Bb\the\numexpr#1#3+1;#2;}%
-\def\texdimenwithunit_Bb#1;#2;{\expandafter\texdimenwithunit_Bc\the\numexpr(#1-#2)/(2*#2);#1;#2;}%
+\def\texdimenwithunit_Ba#1#2;#3;{%
+    \expandafter\texdimenwithunit_Bb\the\numexpr#1#3+1;#2;%
+}%
+\def\texdimenwithunit_Bb#1;#2;{%
+    % if I could replace #2 by 2*#2 with ease, _Bc could use \p@
+    \expandafter\texdimenwithunit_Bc\the\numexpr(#1-#2)/(2*#2);#1;#2;%
+}%
 % I was hesitating between leaving k in the stream (breaking f-expandability)
 % and then remove the "0" and trailing "pt" from 0.ddddd pt, but opted
 % finally for doing \the\numexpr..+0.ddddd which is f-expandable and allows
@@ -613,8 +620,10 @@
 % gives the correct result. I tested and found about 39% longer execution time
 % if dim2>1pt does same calculations as for dim2<1pt, and at the same time
 % dim2<1pt was improved about 11% from skipping the conditional
-\def\texdimenwithunit_Bc#1;#2;#3;{\the\numexpr#1+\expandafter\texdimenstrippt
-                                  \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax}%
+\def\texdimenwithunit_Bc#1;#2;#3;{%
+    \the\numexpr#1+\expandafter\texdimenstrippt
+    \the\dimexpr\numexpr(#2-#1*2*#3)*32768/#3sp\relax
+}%
 % Here, definitely not caring about f-expandability. Or efficiency.
 \def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
 \def\texdimenwithunit_Bzero#1;#2;{0.0}%
