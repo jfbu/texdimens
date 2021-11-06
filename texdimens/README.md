@@ -59,9 +59,10 @@ attainable.  If not attainable, the decimal `D` will ensure a closest
 match from below or from above but one does not know if the
 approximation from the other direction is better or worst.
 
-In a sense, this macro divides `<dimen1>` by `<dimen2>` but please continue
-reading this documentation for relevant
-information on how TeX handles dimensions.
+In a sense, this macro divides `<dimen1>` by `<dimen2>`, but check the
+macro documentation for some details.  Also, please continue reading
+this documentation for relevant information on how TeX handles
+dimensions.
 
 ## Quick review of basics: TeX points and scaled points
 
@@ -560,7 +561,20 @@ Remarks about "Dimension too large" issues:
 > aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax` implies
 > a conversion factor equal to `65781/65536`, whereas `D bp` involves
 > the `803/800` conversion factor.
+>
+> `\texdimenwithunit{D1pt}{D2pt} where `D1` and `D2` are decimals is
+> near `D1/D2`. But as TeX truncates when it multiplies a dimension by
+> factor, and as the macro output `R` specification is to make `R`
+> "times" `D2pt` as close to `D1pt` as possible, the actual value of `R`
+> is usually a bit above the exact quotient `D1/D2`.
 
+`\texdimendivide{<dim. expr. 1>}{<dim expr. 2>}`
+
+> Produces a decimal `D` which is a close approximation (up to the
+> precision allowed by `TeX` i.e. about `4` to `5` decimal places) to
+> the exact fraction `D1/D2` (or `N1/N2`) where `D1 pt` (or `N1 sp`) is
+> the same dimension as the first argument and `D2 pt` (or `N2 sp`) the
+> same dimension as the second argument.
 
 ## Extras?
 

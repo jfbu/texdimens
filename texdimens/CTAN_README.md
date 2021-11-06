@@ -59,10 +59,6 @@ attainable.  If not attainable, the decimal `D` will ensure a closest
 match from below or from above but one does not know if the
 approximation from the other direction is better or worst.
 
-In a sense, this macro divides `<dimen1>` by `<dimen2>` but please refer
-to the full documentation (`texdimens.md`, `texdimens.pdf`) for relevant
-information on how TeX handles dimensions.
-
 ## Acknowledgements
 
 Thanks to Denis Bitouzé for raising an
