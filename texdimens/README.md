@@ -579,7 +579,9 @@ Remarks about "Dimension too large" issues:
 > `ceil(N1/N2,16)` with `D1pt->N1sp`, `D2pt->N2sp` and the second
 > argument of `ceil` means that `16` binary places are used. This
 > formula is the one used for `D2pt<1pt`, for `D2pt>1pt` the mathematics
-> is different, see the source code.
+> is different, but the implication that `R` has a (less significant)
+> bias to be "shifted upwards" (in its last decimal place) compared to
+> the (rounded) value `D1/D2` or rather `N1/N2` still stands.
 
 
 ## Extras?
