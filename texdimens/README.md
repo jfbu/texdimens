@@ -631,7 +631,7 @@ Renewed thanks to Ruixi Zhang for analyzing at
 [issue #10](https://github.com/jfbu/texdimens/issues/10) what is at
 stake into finding dimensions exactly representable both in the `bp` and
 `mm` units. Macros `\texdimenbothbpmm` and `\texdimenbothmmbp` now
-address this.
+address this (release `0.999`).
 
 <!--
 %! Local variables:
