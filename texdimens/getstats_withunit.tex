@@ -40,7 +40,7 @@
 % (then average will be ok also to 10 places)
        \edef\deltaD{\xintiexpr[10] \Dfromtdwu-\dimi/\dimii\relax}%
        \xintifsgnexpr{\deltaD}
-% >0
+% <0
          {\edef\sumNegDeltas{\xintexpr\sumNegDeltas+\deltaD\relax}%
           \advance\cntNeg\@ne
           \xintifboolexpr{\deltaD<\minNegDelta}
@@ -52,7 +52,7 @@
     % to avoid division by zero errors in particular for N2=1 or very small,
     % Pos=non-negative, Neg=non-positive
           {\advance\cntPos\@ne\advance\cntNeg\@ne}%
-% <0
+% >0
          {\edef\sumPosDeltas{\xintexpr\sumPosDeltas+\deltaD\relax}%
           \advance\cntPos\@ne
           \xintifboolexpr{\deltaD>\maxPosDelta}
