@@ -549,12 +549,12 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal `D` such that `D\dimexpr <dim expr. 2>\relax` is
 > considered by TeX the same as `<dim. expr. 1>` if at all possible.  If
-> the second argument `dim2` is at most `1pt` (in absolute value), then
-> this is always possible.  If the second argument `dim2` is `>1pt` then
-> this is not always possible and the output `D` will ensure for
-> `D<dim2>` to be a closest match to the first argument `dim1` either
-> from above or below, but one does not know if the other direction
-> would have given a better or worst match.
+> the (assumed non zero) second argument `dim2` is at most `1pt` (in
+> absolute value), then this is always possible.  If the second argument
+> `dim2` is `>1pt` then this is not always possible and the output `D`
+> will ensure for `D<dim2>` to be a closest match to the first argument
+> `dim1` either from above or below, but one does not know if the other
+> direction would have given a better or worst match.
 >
 > `\texdimenwithunit{dim}{1bp}` and `\texdimenbp{dim}` are not
 > the same: The former produces a decimal `D` such that `D\dimexpr
