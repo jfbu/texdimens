@@ -748,16 +748,16 @@
     \expandafter\texdimenwithunit_Be\the\dimexpr#1sp;#1;%
 }%
 % Ept;R;r;f;
+% #1=0.ddd... or 1.0 but has no end marker hence the
+% \texdimenfirstofone{#1} as in \texdimendown_d and \texdimenup_d
 {\catcode`P 12\catcode`T 12
 \lowercase{\gdef\texdimenwithunit_Be#1PT};#2;#3;#4;{%
-    \ifdim#1\dimexpr#4sp<#3sp \texdimenwithunit_Bf#2\fi
-% #1=0.ddd... or 1.0 but has no end marker so in _Bf we would
-% not know how to get rid of it. Or I could have used dothis/orthat
+    \ifdim#1\dimexpr#4sp<#3sp \texdimenwithunit_Bf{#2}\fi
     \texdimenfirstofone{#1}%
     }%
 }%
-% add a dimen \onesp?
-\def\texdimenwithunit_Bf#1\fi\texdimenfirstofone#2{\fi
+% #2 is \fi. Add a dimen storage \onesp for 1sp?
+\def\texdimenwithunit_Bf#1#2\texdimenfirstofone#3{#2%
     \expandafter\texdimenstrippt\the\dimexpr#1sp+1sp\relax
 }%
 % Here definitely not caring about f-expandability. Or efficiency.
