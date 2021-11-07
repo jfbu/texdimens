@@ -1,0 +1,165 @@
+\input texdimens
+\input xintexpr.sty
+
+
+\def\repx#1{#1#1#1#1#1#1#1#1#1#1}
+\def\repc#1{\repx{#1}\repx{#1}\repx{#1}\repx{#1}\repx{#1}%
+            \repx{#1}\repx{#1}\repx{#1}\repx{#1}\repx{#1}}
+\def\repm#1{\repc{#1}\repc{#1}\repc{#1}\repc{#1}\repc{#1}%
+            \repc{#1}\repc{#1}\repc{#1}\repc{#1}\repc{#1}}
+% or rather, I surely compared but right now forget the result
+% of this comparison
+% \long\def\ReplicateM#1{\ReplicateC{#1#1#1#1#1#1#1#1#1#1}}%
+% \long\def\ReplicateC#1{\ReplicateX{#1#1#1#1#1#1#1#1#1#1}}%
+% \long\def\ReplicateX#1{#1#1#1#1#1#1#1#1#1#1}%
+
+
+\catcode`@ 11
+\newdimen\dimi
+\newdimen\dimii
+\newdimen\onesp \onesp 1sp
+\newcount\cntPos
+\newcount\cntNeg
+\def\getstats#1{%
+    \edef\maxPosDelta{\xintexpr0\relax}\edef\sumPosDeltas{\xintexpr0\relax}%
+    \edef\minNegDelta{\xintexpr0\relax}\edef\sumNegDeltas{\xintexpr0\relax}%
+    \def\nPosMax{1}\def\nNegMax{1}
+    % to avoid division by zero errors in particular for N2=1 or very small,
+    % Pos=non-negative, Neg=non-positive
+    \cntPos\z@
+    \cntNeg\z@
+    \dimii#1sp
+    \dimi\z@
+% proceed by chunks of 1000 reps to avoid memory problems
+    \xintReplicate{\xintiieval{#1//1000}}{%
+       \repm{%
+       \advance\dimi\onesp
+       \edef\Dfromtdwu{\texdimenwithunit{\dimi}{\dimii}}%
+% \Dfromtdwu\par % to check
+% round to 10 decimal places (in fixed point, not floating point sense)
+% (then average will be ok also to 10 places)
+       \edef\deltaD{\xintiexpr[10] \Dfromtdwu-\dimi/\dimii\relax}%
+       \xintifsgnexpr{\deltaD}
+% >0
+         {\edef\sumNegDeltas{\xintexpr\sumNegDeltas+\deltaD\relax}%
+          \advance\cntNeg\@ne
+          \xintifboolexpr{\deltaD<\minNegDelta}
+                         {\let\minNegDelta\deltaD
+                          \edef\nNegMax{\the\numexpr\dimi}}
+                         {}%
+          }%
+% =0
+    % to avoid division by zero errors in particular for N2=1 or very small,
+    % Pos=non-negative, Neg=non-positive
+          {\advance\cntPos\@ne\advance\cntNeg\@ne}%
+% <0
+         {\edef\sumPosDeltas{\xintexpr\sumPosDeltas+\deltaD\relax}%
+          \advance\cntPos\@ne
+          \xintifboolexpr{\deltaD>\maxPosDelta}
+                         {\let\maxPosDelta\deltaD
+                          \edef\nPosMax{\the\numexpr\dimi}}
+                         {}%
+          }%
+       }%
+     }%
+% last batch
+     \xintReplicate{\xintiieval{#1/:1000}}{%
+       \advance\dimi\onesp
+       \edef\Dfromtdwu{\texdimenwithunit{\dimi}{\dimii}}%
+% \Dfromtdwu\par % to check
+% round to 10 decimal places (in fixed point, not floating point sense)
+% (then average will be ok also to 10 places)
+       \edef\deltaD{\xintiexpr[10] \Dfromtdwu-\dimi/\dimii\relax}%
+       \xintifsgnexpr{\deltaD}
+         {\edef\sumNegDeltas{\xintexpr\sumNegDeltas+\deltaD\relax}%
+          \advance\cntNeg\@ne
+          \xintifboolexpr{\deltaD<\minNegDelta}
+                         {\let\minNegDelta\deltaD
+                          \edef\nNegMax{\the\numexpr\dimi}}
+                         {}%
+          }%
+    % to avoid division by zero errors in particular for N2=1 or very small,
+    % Pos=non-negative, Neg=non-positive
+          {\advance\cntPos\@ne\advance\cntNeg\@ne}%
+         {\edef\sumPosDeltas{\xintexpr\sumPosDeltas+\deltaD\relax}%
+          \advance\cntPos\@ne
+          \xintifboolexpr{\deltaD>\maxPosDelta}
+                         {\let\maxPosDelta\deltaD
+                          \edef\nPosMax{\the\numexpr\dimi}}
+                         {}%
+          }%
+       }%
+%
+     \edef\statswithTABs{#1&%
+                         \xintieval{[10]\sumPosDeltas/\cntPos}&%
+                         \xintthe\maxPosDelta&(\nPosMax, \the\cntPos)&%
+                         \xintieval{[10]\sumNegDeltas/\cntNeg}&%
+                         \xintthe\minNegDelta&(\nNegMax, \the\cntNeg)&%
+                         (\the\numexpr\cntPos+\cntNeg-#1)}%
+}%
+
+\tabskip10pt
+
+%\globaldefs1 % (see the \edef\z trick above rather)
+
+\font\seventt=cmtt7 % typewriter
+%\font\fivett=cmtt5
+\scriptfont\ttfam=\seventt
+
+This evaluates
+$$\tt\Delta=\detokenize{\texdimenwithunit{N1sp}{N2sp}}-{N1\over
+N2}$$
+for {\tt N1=1..N2} and various {\tt N2}. We limit to $\tt N2\leq 65536$
+as it is what we are most interested in, and also for matter of time of
+execution (for larger {\tt N2}'s we could do some random samplings).
+
+\halign{\hfil#&#&#&\hfil#&#&#&\hfil#&\hfil#\cr
+N2&ave. non neg.&max non neg.&nmax,Ntot%
+  &ave. non pos.&max non pos.&nmin,Ntot%
+  &Nexact\cr
+\getstats{1}\statswithTABs\cr
+\getstats{10}\statswithTABs\cr
+\getstats{87}\statswithTABs\cr
+\getstats{100}\statswithTABs\cr
+\getstats{1000}\statswithTABs\cr
+\getstats{1234}\statswithTABs\cr
+\getstats{4321}\statswithTABs\cr
+\getstats{10000}\statswithTABs\cr
+\getstats{14285}\statswithTABs\cr
+%\getstats{19735}\statswithTABs\cr
+%\getstats{20000}\statswithTABs\cr
+% warning: with lines not commented compilation takes more than 5 minutes
+% on 2.8Ghz old computer
+\getstats{32768}\statswithTABs\cr  % patience!
+\getstats{43917}\statswithTABs\cr  % patience!
+\getstats{66342}\statswithTABs\cr  % get a coffee!
+\getstats{347341}\statswithTABs\cr % go for a walk
+}
+
+\bye
+
+% earlier test (absolute value only) with
+% with 0.99 \texdimenwithunit
+
+N2      ave. absolute error maximal absolute error
+1       0.5000000000        0.5000000000 (1)
+10      0.0500000000        0.0500000000 (1)
+87      0.0057471264        0.0057597701 (80)
+100     0.0050000000        0.0050000000 (1)
+1234    0.0004051864        0.0004181524 (461)
+32768   0.0000152588        0.0000228516 (1772)
+66342   0.0000078727        0.0000225468 (987)
+347341  0.0000045871        0.0000166208 (62203)
+
+% earlier test (absolute value only)
+% with 0.999 \texdimenwithunit (changed only N2<=65536)
+
+N2      ave. absolute error maximal absolute error
+1       0                   0            (1)
+10      0.0000040000        0.0000100000 (2)
+87      0.0000076179        0.0000206897 (21)
+100     0.0000048000        0.0000100000 (1)
+1234    0.0000078935        0.0000200972 (268)
+32768   0.0000026396        0.0000076172 (92)           
+
+% current test
