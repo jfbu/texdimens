@@ -549,9 +549,12 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal `D` such that `D\dimexpr <dim expr. 2>\relax` is
 > considered by TeX the same as `<dim. expr. 1>` if at all possible.  If
-> not possible it will be a closest match either from above or below
-> (but one does not know if the other direction is a better or worst
-> match).
+> the second argument `dim2` is at most `1pt` (in absolute value), then
+> this is always possible.  If the second argument `dim2` is `>1pt` then
+> this is not always possible and the output `D` will ensure for
+> `D<dim2>` to be a closest match to the first argument `dim1` either
+> from above or below, but one does not know if the other direction
+> would have given a better or worst match.
 >
 > `\texdimenwithunit{dim}{1bp}` and `\texdimenbp{dim}` are not
 > the same: The former produces a decimal `D` such that `D\dimexpr
@@ -562,16 +565,21 @@ Remarks about "Dimension too large" issues:
 > the `803/800` conversion factor.
 >
 > `\texdimenwithunit{D1pt}{D2pt}` output is close to the mathematical
-> ratio `D1/D2`. Notwithstanding the various unavoidable "errors"
-> arising from conversion of decimal input to binary internals, and from
-> the latter to the former, the output `R` will tend to be slightly
-> larger than mathematical `D1/D2`. The root cause being that the
-> specification for `R` is that `R<D2pt>` must be close to `<D1pt>`
-> after TeX parsing. And the final step in this parsing is a truncation
-> to an integer multiple of the `sp=1/65536pt` unit, not a rounding. So
-> `R` is basically defined as `ceil(D1/D2,16)`, i.e. "ceil" operation
-> with `16` binary places (this formula is used for `D2pt<1pt`, for
-> `D2pt>1pt` see the source code).
+> ratio `D1/D2`. But notwithstanding the various unavoidable "errors"
+> arising from conversion of decimal inputs to binary internals, and
+> from the latter to the former, the output `R` will tend to be
+> systematically slightly larger (in its last decimal) than mathematical
+> `D1/D2`. The root cause being that the specification for `R` is that
+> `R<D2pt>` must be exactly `<D1pt>` after TeX parsing, if at all
+> possible; and it turns out this is always possible for `D2pt<1pt`. The
+> final step in the TeX parsing of a multiplication of a dimension by a
+> scalar is a *truncation* to an integer multiple of the `sp=1/65536pt`
+> unit, not a rounding. So `R` is basically (i.e. before conversion to a
+> decimal) `ceil(D1/D2,16)`, or to be more precise it is obtained as
+> `ceil(N1/N2,16)` with `D1pt->N1sp`, `D2pt->N2sp` and the second
+> argument of `ceil` means that `16` binary places are used. This
+> formula is the one used for `D2pt<1pt`, for `D2pt>1pt` the mathematics
+> is different, see the source code.
 
 
 ## Extras?
