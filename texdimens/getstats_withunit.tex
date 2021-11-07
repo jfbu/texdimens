@@ -35,9 +35,14 @@
        \repm{%
        \advance\dimi\onesp
        \edef\Dfromtdwu{\texdimenwithunit{\dimi}{\dimii}}%
-%**** CHECK IF VALID
-\unless\ifdim\Dfromtdwu\dimii=\dimi\immediate\write128{ERREUR AVEC \number\dimi/\number\dimii}\ERROR\fi
-%****
+%********
+% CHECK IF VALID BUT ONLY EFFECTIVE IF DIM2 AT MOST 1PT
+% ELSE WE CAN NOT HOPE EQUALITY D<dim2>=<dim1>
+%
+\checkthisoneisvalid
+%
+%
+%********
 % \Dfromtdwu\par % to check
 % round to 10 decimal places (in fixed point, not floating point sense)
 % (then average will be ok also to 10 places)
@@ -116,10 +121,14 @@ for {\tt N1=1..N2} and various {\tt N2}. We limit to $\tt N2\leq 65536$
 as it is what we are most interested in, and also for matter of time of
 execution (for larger {\tt N2}'s we could do some random samplings).
 
+\def\checkthisoneforreal{\unless\ifdim\Dfromtdwu\dimii=\dimi\immediate\write128{ERREUR AVEC \number\dimi/\number\dimii}\ERROR\fi}%
+\let\checkthisoneisvalid\checkthisoneforreal
+
 \halign{\hfil#&#&#&\hfil#&#&#&\hfil#&\hfil#\cr
 N2&ave. non neg.&max non neg.&nmax,Ntot%
   &ave. non pos.&max non pos.&nmin,Ntot%
   &Nexact\cr
+% dim2<1pt
 \getstats{1}\statswithTABs\cr
 \getstats{10}\statswithTABs\cr
 \getstats{87}\statswithTABs\cr
@@ -129,14 +138,16 @@ N2&ave. non neg.&max non neg.&nmax,Ntot%
 \getstats{4321}\statswithTABs\cr
 \getstats{10000}\statswithTABs\cr
 \getstats{14285}\statswithTABs\cr
-%\getstats{19735}\statswithTABs\cr
+\getstats{19735}\statswithTABs\cr
 %\getstats{20000}\statswithTABs\cr
 % warning: with lines not commented compilation takes more than 5 minutes
 % on 2.8Ghz old computer
 \getstats{32768}\statswithTABs\cr  % patience!
 \getstats{43917}\statswithTABs\cr  % patience!
-\getstats{66342}\statswithTABs\cr  % get a coffee!
-\getstats{347341}\statswithTABs\cr % go for a walk
+% dim2>1pt
+%\global\let\checkthisoneisvalid\relax % for dim2>1pt there is no "validity check", at least as an equality
+%\getstats{66342}\statswithTABs\cr  % get a coffee!
+%\getstats{347341}\statswithTABs\cr % go for a walk
 }
 
 \bye
@@ -177,6 +188,7 @@ N2     ave. non neg.   max non neg. nmax,Ntot
 4321   0.0000085298    0.0000222865 (3458, 3946)    
 10000  0.0000051520    0.0000200000 (56, 10000)     
 14285  0.0000085290    0.0000225761 (7835, 13048)   
+19735  0.0000085273    0.0000224981 (14414, 18033)
 32768  0.0000026393    0.0000076172 (1956, 16416)   
 43917  0.0000085265    0.0000226086 (22120, 40126)  
 66342  0.0000084620    0.0000225468 (987, 60414)    
@@ -192,6 +204,7 @@ N2      ave. non pos.  max non pos.  nmin,Ntot    Nexact
 4321   -0.0000018317  -0.0000069428 (2463, 376)      (1)   
 10000   0              0            (1, 5008)        (5008)
 14285  -0.0000018360  -0.0000073154 (10661, 1240)    (3)   
+19735  -0.0000018252  -0.0000074740 (18778, 1705)    (3)
 32768  -0.0000026347  -0.0000076172 (92, 16384)      (32)  
 43917  -0.0000018422  -0.0000072159 (23026, 3792)    (1)   
 66342  -0.0000018658  -0.0000074734 (32183, 5930)    (2)   
