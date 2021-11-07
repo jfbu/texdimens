@@ -29,6 +29,31 @@
 %     U(N)<= T <  U(N+1)    iff    N = ceil((T+1)psi) - 1
 %     U(M)<  T <= U(M+1)    iff    M = ceil(T psi)    - 1
 %
+% In other words:
+%
+% - the largest attainable dimension not exceeding T sp
+%   is obtained via the integer "Zd = ceil((T+1)psi) - 1",
+%   (i.e. find D with Zd=round(65536 D) then "D uu" is "down" approximation)
+%
+% - the smallest attainable dimension at least equal to T sp
+%   is obtained from the integer "Zu = ceil(T psi)"
+%
+% The two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
+%
+% Spoiler 1: we will explain below that "R = round((T+0.5)psi)" has these
+% properties
+%
+% - if T is attained then R=Zu=Zd
+%
+% - if T is not attained then R=Zu or R=Zd but we don't know which one
+%   without further investigation.
+%
+% Spoiler 2: to compute Zu or Zd is difficult as ceil() is difficult in
+% \numexpr. So basically for this task we compute R and check if it
+% gives an approximant from above or below. It will appear that for
+% psi>2 a simplification arises and round(T psi) can be used in place of
+% R.
+%
 % Stumbling block
 % ---------------
 %
@@ -37,29 +62,70 @@
 % "scaling operations" but only in the "rounding up" variant.
 %
 % If we attempt computing the ceil(x) function via round(x+0.5)
-% (note: if x>=0 is an integer this would fail anyhow but let's
-% forget this for the sake of the general x argument)
-% for example with psi=100/7227 which corresponds to the unit "in",
+%          (ATTENTION: if x>=0 is an integer this fails anyhow)
+%
+% For example with psi=100/7227 which corresponds to the unit "in",
 % this necessitates evaluating:
 %
-%     round((((T+1)*200)+7227)/14454)
+%     P = round((((T+1)*200)+7227)/14454)
 %
 % But as far as I can tell currently, for this we need to be able
 % to evaluate without overflow (T+1)*200+7227 and this limits to
 % T's which are (roughly) such that 100 T is less than \maxdimen.
 %
-% A work-around
+% Update (2021/11/07) 
+% -------------------
+%
+% We could do the Euclidean division T = k*14454 + r
+% then the P would be  re-expressed.
+%
+% Let's apply the idea rather on the original ceil((T+1)*100/7227).
+% So we rather do Euclidean dvision T = k*7227 + r
+%
+% (T+1)*100/7227 becomes 100*k + (r+1)*100/7227 and we are reduced
+% to obtain ceil(x) for x = n*100/7227, n=1+r.
+%
+% Here we have a nice situation 0 < x <= 100 as r+1 is at most 7227. Then
+% 
+% ceil(x) = 100 - floor(100 - x)
+%         = 100 - (round(100 - x + 0.5) - 1)
+%         = 101 - round(100 * (1 - n/7227) + 0.5)
+%         = 101 - round((200 * (7227 - n) + 7227)/14454)
+%
+% To sum up. We can achieve the computation of Zd = ceil((T+1)*100/7227) - 1
+% for T>0 without overflow in \numexpr this way:
+%
+%     k = floor(T/7227) = round(T/7227 - 0.5)
+%                       = round((2*T - 7227) / 14454)
+%
+%     r = T - 7227 * k  = T modulo 7227
+%
+%     Zd = 100 * k + 100 - round( (201*7227 - 200*(r+1))/14454 )
+%
+% Everything here is computable within \numexpr with no potential overflow
+% problem at all, and we don't even use "scaling" operations allowed by
+% \numexpr (i.e. temporary extra precision for A*B/C).
+%
+% A work-around (i.e. the legacy approach)
 % -------------
 %
 % The rest of the discussion is about an algorithm providing an
-% alternative route to N, using \numexpr/\dimexpr/TeX facilities,
-% and working with (almost, as we will see) the full range of allowed
-% T's, 0 < T <= \maxdimen. (that the algorithm works for T=0 is to be
-% checked manually after the main discussion).
+% alternative route to N={Zu or Zd}, using \numexpr/\dimexpr/TeX
+% facilities. This was implemented in the first release of the package
+% and I feel it involves less calculations than what would imply the
+% 2021/11/7 update above (fully worked out for the "in" unit).
+%
+% However: for some units the computations of Zu and Zd will fail
+% with "Dimension too large" error, when the input is very close to
+% \maxdimen. Indeed the algorithm is based on computing (always
+% without overflow) in an easy \numexpr way a candidate N which
+% will be guaranteed to be either Zu or Zd. But to test which one
+% it is, we have make a dimension evaluation which may raise
+% overflow if N=Zu and trun(N*phi)>2**30-1=\maxdimen in sp unit.
 %
 % Let's return to the U(N)<= T < U(N+1) and U(M)< T <= U(M+1) equations.
 %
-% Either (recall in all of this T > 0):
+% Recall in all of this T > 0. Either:
 %
 % case1:  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
 % case2:  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = trunc(N phi)
@@ -125,8 +191,7 @@
 % It is then not true that if T sp is attainable, the X = round(T psi)
 % will always work.
 %
-% But it is true that R = round((T + 0.5) psi) will always work.
-% Here we must use -0.5 if T < 0, though.
+% But it is true that R = round((T + 0.5) psi) will always work (T>0).
 %
 % Indeed we saw that "T sp" is attained iff there is an integer N
 % such that T psi <= N < (T+1) psi. The distance of N to the mid-point
@@ -141,7 +206,7 @@
 %
 % If "T sp" is not attainable, we are in the N < T psi < (T+1) psi <= N+1
 % situation then N < (T + 0.5) psi < N+1 and the rounding R can produce
-% either N or N+1.
+% either N or N+1, i.e. either Zd or Zu in the notations of the introduction.
 %
 % We can decide what happened by computing Z = trunc(R phi).
 % Z > T if and only if R was in fact N+1. So we can provide
