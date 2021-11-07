@@ -32,222 +32,196 @@
 % In other words:
 %
 % - the largest attainable dimension not exceeding T sp
-%   is obtained via the integer "Zd = ceil((T+1)psi) - 1",
+%   is obtained via the integer "Zd = ceil((T+1)psi) - 1 = N",
 %   (i.e. find D with Zd=round(65536 D) then "D uu" is "down" approximation)
 %
 % - the smallest attainable dimension at least equal to T sp
-%   is obtained from the integer "Zu = ceil(T psi)"
+%   is obtained from the integer "Zu = ceil(T psi) = M + 1"
 %
-% The two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
-%
-% Spoiler 1: we will explain below that "R = round((T+0.5)psi)" has these
-% properties
-%
-% - if T is attained then R=Zu=Zd
-%
-% - if T is not attained then R=Zu or R=Zd but we don't know which one
-%   without further investigation.
-%
-% Spoiler 2: to compute Zu or Zd is difficult as ceil() is difficult in
-% \numexpr. So basically for this task we compute R and check if it
-% gives an approximant from above or below. It will appear that for
-% psi>2 a simplification arises and round(T psi) can be used in place of
-% R.
+% - the two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
 %
 % Stumbling block
 % ---------------
 %
-% The stumbling block is that computing "ceil((T+1)psi) - 1" without
-% overflow is not obvious: yes \numexpr/\dimexpr allow so-called
-% "scaling operations" but only in the "rounding up" variant.
+% I will in what follows refer to trunc(), floor() or ceil() only for
+% positive arguments, obtained as ratios x/y or sometimes as a numexpr
+% "scaling" operation" x*y/z which uses temporarily use doubled
+% precision.
 %
-% If we attempt computing the ceil(x) function via round(x+0.5)
-%          (ATTENTION: if x>=0 is an integer this fails anyhow)
+% As \numexpr's x/y is round(x/y), with rounding away from zero, we have
+% access to floor(t) for t>=0 as round(t+0.5)-1 and for t>0 also as
+% round(t-0.5). The former may cause overflow as it involves
+% (2x+y)/(2y) but the latter (2x-y)/(2y) will not overflow if x comes
+% from a dimension as 2x<2**31 then.
 %
-% For example with psi=100/7227 which corresponds to the unit "in",
-% this necessitates evaluating:
+% ceil(t) is more complex as it is floor(t)+1 only for t not an integer.
+% Below I will explain some tricks, but roughly the a priori prejudice
+% is that computing ceil() is costly. And this is not only a prejudice,
+% it is an actual fact.
 %
-%     P = round((((T+1)*200)+7227)/14454)
+% This package initial core idea was to base the analysis and
+% implementation on an alternative quantity to the Zu = ceil(T psi) and
+% Zd = ceil((T+1)psi) - 1, is R = round((T+0.5)psi) because it is
+% much more accessible to direct computation in \numexpr. (notice in
+% particular that 2*T+1<2**31 will never cause overflow).
+
+% This documentation referred to the ceil(t) based formula as "stumbling
+% block" because a naive handling, for example **assuming t is not an
+% integer**, would mean looking at round(t+0.5). For example for the "in"
+% unit with psi = 100/7227 this leads to computation such as
+% round((T*200+7227)/14454). This already raises the problem that 200*T
+% will easily overflow. Computation of R = round((T+0.5)psi) however
+% had no such issue at all, so the implementation became naturally based
+% upon it. And computation of Zu and Zd was based upon getting R first.
 %
-% But as far as I can tell currently, for this we need to be able
-% to evaluate without overflow (T+1)*200+7227 and this limits to
-% T's which are (roughly) such that 100 T is less than \maxdimen.
+% A worked-out alternative to current package approach (2021/11/07)
+% -----------------------------------------------------------------
 %
-% Update (2021/11/07) 
-% -------------------
+% We want Zd = ceil((T+1)*100/7227) - 1, with T assumed positive.
 %
-% We could do the Euclidean division T = k*14454 + r
-% then the P would be  re-expressed.
+% Let T = k*7227 + r with 0<= r < 7227, 0<=k, and r>0 if k=0.
 %
-% Let's apply the idea rather on the original ceil((T+1)*100/7227).
-% So we rather do Euclidean dvision T = k*7227 + r
+% (T+1)*100/7227 becomes 100*k + (r+1)*100/7227 and thus
 %
-% (T+1)*100/7227 becomes 100*k + (r+1)*100/7227 and we are reduced
-% to obtain ceil(x) for x = n*100/7227, n=1+r.
+% Zd = 100 * k + ceil(x) - 1
 %
-% Here we have a nice situation 0 < x <= 100 as r+1 is at most 7227. Then
+% with  x = n*100/7227, and n = 1+r, so 0<n<=7227
+%
+% Here we have a nice situation 0 < x <= 100. Then:
 % 
 % ceil(x) = 100 - floor(100 - x)
 %         = 100 - (round(100 - x + 0.5) - 1)
 %         = 101 - round(100 * (1 - n/7227) + 0.5)
 %         = 101 - round((200 * (7227 - n) + 7227)/14454)
 %
-% To sum up. We can achieve the computation of Zd = ceil((T+1)*100/7227) - 1
+% We can thus achieve the computation of Zd = ceil((T+1)*100/7227) - 1
 % for T>0 without overflow in \numexpr this way:
 %
 %     k = floor(T/7227) = round(T/7227 - 0.5)
-%                       = round((2*T - 7227) / 14454)
+%                       = round((2*T - 7227) / 14454)  (T>0 used here)
 %
 %     r = T - 7227 * k  = T modulo 7227
 %
 %     Zd = 100 * k + 100 - round( (201*7227 - 200*(r+1))/14454 )
 %
-% Everything here is computable within \numexpr with no potential overflow
-% problem at all, and we don't even use "scaling" operations allowed by
-% \numexpr (i.e. temporary extra precision for A*B/C).
+% Everything here is computable within \numexpr and has absolutely
+% no potential overflow problem at all. However it has number of steps
+% and computations.
 %
-% A work-around (i.e. the legacy approach)
-% -------------
+% The same analysis can be done for Zu = ceil(T*100/7227) and for all
+% core TeX units.
 %
-% The rest of the discussion is about an algorithm providing an
-% alternative route to N={Zu or Zd}, using \numexpr/\dimexpr/TeX
-% facilities. This was implemented in the first release of the package
-% and I feel it involves less calculations than what would imply the
-% 2021/11/7 update above (fully worked out for the "in" unit).
+% The round((T+0.5)*psi) based approach
+% --------------------------------------
 %
-% However: for some units the computations of Zu and Zd will fail
-% with "Dimension too large" error, when the input is very close to
-% \maxdimen. Indeed the algorithm is based on computing (always
-% without overflow) in an easy \numexpr way a candidate N which
-% will be guaranteed to be either Zu or Zd. But to test which one
-% it is, we have make a dimension evaluation which may raise
-% overflow if N=Zu and trun(N*phi)>2**30-1=\maxdimen in sp unit.
+% Recall in all of this T > 0. And phi>1, psi=1/phi<1.
 %
-% Let's return to the U(N)<= T < U(N+1) and U(M)< T <= U(M+1) equations.
+% Let's return to our analysis of the
+%  U(N)<= T < U(N+1) and U(M)< T <= U(M+1) equations.
 %
-% Recall in all of this T > 0. Either:
+% We will also use the N=Zd, and M+1=Zu notations of the introduction.
 %
-% case1:  M = N, i.e. T is not attainable, M=N < T psi < (T+1) psi <= N+1
-% case2:  M = N - 1, i.e. T is attained, T psi <= N < (T+1) psi, T = trunc(N phi)
+% case1:  M = N, i.e. Zd<Zu, i.e. T is not attainable:
+%         M=N=Zd < T psi < (T+1) psi <= N+1=Zu
 %
-% Let X = round(T psi). And let Y = trunc(X phi). We will explain later
-% how X and Y can be computed using \numexpr/\dimexpr/TeX.
+%         Then clearly R = round((T+0.5)psi) is either Zd or Zu.
+%         We will not know which one before computing trunc(R phi)
+%         and check if it is < T or > T.
 %
-% case1: X can be N or N+1. It will be N+1 iff Y > T.
-% case2: X can be N or N-1. It will be N iff trunc((X+1)phi)>T.
+%         As will be explained later trunc(R phi) can be computed very
+%         easily by hijacking TeX's handling of dimensions, we don't
+%         have to launch into \numexpr evaluations for that.
 %
-% This is not convenient: if Y < T it could be that we are in case 2
-% but to decide we must check if trunc((X+1) phi) = T or not, so
-% this means a second computation.
+% case2:  M = N - 1, i.e. T = Zd = Zu is attained:
+%         T psi <= N < (T+1) psi, T = trunc(N phi)
 %
-% If psi < 0.5 (i.e. the unit is > 2pt)
-% ------------
+%         Let v=(T+0.5)psi. As v = T psi + 0.5 psi it is < N+0.5
+%         And as v = (T+1)psi - 0.5psi it is > N - 0.5.
+%         So R = round(v) = N.
 %
-% The situation then simplifies:
+% We thus have the initial observation which was at the coe of this
+% package initial release:
 %
-% case1: (same)
-% case2: X is necessarily N.
+% - compute R = round((T+0.5) psi)
+% - if T is attained, then T = trunc(R * phi)
+% - if T is not attained then Zd = R and Zu = R+1 or Zd = R-1 and Zu =
+% R.
 %
-% Thus:
-% a) compute X = round(T psi)
-% b) compute Y = trunc(X phi) and test if Y > T. If true, we
-%    were in case 1, replace X by X - 1, else we were either
-%    in case 1 or case 2, and we leave X as it is.
-% We have thus found N.
+% How do we check if R = Zd or Zu? We need to evaluate trunc(R phi) and
+% compare it with T. But this trunc(R phi) can be computed the following
+% way:
 %
-% The operation Y = trunc(X phi) can be achieved this way:
-% i) use \the\dimexpr to convert X sp into D pt,
-% ii) use \the\numexpr\dimexpr  to convert "D uu" into sp.
-% These steps give Y.
+% - obtain D pt from \the\dimexpr R sp. Knuth's algorithm guarantees
+%   that R = round(D * 65536)
+% - then D uu where uu is the unit with conversion factor phi is
+%   converted by TeX into "trunc(R phi) sp", i.e. 
+%   trunc(R phi) = \number\dimexpr Duu\relax, where D pt = \the\dimexpr Rsp\relax.
 %
-% **** MEMO: this has advantage of brevity and hacks into
-% **** TeX way of multiplying by such a factor say 7227/2540
-% **** but with more \numexpr we could do this (with some pain
-% **** as it rounds, not truncate): here prepare
-% **** X as k 2540 + R, then Y = 7227*k + trunc(R*7227/2540)
-% **** where the product R*7227<2540*7227 can be computed
-% **** without overflow so we again have a Euclidean division
+% Conclusion:
+% 1. the macro \texdimenuu does the one-liner R=round((T+0.5) psi)
+%    then \the\dimexpr Rsp\relax and strips the "pt" unit
+% 2. macros \texdimenuuup and \texdimenuudown go further and check
+%    which one of Zd or Zu is R, obtaining thus Zd or Zu.
 %
-% This way we find the maximal dimension at most T sp exactly
-% representable in "uu" unit.
+% For units with conversion factor phi>2, a simplification is possible.
+% In that case let X = round(T psi) (it has the advantage compared to 
+% R that we can apply the formula without checking the sign of T).
 %
-% The computations of X and Y can be done independently of sign of T.
-% But the final test has to be changed to Y < T if T < 0 and then
-% one must replace X by X+1. So we must filter out the sign of the input.
+% Going back to our earlier analyis, now with psi < 0.5 (1uu>2pt)
 %
-% If the goal is only to find a decimal D such that "D uu" is
-% exactly T sp in the case this is possible, then things are simpler
-% because from X = round(T psi) we get D such as X sp is same as D pt
-% and "D uu" will work.
-% We don't have to take sign into account for this computation.
-% But if T sp was not attainable we don't know if this X will give
-% a D such that D uu < T sp or D uu > T sp.
+% case1: T is not attainable
+%        M=N=Zd < T psi < (T+1) psi <= N+1=Zu 
+%        As Zd < T psi < Zu, we have round(T psi) = Zd or Zu
 %
-% If 1 > psi > 0.5 (i.e. 1pt < unit < 2pt)
-% ------------
+% case2: T is attained, i.e. T psi <= N < (T+1) psi.
+%        As psi<0.5, and T psi + psi > N, we have T psi > N - 0.5.
+%        And T psi <= N so N = round(T psi).
 %
-% For example unit "bp" has phi=803/800.
+% So, for psi < 0.5, the X=round(T psi) can play the same role as
+% R=round((T+0.5)psi). If T is attained, we get the decimal D from this
+% X and if T is not attained we know that X is either Zd or Zu.
 %
-% It is then not true that if T sp is attainable, the X = round(T psi)
-% will always work.
+% The computations of X and Y=trunc(X phi) can be done independently of
+% sign of T.  But the final test has to be changed to Y < T if T < 0 and
+% then one must replace X by X+1. So we must filter out the sign of the
+% input.
 %
-% But it is true that R = round((T + 0.5) psi) will always work (T>0).
+% Going back to the 1<phi<2 case, psi>0.5, then it would be slightly
+% less costly to compute X = round(T psi) than R = round((T + 0.5) psi),
+% but if we then realize that trunc(X phi) < T we do not yet know if
+% trunc((X+1) phi) = T or is > T, i.e. we don't know if Zd =X or X+1,
+% and we can not tell yet if T is attained or not.
 %
-% Indeed we saw that "T sp" is attained iff there is an integer N
-% such that T psi <= N < (T+1) psi. The distance of N to the mid-point
-% (T + 0.5) psi is at most 0.5 psi. But psi < 1, so this distance is
-% always < 0.5 and N must be R = round((T + 0.5) psi).
+% In contrast if we find out that trunc(R phi)<T, we then know for sure
+% that Zd=R, Zu=R+1 and that T is not attained.
 %
-% This R=round((T+0.5) psi) can always be computed via \numexpr because 2T+1
-% will not trigger arithmetic overflow.
+% Problems with \maxdimen and the obtention of Zu and Zd
+% ------------------------------------------------------
 %
-% So this gives an approach to find a D such that "D uu" is exactly
-% T sp when this is possible.
+% Obtaining R = round((T+0.5)psi) has no risk of overflow.
+% But checking as described above which one of Zd or Zu (or both)
+% is R goes via a test computation which will cause overflow
+% if by bad luck R = Zu and Zu will give rise to a decimal D
+% such that D uu > \maxdimen.
 %
-% If "T sp" is not attainable, we are in the N < T psi < (T+1) psi <= N+1
-% situation then N < (T + 0.5) psi < N+1 and the rounding R can produce
-% either N or N+1, i.e. either Zd or Zu in the notations of the introduction.
+% For T=\maxdimen (or very close) this is what happens for the units
+% "dd", "nc", and "in".
 %
-% We can decide what happened by computing Z = trunc(R phi).
-% Z > T if and only if R was in fact N+1. So we can provide
-% the largest attainable dimension smaller than Tsp as well
-% as the smallest attainable one larger than Tsp.
+% And using X=round(T psi) for the "in" which has phi>2 in place of R
+% does not help. Actually for all core units with phi>2 it is found
+% computationally out that
+% round((\maxdimen+0.5)psi)=round(\maxdimen psi)
+% so choosing the R or X approaches has no impact on the potential
+% "Dimension too large error" problem. 
 %
-% It is slightly less costly to compute X = round(T psi) than
-% R = round((T + 0.5) psi),
-% but if we then realize that trunc(X phi) < T  we do not yet know
-% if trunc((X+1) phi) = T  or is > T. So we proceed via R, not X,
-% to not have to make a second computation if a dimension comparison
-% test goes awry.
+% So I chose to use the round(T psi) approach for all units with phi>2
+% and the round((T+0.5) phi) approach for the units with 1<phi<2.
 %
-% To recapitulate: we have our algorithm for all units to find out
-% maximal dimension exactly attainable in "uu" unit and at most equal
-% to (positive) T sp.
-%
-% Unfortunately the check that Y (in case psi < 0.5) or Z (in case psi >
-% 0.5) verifies or not Y > T may trigger a Dimension too large error if
-% T sp was near non-attainable \maxdimen. It turns out this sad
-% situation happens only for the units `dd`, `nc`, and `in`, and T sp
-% very close to \maxdimen (like for all units apart from `pt`, `bp`,
-% `nd`, the \maxdimen is not attainable, and by bad luck for `dd`, `nc`,
-% and `in`, the X will correspond to a decimal D such that Duu>\maxdimen
-% is the nearest virtually attaible dimensions from above not from
-% below; see the README.md for the tabulation of the maximal usable inputs).
-%
-% Regarding the \texdimen<uu> macros, and units with phi > 2, I
-% hesitated using either the round((T+0.5)psi) or round(T psi), but for
-% Tsp = \maxdimen, both formulas turned out to give the same result for
-% all such units, so I chose for these \texdimen<uu> macros and the
-% units with phi>2 to use the simpler round(T psi) which does not need
-% to check the sign of T.
-%
-% For the "up" and "down" macros, we again use the round(T psi), but do
-% have to check the sign anyhow. We could also have used the
-% round((T+0.5)psi) which requires a sign check too, but it costs a bit
-% more. It would have allowed though to share the same codebase for all
-% units, here we have to prepare some slightly different shared macros
-% for the first batch bp, nd, dd and the second batch mm, pc, nc, cc,
-% cm, in.
+% In future, the \texdimenUU{up,down} for UU = dd, nc, in, will probably
+% be re-implemented using the alternatvie approach to Zd and Zu
+% described in the section added 2021/11/07 on the ceil() function.
+% This approach will allow the macros to accept \maxdimen as input.
+% 
 %
 % Implementation
 % ==============
