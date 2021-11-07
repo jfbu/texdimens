@@ -568,7 +568,7 @@ Remarks about "Dimension too large" issues:
 > ratio `D1/D2`. But notwithstanding the various unavoidable "errors"
 > arising from conversion of decimal inputs to binary internals, and
 > from the latter to the former, the output `R` will tend to be
-> systematically slightly larger (in its last decimal) than mathematical
+> on average slightly larger (in its last decimal) than mathematical
 > `D1/D2`. The root cause being that the specification for `R` is that
 > `R<D2pt>` must be exactly `<D1pt>` after TeX parsing, if at all
 > possible; and it turns out this is always possible for `D2pt<1pt`. The
