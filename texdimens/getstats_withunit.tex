@@ -35,6 +35,9 @@
        \repm{%
        \advance\dimi\onesp
        \edef\Dfromtdwu{\texdimenwithunit{\dimi}{\dimii}}%
+%**** CHECK IF VALID
+\unless\ifdim\Dfromtdwu\dimii=\dimi\immediate\write128{ERREUR AVEC \number\dimi/\number\dimii}\ERROR\fi
+%****
 % \Dfromtdwu\par % to check
 % round to 10 decimal places (in fixed point, not floating point sense)
 % (then average will be ok also to 10 places)
