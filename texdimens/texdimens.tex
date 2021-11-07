@@ -524,22 +524,23 @@
 % If f/65536<1, all dimensions Tsp are attainable as D uu. Indeed
 % D uu is parsed by TeX via N=round(D*65536), then T=trunc(N*phi),
 % with phi=f/65536. Starting from T we need to find an N such that
-% T/phi <= N< (T+1)/phi. We first consider v=(T+0.5)/phi. As its
-% distance to the extremities is 0.5/phi>0.5,(*) its rounding M
+% T/phi <= N< (T+1)/phi. 
+%
+% This is equivalent to ceil(T/phi)<= N < ceil((T+1)/phi)
+%
+% Now obsolete remark: let v=(T+0.5)/phi. As its
+% distance to the extremities is 0.5/phi>0.5, (phi>1) its rounding M
 % to an integer verifies automatically T/phi < M < (T+1)/phi, so
-% is a candidate. The TeX core conversion of Msp to a Dpt with
-% D a decimal of at most 5 fractional digits will provide a D
-% such that indeed M=round(D*65536).
+% is a valid candidate. This was used at 0.99 release.
+% (it is funny that N=round((2T+1)*32768/f) works for all f>0
+%  *except* f=65536).
 %
-% (*) attention that this fails if phi=1, we definitely can not
-% use the N=round((2T+1)*32768/f) formula for f=65536, it gives
-% N=T+1 in place of N=T... It is funny the formula works for all
-% f apart from f=65536...
+% But the 0.999 release tries to use ceil(T/phi) formula rather
+% as it is closer to naive expectation "dim1/dim2" of a division.
 %
-% Attention that if T=0, the M=round(0.5/phi) will be at least 1,
-% so the produced decimal D will not be 0.0, although it will
-% be true that D \dimexpr f sp\relax produces the zero dimension,
-% the above analysis being correct even for T=0.
+% It is not obvious to compute this ceil(T/phi) without overflow
+% (and within the \numexpr tools where division rounds).
+% See implementation.
 %
 % Implementation
 % ==============
@@ -582,23 +583,23 @@
 %          The final result in sp units will be k*65536 + ceil(r * 65536/f)
 %          We don't do this k*65536 explicitly as it may overflow
 %          but output the decimal k + E where E is the conversion
-%          to a decimal 0.dddddd or 1.0 of "ceil(r * 65536/f) sp"
+%          to a decimal 0.ddddd or 1.0 of "ceil(r * 65536/f) sp"
 %          (which is at most 65536sp=1pt so E is at most 1.0).
 %
 %          To compute the Euclidean quotient k in \numexpr we use there
-%          (2T-f)/(2f) i.e. round((2T-f)/2f) which is same as trunc(T/f)
-%          as we are careful to never have T=0 inthere!
+%          (2T-f)/(2f) i.e. round((2T-f)/2f) = trunc(T/f)
+%          as we are careful to never have T=0 inthere...
 %
 %          Computing C = ceil(r * 65536/f) in \numexpr is the delicate
 %          part, as r can be as large as f-1 hence 65535 and r*65536 would
 %          overflow. We could compute R=round(r*65536/f) ("scaling operation")
 %          then C=R+1 if R*f-65536*r<0, else C=R.
 %
-%          The problem is: how to get the sign of R*f-65536*r without
+%          The problem is then: how to get the sign of R*f-65536*r without
 %          overflow? I considered various ways.
 %
 %          But in the end, opted for simply this:
-%          - get R=round(r*65536/f) as r*65536/f in numexpr
+%          - get R=round(r*65536/f) as \the\numexpr r*65536/f ("scaling" no overflow)
 %          - hence get E pt=\the\dimexpr R sp
 %          - let TeX compute E<f sp>: if it turns out < r sp,
 %            then C=R+1,
