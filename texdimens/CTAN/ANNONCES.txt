@@ -2,6 +2,25 @@
 
 ------------------------------------------------------------------------
 
+Release 0.999 du ?? novembre 2021
+
+Téléversé sur CTAN le ?? novembre 2021 vers ??
+
+v0.999 (2021/11/??)
+
+- modified: \texdimenwithunit now accepts a negative second
+  argument. Also its output has changed when the second argument
+  is strictly less than 1pt. For the rationale and context,
+  refer to issue #16 on the tracker.
+
+- new: \texdimenbothbpmm which produces the largest dimension
+  not exceeding the input (in absolute value) and expressible
+  exactly both in the bp and in the mm units.
+
+Thanks to Ruixi Zhang feature requests and analyses in both cases.
+
+------------------------------------------------------------------------
+
 Release 0.99d du 4 novembre 2021
 
 Téléversé sur CTAN le 4 novembre 2021 vers 20h50
