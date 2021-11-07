@@ -560,6 +560,18 @@ Remarks about "Dimension too large" issues:
 > aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax` implies
 > a conversion factor equal to `65781/65536`, whereas `D bp` involves
 > the `803/800` conversion factor.
+>
+> `\texdimenwithunit{D1pt}{D2pt}` output is close to the mathematical
+> ratio `D1/D2`. Notwithstanding the various unavoidable "errors"
+> arising from conversion of decimal input to binary internals, and from
+> the latter to the former, the output `R` will tend to be slightly
+> larger than mathematical `D1/D2`. The root cause being that the
+> specification for `R` is that `R<D2pt>` must be close to `<D1pt>`
+> after TeX parsing. And the final step in this parsing is a truncation
+> to an integer multiple of the `sp=1/65536pt` unit, not a rounding. So
+> `R` is basically defined as `ceil(D1/D2,16)`, i.e. "ceil" operation
+> with `16` binary places (this formula is used for `D2pt<1pt`, for
+> `D2pt>1pt` see the source code).
 
 
 ## Extras?
@@ -605,7 +617,7 @@ Thanks to Ruixi Zhang for reviving the above linked-to thread and
 opening up on the package issue tracker the
 [issue #2](https://github.com/jfbu/texdimens/issues/2) asking to add
 handling of the `ex` and `em` cases. This was done at release `0.99` via
-the addition of `\texdimenwithunit`.
+the addition of `\texdimenwithunit` (which got an update at `0.999`).
 
 Renewed thanks to Ruixi Zhang for analyzing at
 [issue #10](https://github.com/jfbu/texdimens/issues/10) what is at

@@ -9,135 +9,140 @@
                  \edef\x{\detokenize\expandafter{\expanded{#1}}}%
                  % a \the\dimexpr gives catcode 12 pt
                  \edef\y{\detokenize{#2}}%
-                 \ifx\x\y\else\errmessage{\detokenize{#1} gave \x\space not \y}\fi}%
-*\m{\texdimenwithunit{1000pt}{1024sp}}
-64000.00049
-*\m{\the\dimexpr64000.00049\dimexpr1024sp\relax\relax}
+                 \ifx\x\y\else\errmessage{\detokenize{#1} gave \x\space not%
+                 \y}\fi}%
+% FOR REGENERATING (but then manual adjustment of "checks inputs" needed):
+% \def\m#1^^M#2^^M{\catcode`*\active%
+%                  \immediate\write128{\string*\string\m{\detokenize{#1}}}%
+%                  \immediate\write128{#1}}%
+*\m{\texdimenwithunit {1000pt}{1024sp}}
+64000.0
+*\m{\the \dimexpr 64000.0\dimexpr 1024sp\relax \relax }
 1000.0pt
-*\m{\texdimenwithunit{-1sp}{1024sp}}
--0.00146
-*\m{\the\numexpr\dimexpr-0.00146\dimexpr1024sp\relax\relax\relax}
+*\m{\texdimenwithunit {-1sp}{1024sp}}
+-0.00098
+*\m{\the \numexpr \dimexpr -0.00098\dimexpr 1024sp\relax \relax \relax }
 -1
-*\m{\texdimenwithunit{-2sp}{1037sp}}
--0.00241
-*\m{\the\numexpr\dimexpr-0.00241\dimexpr1037sp\relax\relax\relax}
+*\m{\texdimenwithunit {-2sp}{1037sp}}
+-0.00194
+*\m{\the \numexpr \dimexpr -0.00194\dimexpr 1037sp\relax \relax \relax }
 -2
-*\m{\texdimenwithunit{1pt}{1337sp}}
-49.01758
-*\m{\the\numexpr\dimexpr49.01758\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {1pt}{1337sp}}
+49.01721
+*\m{\the \numexpr \dimexpr 49.01721\dimexpr 1337sp\relax \relax \relax }
 65536
-*\m{\texdimenwithunit{65535sp}{1337sp}}
-49.01683
-*\m{\the\numexpr\dimexpr49.01683\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {65535sp}{1337sp}}
+49.01646
+*\m{\the \numexpr \dimexpr 49.01646\dimexpr 1337sp\relax \relax \relax }
 65535
-*\m{\texdimenwithunit{65537sp}{1337sp}}
-49.01833
-*\m{\the\numexpr\dimexpr49.01833\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {65537sp}{1337sp}}
+49.01796
+*\m{\the \numexpr \dimexpr 49.01796\dimexpr 1337sp\relax \relax \relax }
 65537
-*\m{\texdimenwithunit{\maxdimen}{1337sp}}
-803097.84854
-*\m{\the\numexpr\dimexpr803097.84854\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {\maxdimen }{1337sp}}
+803097.84818
+*\m{\the \numexpr \dimexpr 803097.84818\dimexpr 1337sp\relax \relax \relax }
 1073741823
-*\m{\number\maxdimen}
+*\m{\number \maxdimen }
 1073741823
-*\m{\texdimenwithunit{\maxdimen-1sp}{1337sp}}
-803097.8478
-*\m{\the\numexpr\dimexpr803097.8478\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {\maxdimen -1sp}{1337sp}}
+803097.84743
+*\m{\the \numexpr \dimexpr 803097.84743\dimexpr 1337sp\relax \relax \relax }
 1073741822
-*\m{\texdimenwithunit{\maxdimen-2sp}{1337sp}}
-803097.84705
-*\m{\the\numexpr\dimexpr803097.84705\dimexpr1337sp\relax\relax\relax}
+*\m{\texdimenwithunit {\maxdimen -2sp}{1337sp}}
+803097.84668
+*\m{\the \numexpr \dimexpr 803097.84668\dimexpr 1337sp\relax \relax \relax }
 1073741821
-*\m{\texdimenwithunit{1000pt}{65537sp}}
+*\m{\texdimenwithunit {1000pt}{65537sp}}
 999.98476
-*\m{\the\numexpr\dimexpr999.98476\dimexpr65537sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 999.98476\dimexpr 65537sp\relax \relax \relax }
 65536000
-*\m{\texdimenwithunit{65536sp}{65537sp}}
+*\m{\texdimenwithunit {65536sp}{65537sp}}
 1.0
-*\m{\texdimenwithunit{65535sp}{65537sp}}
+*\m{\texdimenwithunit {65535sp}{65537sp}}
 0.99998
-*\m{\the\numexpr\dimexpr0.99998\dimexpr65537sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.99998\dimexpr 65537sp\relax \relax \relax }
 65535
-*\m{\texdimenwithunit{65534sp}{65537sp}}
+*\m{\texdimenwithunit {65534sp}{65537sp}}
 0.99997
-*\m{\the\numexpr\dimexpr0.99997\dimexpr65537sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.99997\dimexpr 65537sp\relax \relax \relax }
 65534
-*\m{\texdimenwithunit{65536001sp}{65537sp}}
+*\m{\texdimenwithunit {65536001sp}{65537sp}}
 999.98477
-*\m{\the\numexpr\dimexpr999.98477\dimexpr65537sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 999.98477\dimexpr 65537sp\relax \relax \relax }
 65536001
-*\m{\texdimenwithunit{65536001sp}{100000sp}}
+*\m{\texdimenwithunit {65536001sp}{100000sp}}
 655.36002
-*\m{\the\numexpr\dimexpr655.36002\dimexpr100000sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 655.36002\dimexpr 100000sp\relax \relax \relax }
 65536001
-*\m{\texdimenwithunit{1pt}{100000sp}}
+*\m{\texdimenwithunit {1pt}{100000sp}}
 0.65536
-*\m{\the\numexpr\dimexpr0.65536\dimexpr100000sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65536\dimexpr 100000sp\relax \relax \relax }
 65536
-*\m{\texdimenwithunit{1pt}{99999sp}}
+*\m{\texdimenwithunit {1pt}{99999sp}}
 0.65536
-*\m{\the\numexpr\dimexpr0.65536\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65536\dimexpr 99999sp\relax \relax \relax }
 65535
-*\m{\texdimenwithunit{1pt+1sp}{99999sp}}
+*\m{\texdimenwithunit {1pt+1sp}{99999sp}}
 0.65538
-*\m{\the\numexpr\dimexpr0.65538\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65538\dimexpr 99999sp\relax \relax \relax }
 65537
-*\m{\texdimenwithunit{1pt+2sp}{99999sp}}
+*\m{\texdimenwithunit {1pt+2sp}{99999sp}}
 0.6554
-*\m{\the\numexpr\dimexpr0.6554\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.6554\dimexpr 99999sp\relax \relax \relax }
 65538
-*\m{\the\numexpr\dimexpr0.65539\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65539\dimexpr 99999sp\relax \relax \relax }
 65538
-*\m{\the\numexpr\dimexpr0.655385\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.655385\dimexpr 99999sp\relax \relax \relax }
 65537
-*\m{\the\numexpr\dimexpr0.655375\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.655375\dimexpr 99999sp\relax \relax \relax }
 65537
-*\m{\the\numexpr\dimexpr0.65537\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65537\dimexpr 99999sp\relax \relax \relax }
 65535
-*\m{\texdimenwithunit{1pt-1sp}{99999sp}}
+*\m{\texdimenwithunit {1pt-1sp}{99999sp}}
 0.65536
-*\m{\the\numexpr\dimexpr0.65536\dimexpr99999sp\relax\relax\relax}
+*\m{\the \numexpr \dimexpr 0.65536\dimexpr 99999sp\relax \relax \relax }
 65535
-*\m{\texdimenwithunit{-1pt+1sp}{99999sp}}
+*\m{\texdimenwithunit {-1pt+1sp}{99999sp}}
 -0.65536
-*\m{\texdimenwithunit{-1pt-2sp}{99999sp}}
+*\m{\texdimenwithunit {-1pt-2sp}{99999sp}}
 -0.6554
-*\m{\texdimenwithunit{0pt}{1bp}}
+*\m{\texdimenwithunit {0pt}{1bp}}
 0.0
-*\m{\texdimenwithunit{0pt}{65537sp}}
+*\m{\texdimenwithunit {0pt}{65537sp}}
 0.0
-*\m{\texdimenwithunit{0pt}{65538sp}}
+*\m{\texdimenwithunit {0pt}{65538sp}}
 0.0
-*\m{\texdimenwithunit{0pt}{1pt}}
+*\m{\texdimenwithunit {0pt}{1pt}}
 0.0
-*\m{\texdimenwithunit{0pt}{65535sp}}
+*\m{\texdimenwithunit {0pt}{65535sp}}
 0.0
-*\m{\texdimenwithunit{0pt}{1sp}}
+*\m{\texdimenwithunit {0pt}{1sp}}
 0.0
-*\m{\texdimenwithunit{0pt}{12345sp}}
+*\m{\texdimenwithunit {0pt}{12345sp}}
 0.0
-*\m{\texdimenwithunit{0pt}{123450sp}}
+*\m{\texdimenwithunit {0pt}{123450sp}}
 0.0
-*\m{\texdimenwithunit{1234sp}{1pt}}
+*\m{\texdimenwithunit {1234sp}{1pt}}
 0.01883
-*\m{\number\dimexpr0.01883pt}
+*\m{\number \dimexpr 0.01883pt}
 1234
-*\m{\texdimenwithunit{1235sp}{1pt}}
+*\m{\texdimenwithunit {1235sp}{1pt}}
 0.01884
-*\m{\number\dimexpr0.01884pt}
+*\m{\number \dimexpr 0.01884pt}
 1235
-*\m{\texdimenwithunit{9000pt}{1pt}}
+*\m{\texdimenwithunit {9000pt}{1pt}}
 9000.0
-*\m{\texdimenwithunit{-3.5pt}{-5.3pt}}
+*\m{\texdimenwithunit {-3.5pt}{-5.3pt}}
 0.66039
-*\m{\texdimenwithunit{3.5pt}{5.3pt}}
+*\m{\texdimenwithunit {3.5pt}{5.3pt}}
 0.66039
-*\m{\texdimenwithunit{3.5pt}{-5.3pt}}
+*\m{\texdimenwithunit {3.5pt}{-5.3pt}}
 -0.66039
-*\m{\texdimenwithunit{-3.5pt}{5.3pt}}
+*\m{\texdimenwithunit {-3.5pt}{5.3pt}}
 -0.66039
-*\m{\the\dimexpr-0.66039\dimexpr-5.3pt}
+*\m{\the \dimexpr -0.66039\dimexpr -5.3pt}
 3.50003pt
-*\m{\the\dimexpr-0.66039\dimexpr5.3pt}
+*\m{\the \dimexpr -0.66039\dimexpr 5.3pt}
 -3.50003pt
 \bye
