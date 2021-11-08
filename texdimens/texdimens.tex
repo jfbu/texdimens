@@ -306,9 +306,9 @@
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
 }%
 % \texdimendddown: maximal dim exactly expressible in dd and at most equal to input
-\def\texdimendddown#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+\def\texdimendddownquick#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 % \texdimenddup: minimal dim exactly expressible in dd and at least equal to input
-\def\texdimenddup#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+\def\texdimenddupquick#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 %
 % mm 7227/2540 phi now >2, use from here on the simpler approach
 %
@@ -330,9 +330,9 @@
 %
 \def\texdimennc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*107/1370\relax}%
 % \texdimenncdown: maximal dim exactly expressible in nc and at most equal to input
-\def\texdimenncdown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+\def\texdimenncdownquick#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 % \texdimenncup: minimal dim exactly expressible in nc and at least equal to input
-\def\texdimenncup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+\def\texdimenncupquick#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 %
 % cc 14856/1157
 %
@@ -354,9 +354,93 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 % \texdimenindown: maximal dim exactly expressible in in and at most equal to input
-\def\texdimenindown#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+\def\texdimenindownquick#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % \texdimeninup: minimal dim exactly expressible in in and at least equal to input
-\def\texdimeninup#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+\def\texdimeninupquick#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+%
+% ceil()-based approach to up and down for dd, nc, in (release 1.0)
+% =================================================================
+%
+% dd 1238/1157
+% T = 1238 k + r
+% Zd = 1157 k + 1157 - <(1431828-1157 r)/1238>
+\def\texdimendddown#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimendddown_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimendddown_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                        \krof \texdimendddown_b#1}%
+\def\texdimenuudownup_zero#1;{\z@\relax}%
+\def\texdimenuudownup_neg#1-{-#1}%
+\def\texdimendddown_b#1;{\expandafter\texdimendddown_c\the\numexpr(#1-619)/1238;#1;}%
+\def\texdimendddown_c#1;#2;{\expandafter\texdimendddown_d\the\numexpr#2-1238*#1;#1;}%
+\def\texdimendddown_d#1;#2;{\numexpr1157*(#2+1)-(1431828-1157*#1)/1238sp}%
+% Zu = 1157 k + 1158 - <(1432985-1157 r)/1238>
+\def\texdimenddup#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimenddup_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimenddup_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                      \krof \texdimenddup_b#1}%
+\def\texdimenddup_b#1;{\expandafter\texdimenddup_c\the\numexpr(#1-619)/1238;#1;}%
+\def\texdimenddup_c#1;#2;{\expandafter\texdimenddup_d\the\numexpr#2-1238*#1;#1;}%
+\def\texdimenddup_d#1;#2;{\numexpr1157*(#2+1)+1-(1432985-1157*#1)/1238sp}%
+% nc 1370/107
+% T = 1370 k + r
+% Zd = 107 k + 107 - <(147168-107 r)/1370>
+\def\texdimenncdown#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimenncdown_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimenncdown_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                        \krof \texdimenncdown_b#1}%
+\def\texdimenncdown_b#1;{\expandafter\texdimenncdown_c\the\numexpr(#1-685)/1370;#1;}%
+\def\texdimenncdown_c#1;#2;{\expandafter\texdimenncdown_d\the\numexpr#2-1370*#1;#1;}%
+\def\texdimenncdown_d#1;#2;{\numexpr107*(#2+1)-(147168-107*#1)/1370sp}%
+% Zu = 107 k + 108 - <(147275-107 r)/1370>
+\def\texdimenncup#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimenncup_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimenncup_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                      \krof \texdimenncup_b#1}%
+\def\texdimenncup_b#1;{\expandafter\texdimenncup_c\the\numexpr(#1-619)/1370;#1;}%
+\def\texdimenncup_c#1;#2;{\expandafter\texdimenncup_d\the\numexpr#2-1370*#1;#1;}%
+\def\texdimenncup_d#1;#2;{\numexpr107*(#2+1)+1-(147275-107*#1)/1370sp}%
+% in 7227/100
+% T = 7227 k + r
+% Zd = 100 k + 100 - <(1452427-200 r)/14454>
+\def\texdimenindown#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimenindown_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimenindown_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                        \krof \texdimenindown_b#1}%
+\def\texdimenindown_b#1;{\expandafter\texdimenindown_c\the\numexpr(2*#1-7227)/14454;#1;}%
+\def\texdimenindown_c#1;#2;{\expandafter\texdimenindown_d\the\numexpr#2-7227*#1;#1;}%
+\def\texdimenindown_d#1;#2;{\numexpr100*(#2+1)-(1452427-200*#1)/14454sp}%
+% Zu = 100 k + 101 - <(1452627-200 r)/14454>
+\def\texdimeninup#1{\expandafter\texdimenstrippt\the\dimexpr
+    \expandafter\texdimeninup_a\the\numexpr\dimexpr#1;%
+}%
+\def\texdimeninup_a#1{\texdimenzerominusfork
+                        #1-\texdimenuudownup_zero
+                        0#1\texdimenuudownup_neg
+                         0-{}%
+                      \krof \texdimeninup_b#1}%
+\def\texdimeninup_b#1;{\expandafter\texdimeninup_c\the\numexpr(2*#1-7227)/14454;#1;}%
+\def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
+\def\texdimeninup_d#1;#2;{\numexpr100*(#2+1)+1-(1452627-200*#1)/14454sp}%
 % both in and cm
 % Mathematics ("both" macros)
 % ===========
