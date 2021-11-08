@@ -488,7 +488,7 @@
                         \krof \texdimenindown_b#1}%
 \def\texdimenindown_b#1;{\expandafter\texdimenindown_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimenindown_c#1;#2;{\expandafter\texdimenindown_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimenindown_d#1;#2;{\numexpr100*(#2+1)-(1452427-200*#1)/14454sp}%
+\def\texdimenindown_d#1;#2;{\numexpr#200+100-(1452427-2*#100)/14454sp}%
 % Zu = 100 k + 100 + 1 - <(1452627 - 200 r)/14454>
 \def\texdimeninup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimeninup_a\the\numexpr\dimexpr#1;%
@@ -500,7 +500,7 @@
                       \krof \texdimeninup_b#1}%
 \def\texdimeninup_b#1;{\expandafter\texdimeninup_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimeninup_d#1;#2;{\numexpr100*(#2+1)+1-(1452627-200*#1)/14454sp}%
+\def\texdimeninup_d#1;#2;{\numexpr#200+101-(1452627-2*#100)/14454sp}%
 % both in and cm
 % Mathematics ("both" macros)
 % ===========
