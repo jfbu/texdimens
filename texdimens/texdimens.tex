@@ -280,7 +280,7 @@
                         \krof \texdimenbpdown_b#1}%
 \def\texdimenbpdown_b#1;{\expandafter\texdimenbpdown_c\the\numexpr(2*#1-803)/1606;#1;}%
 \def\texdimenbpdown_c#1;#2;{\expandafter\texdimenbpdown_d\the\numexpr#2-803*#1;#1;}%
-\def\texdimenbpdown_d#1;#2;{\numexpr800*(#2+1)-(1284003-1600*#1)/1606sp}%
+\def\texdimenbpdown_d#1;#2;{\numexpr800*#2+800-(1284003-1600*#1)/1606sp}%
 % Zu = 800 k + 800 + 1 - <(1285603 - 1600 r)/1606>
 \def\texdimenbpup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenbpup_a\the\numexpr\dimexpr#1;%
@@ -292,7 +292,7 @@
                       \krof \texdimenbpup_b#1}%
 \def\texdimenbpup_b#1;{\expandafter\texdimenbpup_c\the\numexpr(2*#1-803)/1606;#1;}%
 \def\texdimenbpup_c#1;#2;{\expandafter\texdimenbpup_d\the\numexpr#2-803*#1;#1;}%
-\def\texdimenbpup_d#1;#2;{\numexpr800*(#2+1)+1-(1285603-1600*#1)/1606sp}%
+\def\texdimenbpup_d#1;#2;{\numexpr800*#2+801-(1285603-1600*#1)/1606sp}%
 % nd 685/642
 % T = 685 k + r
 % Zd = 642 k + 642 - <(878941 - 1284 r)/1370>
@@ -306,7 +306,7 @@
                         \krof \texdimennddown_b#1}%
 \def\texdimennddown_b#1;{\expandafter\texdimennddown_c\the\numexpr(2*#1-685)/1370;#1;}%
 \def\texdimennddown_c#1;#2;{\expandafter\texdimennddown_d\the\numexpr#2-685*#1;#1;}%
-\def\texdimennddown_d#1;#2;{\numexpr642*(#2+1)-(878941-1284*#1)/1370sp}%
+\def\texdimennddown_d#1;#2;{\numexpr642*#2+642-(878941-1284*#1)/1370sp}%
 % Zu = 642 k + 642 + 1 - <(880225 - 1284 r)/1370>
 \def\texdimenndup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenndup_a\the\numexpr\dimexpr#1;%
@@ -318,7 +318,7 @@
                       \krof \texdimenndup_b#1}%
 \def\texdimenndup_b#1;{\expandafter\texdimenndup_c\the\numexpr(2*#1-685)/1370;#1;}%
 \def\texdimenndup_c#1;#2;{\expandafter\texdimenndup_d\the\numexpr#2-685*#1;#1;}%
-\def\texdimenndup_d#1;#2;{\numexpr642*(#2+1)+1-(880225-1284*#1)/1370sp}%
+\def\texdimenndup_d#1;#2;{\numexpr642*#2+643-(880225-1284*#1)/1370sp}%
 % dd 1238/1157
 % T = 1238 k + r
 % Zd = 1157 k + 1157 - <(1431828 - 1157 r)/1238>
@@ -332,7 +332,7 @@
                         \krof \texdimendddown_b#1}%
 \def\texdimendddown_b#1;{\expandafter\texdimendddown_c\the\numexpr(#1-619)/1238;#1;}%
 \def\texdimendddown_c#1;#2;{\expandafter\texdimendddown_d\the\numexpr#2-1238*#1;#1;}%
-\def\texdimendddown_d#1;#2;{\numexpr1157*(#2+1)-(1431828-1157*#1)/1238sp}%
+\def\texdimendddown_d#1;#2;{\numexpr1157*#2+1157-(1431828-1157*#1)/1238sp}%
 % Zu = 1157 k + 1157 + 1 - <(1432985 - 1157 r)/1238>
 \def\texdimenddup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenddup_a\the\numexpr\dimexpr#1;%
@@ -344,7 +344,7 @@
                       \krof \texdimenddup_b#1}%
 \def\texdimenddup_b#1;{\expandafter\texdimenddup_c\the\numexpr(#1-619)/1238;#1;}%
 \def\texdimenddup_c#1;#2;{\expandafter\texdimenddup_d\the\numexpr#2-1238*#1;#1;}%
-\def\texdimenddup_d#1;#2;{\numexpr1157*(#2+1)+1-(1432985-1157*#1)/1238sp}%
+\def\texdimenddup_d#1;#2;{\numexpr1157*#2+1158-(1432985-1157*#1)/1238sp}%
 % mm 7227/2540
 % T = 7227 k + r
 % Zd = 2540 k + 2540 - <(36715307 - 5080 r)/14454>
@@ -358,7 +358,7 @@
                         \krof \texdimenmmdown_b#1}%
 \def\texdimenmmdown_b#1;{\expandafter\texdimenmmdown_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimenmmdown_c#1;#2;{\expandafter\texdimenmmdown_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimenmmdown_d#1;#2;{\numexpr2540*(#2+1)-(36715307-5080*#1)/14454sp}%
+\def\texdimenmmdown_d#1;#2;{\numexpr2540*#2+2540-(36715307-5080*#1)/14454sp}%
 % Zu = 2540 k + 2540 + 1 - <(36720387 - 5080 r)/14454>
 \def\texdimenmmup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenmmup_a\the\numexpr\dimexpr#1;%
@@ -370,7 +370,7 @@
                       \krof \texdimenmmup_b#1}%
 \def\texdimenmmup_b#1;{\expandafter\texdimenmmup_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimenmmup_c#1;#2;{\expandafter\texdimenmmup_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimenmmup_d#1;#2;{\numexpr2540*(#2+1)+1-(36720387-5080*#1)/14454sp}%
+\def\texdimenmmup_d#1;#2;{\numexpr2540*#2+2541-(36720387-5080*#1)/14454sp}%
 % pc 12/1
 % T = 12 k + r
 % Zd = 1 k + 1 - <(17 - 1 r)/12>
@@ -410,7 +410,7 @@
                         \krof \texdimenncdown_b#1}%
 \def\texdimenncdown_b#1;{\expandafter\texdimenncdown_c\the\numexpr(#1-685)/1370;#1;}%
 \def\texdimenncdown_c#1;#2;{\expandafter\texdimenncdown_d\the\numexpr#2-1370*#1;#1;}%
-\def\texdimenncdown_d#1;#2;{\numexpr107*(#2+1)-(147168-107*#1)/1370sp}%
+\def\texdimenncdown_d#1;#2;{\numexpr107*#2+107-(147168-107*#1)/1370sp}%
 % Zu = 107 k + 107 + 1 - <(147275 - 107 r)/1370>
 \def\texdimenncup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenncup_a\the\numexpr\dimexpr#1;%
@@ -422,7 +422,7 @@
                       \krof \texdimenncup_b#1}%
 \def\texdimenncup_b#1;{\expandafter\texdimenncup_c\the\numexpr(#1-685)/1370;#1;}%
 \def\texdimenncup_c#1;#2;{\expandafter\texdimenncup_d\the\numexpr#2-1370*#1;#1;}%
-\def\texdimenncup_d#1;#2;{\numexpr107*(#2+1)+1-(147275-107*#1)/1370sp}%
+\def\texdimenncup_d#1;#2;{\numexpr107*#2+108-(147275-107*#1)/1370sp}%
 % cc 14856/1157
 % T = 14856 k + r
 % Zd = 1157 k + 1157 - <(17194663 - 1157 r)/14856>
@@ -436,7 +436,7 @@
                         \krof \texdimenccdown_b#1}%
 \def\texdimenccdown_b#1;{\expandafter\texdimenccdown_c\the\numexpr(#1-7428)/14856;#1;}%
 \def\texdimenccdown_c#1;#2;{\expandafter\texdimenccdown_d\the\numexpr#2-14856*#1;#1;}%
-\def\texdimenccdown_d#1;#2;{\numexpr1157*(#2+1)-(17194663-1157*#1)/14856sp}%
+\def\texdimenccdown_d#1;#2;{\numexpr1157*#2+1157-(17194663-1157*#1)/14856sp}%
 % Zu = 1157 k + 1157 + 1 - <(17195820 - 1157 r)/14856>
 \def\texdimenccup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenccup_a\the\numexpr\dimexpr#1;%
@@ -448,7 +448,7 @@
                       \krof \texdimenccup_b#1}%
 \def\texdimenccup_b#1;{\expandafter\texdimenccup_c\the\numexpr(#1-7428)/14856;#1;}%
 \def\texdimenccup_c#1;#2;{\expandafter\texdimenccup_d\the\numexpr#2-14856*#1;#1;}%
-\def\texdimenccup_d#1;#2;{\numexpr1157*(#2+1)+1-(17195820-1157*#1)/14856sp}%
+\def\texdimenccup_d#1;#2;{\numexpr1157*#2+1158-(17195820-1157*#1)/14856sp}%
 % cm 7227/254
 % T = 7227 k + r
 % Zd = 254 k + 254 - <(3678035 - 508 r)/14454>
@@ -462,7 +462,7 @@
                         \krof \texdimencmdown_b#1}%
 \def\texdimencmdown_b#1;{\expandafter\texdimencmdown_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimencmdown_c#1;#2;{\expandafter\texdimencmdown_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimencmdown_d#1;#2;{\numexpr254*(#2+1)-(3678035-508*#1)/14454sp}%
+\def\texdimencmdown_d#1;#2;{\numexpr254*#2+254-(3678035-508*#1)/14454sp}%
 % Zu = 254 k + 254 + 1 - <(3678543 - 508 r)/14454>
 \def\texdimencmup#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimencmup_a\the\numexpr\dimexpr#1;%
@@ -474,7 +474,7 @@
                       \krof \texdimencmup_b#1}%
 \def\texdimencmup_b#1;{\expandafter\texdimencmup_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimencmup_c#1;#2;{\expandafter\texdimencmup_d\the\numexpr#2-7227*#1;#1;}%
-\def\texdimencmup_d#1;#2;{\numexpr254*(#2+1)+1-(3678543-508*#1)/14454sp}%
+\def\texdimencmup_d#1;#2;{\numexpr254*#2+255-(3678543-508*#1)/14454sp}%
 % in 7227/100
 % T = 7227 k + r
 % Zd = 100 k + 100 - <(1452427 - 200 r)/14454>

@@ -1,217 +1,217 @@
 Random seed: 72465192
-0.4948s (ceil, 100000 reps)
-0.52286s (round, 100000 reps)
-0.52286/0.4948= about 1.05672 for bpup with 4239sp
+0.48547s (ceil, 100000 reps)
+0.5239s (round, 100000 reps)
+0.5239/0.48547= about 1.07915 for bpup with 4239sp
 
-0.51294s (ceil, 100000 reps)
-0.52756s (round, 100000 reps)
-0.52756/0.51294= about 1.0285 for bpup with 75707sp
+0.5144s (ceil, 100000 reps)
+0.52893s (round, 100000 reps)
+0.52893/0.5144= about 1.02824 for bpup with 75707sp
 
-0.50163s (ceil, 100000 reps)
-0.53761s (round, 100000 reps)
-0.53761/0.50163= about 1.07173 for bpup with 51711sp
+0.4958s (ceil, 100000 reps)
+0.52907s (round, 100000 reps)
+0.52907/0.4958= about 1.0671 for bpup with 51711sp
 
-0.51585s (ceil, 100000 reps)
-0.5465s (round, 100000 reps)
-0.5465/0.51585= about 1.0594 for bpdown with 29962sp
+0.50085s (ceil, 100000 reps)
+0.53534s (round, 100000 reps)
+0.53534/0.50085= about 1.06886 for bpdown with 29962sp
 
-0.4875s (ceil, 100000 reps)
-0.52448s (round, 100000 reps)
-0.52448/0.4875= about 1.07585 for bpdown with 2449sp
+0.48213s (ceil, 100000 reps)
+0.52504s (round, 100000 reps)
+0.52504/0.48213= about 1.089 for bpdown with 2449sp
 
-0.50906s (ceil, 100000 reps)
-0.53696s (round, 100000 reps)
-0.53696/0.50906= about 1.0548 for bpdown with 92652sp
+0.50417s (ceil, 100000 reps)
+0.5366s (round, 100000 reps)
+0.5366/0.50417= about 1.06435 for bpdown with 92652sp
 
-0.5054s (ceil, 100000 reps)
-0.545s (round, 100000 reps)
-0.545/0.5054= about 1.07835 for ndup with 35701sp
+0.49753s (ceil, 100000 reps)
+0.5452s (round, 100000 reps)
+0.5452/0.49753= about 1.09583 for ndup with 35701sp
 
-0.50786s (ceil, 100000 reps)
-0.54517s (round, 100000 reps)
-0.54517/0.50786= about 1.07347 for ndup with 68143sp
+0.5136s (ceil, 100000 reps)
+0.54704s (round, 100000 reps)
+0.54704/0.5136= about 1.06512 for ndup with 68143sp
 
-0.50916s (ceil, 100000 reps)
-0.54414s (round, 100000 reps)
-0.54414/0.50916= about 1.06873 for ndup with 82974sp
+0.50063s (ceil, 100000 reps)
+0.54482s (round, 100000 reps)
+0.54482/0.50063= about 1.08827 for ndup with 82974sp
 
-0.5095s (ceil, 100000 reps)
-0.54335s (round, 100000 reps)
-0.54335/0.5095= about 1.06644 for nddown with 94442sp
+0.50728s (ceil, 100000 reps)
+0.5463s (round, 100000 reps)
+0.5463/0.50728= about 1.07692 for nddown with 94442sp
 
-0.48442s (ceil, 100000 reps)
-0.52502s (round, 100000 reps)
-0.52502/0.48442= about 1.08383 for nddown with 4915sp
+0.47948s (ceil, 100000 reps)
+0.52512s (round, 100000 reps)
+0.52512/0.47948= about 1.0952 for nddown with 4915sp
 
-0.51154s (ceil, 100000 reps)
-0.56216s (round, 100000 reps)
-0.56216/0.51154= about 1.09898 for nddown with 112417sp
+0.5076s (ceil, 100000 reps)
+0.56302s (round, 100000 reps)
+0.56302/0.5076= about 1.10919 for nddown with 112417sp
 
-0.51614s (ceil, 100000 reps)
-0.56322s (round, 100000 reps)
-0.56322/0.51614= about 1.09122 for ddup with 125576sp
+0.5106s (ceil, 100000 reps)
+0.56403s (round, 100000 reps)
+0.56403/0.5106= about 1.10463 for ddup with 125576sp
 
-0.50041s (ceil, 100000 reps)
-0.54497s (round, 100000 reps)
-0.54497/0.50041= about 1.08905 for ddup with 43955sp
+0.49677s (ceil, 100000 reps)
+0.54562s (round, 100000 reps)
+0.54562/0.49677= about 1.09836 for ddup with 43955sp
 
-0.50046s (ceil, 100000 reps)
-0.54501s (round, 100000 reps)
-0.54501/0.50046= about 1.08904 for ddup with 20475sp
+0.49384s (ceil, 100000 reps)
+0.54558s (round, 100000 reps)
+0.54558/0.49384= about 1.10478 for ddup with 20475sp
 
-0.49513s (ceil, 100000 reps)
-0.54477s (round, 100000 reps)
-0.54477/0.49513= about 1.10025 for dddown with 84603sp
+0.49184s (ceil, 100000 reps)
+0.5456s (round, 100000 reps)
+0.5456/0.49184= about 1.1093 for dddown with 84603sp
 
-0.50668s (ceil, 100000 reps)
-0.68155s (round, 100000 reps)
-0.68155/0.50668= about 1.34512 for dddown with 108775sp
+0.50589s (ceil, 100000 reps)
+0.68161s (round, 100000 reps)
+0.68161/0.50589= about 1.34735 for dddown with 108775sp
 
-0.50935s (ceil, 100000 reps)
-0.56013s (round, 100000 reps)
-0.56013/0.50935= about 1.0997 for dddown with 126508sp
+0.50494s (ceil, 100000 reps)
+0.5617s (round, 100000 reps)
+0.5617/0.50494= about 1.11243 for dddown with 126508sp
 
-0.51859s (ceil, 100000 reps)
-0.51791s (round, 100000 reps)
-0.51791/0.51859= about 0.99872 for mmup with 90402sp
+0.512s (ceil, 100000 reps)
+0.52188s (round, 100000 reps)
+0.52188/0.512= about 1.01932 for mmup with 90402sp
 
-0.51686s (ceil, 100000 reps)
-0.6485s (round, 100000 reps)
-0.6485/0.51686= about 1.2547 for mmup with 108801sp
+0.51247s (ceil, 100000 reps)
+0.65298s (round, 100000 reps)
+0.65298/0.51247= about 1.2742 for mmup with 108801sp
 
-0.52461s (ceil, 100000 reps)
-0.53146s (round, 100000 reps)
-0.53146/0.52461= about 1.01306 for mmup with 125024sp
+0.51863s (ceil, 100000 reps)
+0.53033s (round, 100000 reps)
+0.53033/0.51863= about 1.02257 for mmup with 125024sp
 
-0.50427s (ceil, 100000 reps)
-0.5193s (round, 100000 reps)
-0.5193/0.50427= about 1.02982 for mmdown with 39376sp
+0.5034s (ceil, 100000 reps)
+0.52147s (round, 100000 reps)
+0.52147/0.5034= about 1.03589 for mmdown with 39376sp
 
-0.51566s (ceil, 100000 reps)
-0.52785s (round, 100000 reps)
-0.52785/0.51566= about 1.02365 for mmdown with 121092sp
+0.5132s (ceil, 100000 reps)
+0.52232s (round, 100000 reps)
+0.52232/0.5132= about 1.01779 for mmdown with 121092sp
 
-0.51865s (ceil, 100000 reps)
-0.52917s (round, 100000 reps)
-0.52917/0.51865= about 1.02031 for mmdown with 103095sp
+0.5231s (ceil, 100000 reps)
+0.53024s (round, 100000 reps)
+0.53024/0.5231= about 1.01366 for mmdown with 103095sp
 
-0.45438s (ceil, 100000 reps)
-0.6037s (round, 100000 reps)
-0.6037/0.45438= about 1.32864 for pcup with 56355sp
+0.45918s (ceil, 100000 reps)
+0.60696s (round, 100000 reps)
+0.60696/0.45918= about 1.32184 for pcup with 56355sp
 
-0.4586s (ceil, 100000 reps)
-0.48051s (round, 100000 reps)
-0.48051/0.4586= about 1.04779 for pcup with 91019sp
+0.46385s (ceil, 100000 reps)
+0.48422s (round, 100000 reps)
+0.48422/0.46385= about 1.04393 for pcup with 91019sp
 
-0.48315s (ceil, 100000 reps)
-0.49681s (round, 100000 reps)
-0.49681/0.48315= about 1.02827 for pcup with 126047sp
+0.4782s (ceil, 100000 reps)
+0.49876s (round, 100000 reps)
+0.49876/0.4782= about 1.04301 for pcup with 126047sp
 
 0.46608s (ceil, 100000 reps)
-0.61214s (round, 100000 reps)
-0.61214/0.46608= about 1.31339 for pcdown with 113527sp
+0.61403s (round, 100000 reps)
+0.61403/0.46608= about 1.31744 for pcdown with 113527sp
 
-0.47528s (ceil, 100000 reps)
-0.62054s (round, 100000 reps)
-0.62054/0.47528= about 1.30565 for pcdown with 127434sp
+0.47656s (ceil, 100000 reps)
+0.62445s (round, 100000 reps)
+0.62445/0.47656= about 1.31033 for pcdown with 127434sp
 
-0.44684s (ceil, 100000 reps)
-0.5873s (round, 100000 reps)
-0.5873/0.44684= about 1.31435 for pcdown with 6082sp
+0.44603s (ceil, 100000 reps)
+0.58716s (round, 100000 reps)
+0.58716/0.44603= about 1.31642 for pcdown with 6082sp
 
-0.49864s (ceil, 100000 reps)
-0.64435s (round, 100000 reps)
-0.64435/0.49864= about 1.29222 for ncup with 50143sp
+0.493s (ceil, 100000 reps)
+0.64821s (round, 100000 reps)
+0.64821/0.493= about 1.31485 for ncup with 50143sp
 
-0.50616s (ceil, 100000 reps)
-0.65408s (round, 100000 reps)
-0.65408/0.50616= about 1.29224 for ncup with 104702sp
+0.50166s (ceil, 100000 reps)
+0.69887s (round, 100000 reps)
+0.69887/0.50166= about 1.39311 for ncup with 104702sp
 
-0.50768s (ceil, 100000 reps)
-0.65685s (round, 100000 reps)
-0.65685/0.50768= about 1.29384 for ncup with 107105sp
+0.55173s (ceil, 100000 reps)
+0.72293s (round, 100000 reps)
+0.72293/0.55173= about 1.31032 for ncup with 107105sp
 
-0.4857s (ceil, 100000 reps)
-0.50842s (round, 100000 reps)
-0.50842/0.4857= about 1.04678 for ncdown with 6492sp
+0.50066s (ceil, 100000 reps)
+0.5099s (round, 100000 reps)
+0.5099/0.50066= about 1.01848 for ncdown with 6492sp
 
-0.49602s (ceil, 100000 reps)
-0.52287s (round, 100000 reps)
-0.52287/0.49602= about 1.05415 for ncdown with 69351sp
+0.49098s (ceil, 100000 reps)
+0.52315s (round, 100000 reps)
+0.52315/0.49098= about 1.06552 for ncdown with 69351sp
 
-0.49211s (ceil, 100000 reps)
-0.52255s (round, 100000 reps)
-0.52255/0.49211= about 1.06186 for ncdown with 85467sp
+0.48775s (ceil, 100000 reps)
+0.52975s (round, 100000 reps)
+0.52975/0.48775= about 1.08614 for ncdown with 85467sp
 
-0.51155s (ceil, 100000 reps)
-0.64427s (round, 100000 reps)
-0.64427/0.51155= about 1.25946 for ccup with 40309sp
+0.50465s (ceil, 100000 reps)
+0.64706s (round, 100000 reps)
+0.64706/0.50465= about 1.2822 for ccup with 40309sp
 
-0.50525s (ceil, 100000 reps)
-0.52824s (round, 100000 reps)
-0.52824/0.50525= about 1.04552 for ccup with 91368sp
+0.49768s (ceil, 100000 reps)
+0.5275s (round, 100000 reps)
+0.5275/0.49768= about 1.05992 for ccup with 91368sp
 
-0.51013s (ceil, 100000 reps)
-0.64906s (round, 100000 reps)
-0.64906/0.51013= about 1.27235 for ccup with 42759sp
+0.50182s (ceil, 100000 reps)
+0.6485s (round, 100000 reps)
+0.6485/0.50182= about 1.29231 for ccup with 42759sp
 
-0.50536s (ceil, 100000 reps)
-0.5271s (round, 100000 reps)
-0.5271/0.50536= about 1.04303 for ccdown with 70133sp
+0.5037s (ceil, 100000 reps)
+0.52669s (round, 100000 reps)
+0.52669/0.5037= about 1.04565 for ccdown with 70133sp
 
-0.50562s (ceil, 100000 reps)
-0.65077s (round, 100000 reps)
-0.65077/0.50562= about 1.2871 for ccdown with 42101sp
+0.50323s (ceil, 100000 reps)
+0.65108s (round, 100000 reps)
+0.65108/0.50323= about 1.2938 for ccdown with 42101sp
 
-0.49388s (ceil, 100000 reps)
-0.64944s (round, 100000 reps)
-0.64944/0.49388= about 1.31499 for ccdown with 29979sp
+0.4911s (ceil, 100000 reps)
+0.6504s (round, 100000 reps)
+0.6504/0.4911= about 1.32439 for ccdown with 29979sp
 
-0.5174s (ceil, 100000 reps)
-0.50793s (round, 100000 reps)
-0.50793/0.5174= about 0.98172 for cmup with 83019sp
+0.51051s (ceil, 100000 reps)
+0.50734s (round, 100000 reps)
+0.50734/0.51051= about 0.99379 for cmup with 83019sp
 
-0.50838s (ceil, 100000 reps)
-0.62819s (round, 100000 reps)
-0.62819/0.50838= about 1.23569 for cmup with 44505sp
+0.5084s (ceil, 100000 reps)
+0.63142s (round, 100000 reps)
+0.63142/0.5084= about 1.24197 for cmup with 44505sp
 
-0.51617s (ceil, 100000 reps)
-0.6271s (round, 100000 reps)
-0.6271/0.51617= about 1.21492 for cmup with 90463sp
+0.50829s (ceil, 100000 reps)
+0.62953s (round, 100000 reps)
+0.62953/0.50829= about 1.23854 for cmup with 90463sp
 
-0.51224s (ceil, 100000 reps)
-0.62654s (round, 100000 reps)
-0.62654/0.51224= about 1.22316 for cmdown with 75759sp
+0.5089s (ceil, 100000 reps)
+0.62965s (round, 100000 reps)
+0.62965/0.5089= about 1.2373 for cmdown with 75759sp
 
-0.50082s (ceil, 100000 reps)
-0.49731s (round, 100000 reps)
-0.49731/0.50082= about 0.993 for cmdown with 22311sp
+0.49907s (ceil, 100000 reps)
+0.49852s (round, 100000 reps)
+0.49852/0.49907= about 0.9989 for cmdown with 22311sp
 
-0.51038s (ceil, 100000 reps)
-0.62941s (round, 100000 reps)
-0.62941/0.51038= about 1.23323 for cmdown with 85549sp
+0.50647s (ceil, 100000 reps)
+0.62834s (round, 100000 reps)
+0.62834/0.50647= about 1.24063 for cmdown with 85549sp
 
-0.50757s (ceil, 100000 reps)
-0.51097s (round, 100000 reps)
-0.51097/0.50757= about 1.00671 for inup with 104121sp
+0.50731s (ceil, 100000 reps)
+0.51302s (round, 100000 reps)
+0.51302/0.50731= about 1.01126 for inup with 104121sp
 
-0.4946s (ceil, 100000 reps)
-0.62358s (round, 100000 reps)
-0.62358/0.4946= about 1.26079 for inup with 73086sp
+0.49678s (ceil, 100000 reps)
+0.62701s (round, 100000 reps)
+0.62701/0.49678= about 1.26216 for inup with 73086sp
 
-0.49533s (ceil, 100000 reps)
+0.49649s (ceil, 100000 reps)
+0.5032s (round, 100000 reps)
+0.5032/0.49649= about 1.01353 for inup with 89156sp
+
+0.53606s (ceil, 100000 reps)
+0.48738s (round, 100000 reps)
+0.48738/0.53606= about 0.90921 for indown with 38392sp
+
+0.51195s (ceil, 100000 reps)
 0.51027s (round, 100000 reps)
-0.51027/0.49533= about 1.03017 for inup with 89156sp
+0.51027/0.51195= about 0.99673 for indown with 127293sp
 
-0.48643s (ceil, 100000 reps)
-0.48596s (round, 100000 reps)
-0.48596/0.48643= about 0.99904 for indown with 38392sp
-
-0.50534s (ceil, 100000 reps)
-0.50975s (round, 100000 reps)
-0.50975/0.50534= about 1.00873 for indown with 127293sp
-
-0.48781s (ceil, 100000 reps)
-0.49179s (round, 100000 reps)
-0.49179/0.48781= about 1.00818 for indown with 65494sp
+0.49074s (ceil, 100000 reps)
+0.49472s (round, 100000 reps)
+0.49472/0.49074= about 1.00812 for indown with 65494sp
 
