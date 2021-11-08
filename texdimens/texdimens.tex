@@ -234,44 +234,6 @@
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
 %
-% down macros:
-% for units with phi < 2:
-\def\texdimendown_A#1{\if-#1\texdimendown_neg\fi\texdimendown_B#1}%
-\def\texdimendown_B#1;#2;{\expandafter\texdimendown_c\the\numexpr(2*#1+1)#2;#1;}%
-% for units with phi > 2:
-\def\texdimendown_a#1{\if-#1\texdimendown_neg\fi\texdimendown_b#1}%
-\def\texdimendown_b#1;#2;{\expandafter\texdimendown_c\the\numexpr#1#2;#1;}%
-% shared macros:
-\def\texdimendown_c#1;{\expandafter\texdimendown_d\the\dimexpr#1sp;#1;}%
-{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimendown_d#1PT};#2;#3;#4;%
-   {\ifdim#1#4>#3sp \texdimendown_e{#2}\fi\texdimenfirstofone{#1}}%
-}%
-% this #2 will be \fi
-\def\texdimendown_e#1#2#3#4{#2\expandafter\texdimenstrippt\the\dimexpr\numexpr#1-1sp\relax}%
-% negative branch:
-% The problem here is that if input very small, output can be 0.0, and we
-% do not want -0.0 as output.
-% So let's do this somewhat brutally and non-efficiently.
-% Anyhow, negative inputs are not our priority.
-% #1 is \fi here and #2 is \texdimendown_b or _B:
-\def\texdimendown_neg#1#2-#3;#4;#5;{#1\expandafter\texdimenstrippt\the\dimexpr-#2#3;#4;#5;pt\relax}%
-%
-% up macros:
-\def\texdimenup_A#1{\if-#1\texdimenup_neg\fi\texdimenup_B#1}%
-\def\texdimenup_B#1;#2;{\expandafter\texdimenup_c\the\numexpr(2*#1+1)#2;#1;}%
-\def\texdimenup_a#1{\if-#1\texdimenup_neg\fi\texdimenup_b#1}%
-\def\texdimenup_b#1;#2;{\expandafter\texdimenup_c\the\numexpr#1#2;#1;}%
-\def\texdimenup_c#1;{\expandafter\texdimenup_d\the\dimexpr#1sp;#1;}%
-{\catcode`P 12\catcode`T 12\lowercase{\gdef\texdimenup_d#1PT};#2;#3;#4;%
-   {\ifdim#1#4<#3sp \texdimenup_e{#2}\fi\texdimenfirstofone{#1}}%
-}%
-% this #2 will be \fi
-\def\texdimenup_e#1#2#3#4{#2\expandafter\texdimenstrippt\the\dimexpr\numexpr#1+1sp\relax}%
-% negative branch:
-% Here we can me more expeditive than for the "down" macros.
-% But this breaks f-expandability.
-% #1 will be \fi and #2 is \texdimenup_b or _B:
-\def\texdimenup_neg#1#2-{#1-#2}%
 %
 % pt
 %
@@ -283,10 +245,6 @@
 \def\texdimenbp_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax
 }%
-% \texdimenbpdown: maximal dim exactly expressible in bp and at most equal to input
-\def\texdimenbpdownlegacy#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*400/803;bp;}%
-% \texdimenbpup: minimal dim exactly expressible in bp and at least equal to input
-\def\texdimenbpuplegacy#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*400/803;bp;}%
 %
 % nd 685/642
 %
@@ -294,10 +252,6 @@
 \def\texdimennd_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp\relax
 }%
-% \texdimennddown: maximal dim exactly expressible in nd and at most equal to input
-\def\texdimennddownlegacy#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*321/685;nd;}%
-% \texdimenndup: minimal dim exactly expressible in nd and at least equal to input
-\def\texdimennduplegacy#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*321/685;nd;}%
 %
 % dd 1238/1157
 %
@@ -305,58 +259,30 @@
 \def\texdimendd_#1#2;{%
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
 }%
-% \texdimendddown: maximal dim exactly expressible in dd and at most equal to input
-\def\texdimendddownlegacy#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
-% \texdimenddup: minimal dim exactly expressible in dd and at least equal to input
-\def\texdimendduplegacy#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 %
 % mm 7227/2540 phi now >2, use from here on the simpler approach
 %
 \def\texdimenmm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*2540/7227\relax}%
-% \texdimenmmdown: maximal dim exactly expressible in mm and at most equal to input
-\def\texdimenmmdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
-% \texdimenmmup: minimal dim exactly expressible in mm and at least equal to input
-\def\texdimenmmuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*2540/7227;mm;}%
 %
 % pc 12/1
 %
 \def\texdimenpc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)/12\relax}%
-% \texdimenpcdown: maximal dim exactly expressible in pc and at most equal to input
-\def\texdimenpcdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;/12;pc;}%
-% \texdimenpcup: minimal dim exactly expressible in pc and at least equal to input
-\def\texdimenpcuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;/12;pc;}%
 %
 % nc 1370/107
 %
 \def\texdimennc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*107/1370\relax}%
-% \texdimenncdown: maximal dim exactly expressible in nc and at most equal to input
-\def\texdimenncdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
-% \texdimenncup: minimal dim exactly expressible in nc and at least equal to input
-\def\texdimenncuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 %
 % cc 14856/1157
 %
 \def\texdimencc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*1157/14856\relax}%
-% \texdimenccdown: maximal dim exactly expressible in cc and at most equal to input
-\def\texdimenccdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
-% \texdimenccup: minimal dim exactly expressible in cc and at least equal to input
-\def\texdimenccuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*1157/14856;cc;}%
 %
 % cm 7227/254
 %
 \def\texdimencm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*254/7227\relax}%
-% \texdimencmdown: maximal dim exactly expressible in cm and at most equal to input
-\def\texdimencmdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
-% \texdimencmup: minimal dim exactly expressible in cm and at least equal to input
-\def\texdimencmuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*254/7227;cm;}%
 %
 % in 7227/100
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
-% \texdimenindown: maximal dim exactly expressible in in and at most equal to input
-\def\texdimenindownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
-% \texdimeninup: minimal dim exactly expressible in in and at least equal to input
-\def\texdimeninuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 %
 % ceil()-based approach to up and down macros (release 1.0)
 % =========================================================

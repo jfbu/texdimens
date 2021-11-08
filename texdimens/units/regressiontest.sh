@@ -60,16 +60,22 @@ then
         ln -s "$i" "`basename $i`"
     done
     cd ..
+    echo "... faite"
 else
     cd "$testdir"
-    for i in ../../texdimens.tex
+    for i in ../../{texdimens,texdimenslegacy}.tex
     do
         ln -s "$i" "`basename $i`"
         # echo $i
     done
     cd ..
+    echo "... faite"
+    echo "copie des tests de up/down vs legacy..."
+    legacytestfiles="legacytest*tex"
+    testfiles+=" $legacytestfiles"
+    cp $legacytestfiles "$testdir"
+    echo "... faite"
 fi
-echo "... faite"
 
 echo "entrée dans le repertoire $testdir"
 cd "$testdir" && pwd && ls -l
