@@ -15,6 +15,7 @@ auto/
 *.html
 *.logos
 *.zip
+tempmacros.tex
 README
 README.html
 ctanbuild/*

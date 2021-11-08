@@ -1,0 +1,64 @@
+\input texdimens
+
+\newcount\counta
+\newcount\countA
+
+\counta 30000
+\countA 40000
+
+\def\testpos{\edef\x{\texdimenindown{\counta sp}}%
+             \edef\w{\texdimenindownlegacy{\counta sp}}%
+             \ifx\x\w\else\immediate\write128{Erreur indown: \the\counta sp}\ERROR\fi
+             \edef\y{\the\numexpr\dimexpr\x in}%
+             \edef\z{\the\counta}%
+             \ifnum\y>\z\relax\immediate\write128{Erreur indown: \the\counta sp}ERROR\fi
+            }
+
+\loop
+\testpos
+\advance\counta 1
+\ifnum\countA>\counta
+\repeat
+
+\counta\maxdimen
+% from doc "\maxdimen-55sp is maximal attainable dimension (via 226.7054in)."
+% starting with \maxdimen-19sp, indownlegacy can be used
+\countA\numexpr\maxdimen-19\relax
+
+\def\test{\edef\x{\texdimenindown{\counta sp}}%
+             \edef\y{\the\numexpr\dimexpr\x in}%
+             \edef\z{\the\counta}%
+             \ifnum\y>\z\relax\immediate\write128{Erreur indown: \the\counta sp}ERROR\fi
+            }
+
+
+\loop
+\test
+\advance\counta -1
+\ifnum\counta>\countA
+\repeat
+
+\countA\numexpr\maxdimen-100\relax
+\loop
+\testpos % we can use the downlegacy also
+\advance\counta -1
+\ifnum\counta>\countA
+\repeat
+
+\counta -100
+\countA 100
+
+\def\testneg{\edef\x{\texdimenindown{\counta sp}}%
+             \edef\w{\texdimenindownlegacy{\counta sp}}%
+             \ifx\x\w\else\immediate\write128{Erreur indown: \the\counta sp}\ERROR\fi
+            }
+
+\loop
+\testneg
+\advance\counta 1
+\ifnum\countA>\counta
+\repeat
+
+\bye
+
+

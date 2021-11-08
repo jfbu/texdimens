@@ -246,26 +246,25 @@ at last step the sign (if result is not zero) is applied (so "down" means
 
 Remarks about "Dimension too large" issues:
 
-1. For input `X` equal to (or sufficiently close to) `\maxdimen` and
+1. For input `X` equal to `\maxdimen` (or differing by a few `sp`'s) and
    those units `uu` for which `\maxdimen` is not exactly representable
-   (i.e. all core units except `pt`, `bp` and `nd`), the output `D` of the
-   "up" macros `\texdimen<uu>up{X}`, if used as `Duu` in a dimension
-   assignment or expression, will (naturally) trigger a "Dimension too
-   large" error.
-2. The same potentially happens with `\texdimenwithunit{dimen1}{dimen2}`
-   if `\maxdimen`
-   is not representable exactly by `dimen2` used as a base dimension,
-   (which may happen only if `dimen2>1pt`): it is possible that the
-   output `D`, if consequently used as `D\dimexpr dimen2\relax` will
-   trigger "Dimension too large".
-3. For `dd`, `nc` and `in`, and input `X` equal to (or sufficiently
-   close to) `\maxdimen` it turns out that `\texdimen<uu>{X}` produces
-   an output `D` such that `Duu` is the first "virtually attainable" TeX
-   dimension *beyond* `\maxdimen`.  Hence here also `Duu` will trigger on use
-   "Dimension too large error".
-4. Again for the `dd`, `nc` and `in` units, both the "down" and "up" macros
-   will trigger "Dimension too large" *during their execution* if used
-   with an input equal to (or sufficiently close to) `\maxdimen`.
+   (i.e. all core units except `pt`, `bp` and `nd`), the output `D` of
+   the "up" macros `\texdimen<uu>up{X}`, if used as `Duu` in a dimension
+   assignment or expression, will (as is logical) trigger a "Dimension
+   too large" error.
+2. For `dd`, `nc` and `in`, it turns out that `\texdimen<uu>{X}` chooses
+   the "up" approximant for `X` equal to or very near `\maxdimen` (check
+   the respective macro documentations),
+   i.e. the output `D` is such that `Duu` is the first virtually
+   attainable dimension beyond `\maxdimen`. Hence `Duu` will trigger on
+   use a "Dimension too large error".  With the other units for which
+   `\maxdimen` is not attainable exactly, `\texdimen<uu>{\maxdimen}`
+   output is by luck the "down" approximant.
+2. As is to be similarly expected, the output `D` from
+   `\texdimenwithunit{X}{dimen2}`, if used as `D<dimen2>` may trigger
+   "Dimension too large" if `\maxdimen` is not representable exactly as
+   a decimal multiple of `dimen2` and `X` is sufficiently near
+   `\maxdimen`.  This may happen only if `dimen2>1pt`.
 
 `\texdimenpt{<dim. expr.>}`
 
@@ -323,8 +322,9 @@ Remarks about "Dimension too large" issues:
 > known in advance if it will be above or below.
 
 > Warning: the output for `\maxdimen` is `15312.02585` but `15312.02585dd`
-> will trigger "Dimension too large" error.
-> `\maxdimen-1sp` is attainable via `15312.02584dd`.
+> will trigger on use "Dimension too large" error.
+> `\maxdimen-1sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-1sp`).
 
 `\texdimendddown{<dim. expr.>}`
 
@@ -332,11 +332,22 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
+`\texdimendddownlegacy{<dim. expr.>}`
+
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-1sp`.
+
 `\texdimenddup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
+> If input is `\maxdimen`, then `Ddd` virtually represents `\maxdimen+1sp`.
+
+`\texdimendduplegacy{<dim. expr.>}`
+
+> The earlier versions from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-1sp`.
 
 `\texdimenmm{<dim. expr.>}`
 
@@ -391,9 +402,10 @@ Remarks about "Dimension too large" issues:
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is `1279.62628` but `1279.62628nc`
-> will trigger "Dimension too large" error.
-> `\maxdimen-9sp` is attainable via `1279.62627nc`.
+> Warning: the output for `\maxdimen-1sp` is `1279.62628` but `1279.62628nc`
+> will trigger on use "Dimension too large" error.
+> `\maxdimen-2sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-9sp`).
 
 `\texdimenncdown{<dim. expr.>}`
 
@@ -401,11 +413,22 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
+`\texdimenncdownlegacy{<dim. expr.>}`
+
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-2sp`.
+
 `\texdimenncup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+> If input is `>\maxdimen-9sp`, then `Dnc` triggers on use "Dimension too large".
+
+`\texdimenncuplegacy{<dim. expr.>}`
+
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-2sp`.
 
 `\texdimencc{<dim. expr.>}`
 
@@ -461,9 +484,10 @@ Remarks about "Dimension too large" issues:
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is `226.70541` but `226.70541in`
-> will trigger "Dimension too large" error.
-> `\maxdimen-55sp` is maximal attainable dimension (via `226.7054in`).
+> Warning: the output for `\maxdimen-18sp` is `226.70541` but `226.70541in`
+> will trigger on  use "Dimension too large" error.
+> `\maxdimen-19sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-55sp`).
 
 `\texdimenindown{<dim. expr.>}`
 
@@ -471,11 +495,22 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
+`\texdimenindownlegacy{<dim. expr.>}`
+
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-19sp`.
+
 `\texdimeninup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+> If input is `>\maxdimen-55sp`, then `Din` triggers on use "Dimension too large".
+
+`\texdimeninuplegacy{<dim. expr.>}`
+
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-19sp`.
 
 `\texdimenbothcmin{<dim. expr.>}`
 
