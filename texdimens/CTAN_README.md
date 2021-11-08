@@ -73,10 +73,17 @@ Thanks to Denis Bitouzé for raising an
 [issue](https://github.com/latex3/latex3/issues/953)
 on the LaTeX3 tracker which became the initial stimulus for this package.
 
-Thanks to Ruixi Zhang for reviving the above linked-to thread
-and opening up here [issue #2](https://github.com/jfbu/texdimens/issues/2)
-asking to add handling of the `ex`,`em`, and `px` cases. This was done
-at release `0.99` via the addition of `\texdimenwithunit`.
+Thanks to Ruixi Zhang for reviving the above linked-to thread and
+opening up on the package issue tracker the
+[issue #2](https://github.com/jfbu/texdimens/issues/2) asking to add
+handling of the `ex` and `em` cases. This was done at release `0.99` via
+the addition of `\texdimenwithunit`.
+
+Renewed thanks to Ruixi Zhang for analyzing at
+[issue #10](https://github.com/jfbu/texdimens/issues/10) what is at
+stake into finding dimensions exactly representable both in the `bp` and
+`mm` units. Macros `\texdimenbothbpmm` and `\texdimenbothmmbp` now
+address this (release `1.0`).
 
 <!--
 %! Local variables:

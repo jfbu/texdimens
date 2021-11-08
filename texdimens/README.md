@@ -631,13 +631,13 @@ Thanks to Ruixi Zhang for reviving the above linked-to thread and
 opening up on the package issue tracker the
 [issue #2](https://github.com/jfbu/texdimens/issues/2) asking to add
 handling of the `ex` and `em` cases. This was done at release `0.99` via
-the addition of `\texdimenwithunit` (which got an update at `0.999`).
+the addition of `\texdimenwithunit`.
 
 Renewed thanks to Ruixi Zhang for analyzing at
 [issue #10](https://github.com/jfbu/texdimens/issues/10) what is at
 stake into finding dimensions exactly representable both in the `bp` and
 `mm` units. Macros `\texdimenbothbpmm` and `\texdimenbothmmbp` now
-address this (release `0.999`).
+address this (release `1.0`).
 
 <!--
 %! Local variables:
