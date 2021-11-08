@@ -1,0 +1,76 @@
+% etex '\def\RSEED{<randomseed}\input benchmark_allupdown_random.tex'
+% (or the \RSEED will itself be randomly generated)
+% Conclusion:
+% - the old macros are faster for some inputs
+% - but these inputs seem relatively rare
+% - and the difference is never much more than 2% or 3%
+% - on the other hand, often the new macros are 5%-10%
+%   faster, sometimes even 20%-30%
+% Also, new output is always exactly like old in all testing done
+% (but this is no proof, I had at some point earlier a typo in ncup
+%  which was never caught by testing; but since I generated all
+%  new macros out of a template)
+\input texdimens
+
+\input xintkernel.sty
+
+\input xinttools.sty
+
+\ifdefined\RSEED\else\edef\RSEED{\pdfuniformdeviate 100000000}\fi
+
+\newwrite\out
+\immediate\openout\out=\jobname-\RSEED.txt
+\immediate\write\out{Random seed: \RSEED}
+\immediate\write128{Random seed: \RSEED}
+
+\pdfsetrandomseed \RSEED\relax
+
+\def\test#1#2#3#4{%
+\edef\w{\pdfuniformdeviate 131072}%
+\expandafter\let\expandafter\NEW\csname texdimen#3#4\endcsname
+\expandafter\let\expandafter\OLD\csname texdimen#3#4legacy\endcsname
+%
+    \pdfresettimer
+    \xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\NEW{\w sp}}}}%
+    \edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
+\immediate\write128{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
+\immediate\write\out{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
+%
+    \pdfresettimer
+    \xintReplicate{#1}{\xintReplicate{#2}{\edef\y{\OLD{\w sp}}}}%
+    \edef\U{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
+\immediate\write128{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
+\immediate\write\out{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
+%
+\immediate\write128{\U/\T = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
+\immediate\write\out{\U/\T= about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
+\ifx\x\y\else\ERROR\fi
+\immediate\write128{}%
+\immediate\write\out{}%
+}
+
+\def\Test#1#2#3#4{\test{#1}{#2}{#3}{#4}%
+                  \test{#1}{#2}{#3}{#4}%
+                  \test{#1}{#2}{#3}{#4}}
+
+\def\TEST{%
+\xintFor ##1 in {%
+bp,
+nd,
+dd,
+mm,
+pc,
+nc,
+cc,
+cm,
+in}:{\xintFor ##2 in {up, down}:{\Test{100}{1000}{##1}{##2}}%
+    }%
+}%
+
+\TEST
+
+%\TEST
+
+%\TEST
+
+\bye
