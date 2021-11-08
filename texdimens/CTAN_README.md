@@ -30,26 +30,31 @@ available TeX units, to the extent possible.
 
 This package provides expandable macros:
 
-- `\texdimenpt`,
-- `\texdimenUU`, `\texdimenUUup` and
-  `\texdimenUUdown` with `UU` standing for one of `bp`, `cm`, `mm`, `in`,
-  `pc`, `cc`, `nc`, `dd` and `nd`,
+- `\texdimenUU` with `UU` standing for one of `pt`, `bp`, `cm`, `mm`,
+  `in`, `pc`, `cc`, `nc`, `dd` and `nd`,
+- `\texdimenUUup` and `\texdimenUUdown` with `UU` as above except `pt`,
 - `\texdimenbothincm` and relatives,
 - `\texdimenbothbpmm` and relatives,
 - `\texdimenwithunit`.
 
-For example `\texdimenbp` takes on input some dimension or dimension
-expression and produces on output a decimal `D` such that `D bp` is
-guaranteed to be the same dimension as the input, if that one admits any
-representation as `E bp`; else it will be either the closest match from
-above or from below (for this unit the error is at most `1sp`).
+`\texdimenbp` takes on input some dimension or dimension expression and
+produces on output a decimal `D` such that `D bp` is guaranteed to be
+the same dimension as the input, *if* it admits any representation as `E
+bp`; else it will be either the closest match from above or from
+below. For this unit, as well as for `nd` and `dd` the difference is at
+most `1sp`. For other units (not `pt` of course) the distance will
+usually be larger than `1sp` and one does not know if the approximant
+from the other direction would have been better or worst.
 
-The variants `\texdimenbpup` and `\texdimenbpdown` allow to choose the
-direction of approximation.
+The variants `\texdimenbpup` and `\texdimenbpdown` expand slightly less
+fast than `\texdimenbp` but they allow to choose the direction of
+approximation (in absolute value). The macros for the other units have
+the same descriptions.
 
 `\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest
-(in absolute value) dimension not exceeding input which is exactly
-representable both with `in` and `cm` units, respectively `bp` and `mm`.
+(in absolute value) dimension not exceeding the input and exactly
+representable both with the `in` and `cm` units, respectively exactly
+representable both with the `bp` and `mm` units.
 
 `\texdimenwithunit{<dimen1>}{<dimen2>}` produces a decimal `D` such that
 `D \dimexpr dimen2\relax` is parsed by TeX into the same dimension as
@@ -59,9 +64,8 @@ attainable.  If not attainable, the decimal `D` will ensure a closest
 match from below or from above but one does not know if the
 approximation from the other direction is better or worst.
 
-In a sense, this macro divides `<dimen1>` by `<dimen2>` but please refer
-to the full documentation (`texdimens.md`, `texdimens.pdf`) for relevant
-information on how TeX handles dimensions.
+In a sense, this macro divides `<dimen1>` by `<dimen2>`, see additional
+details in the complete macro description.
 
 ## Acknowledgements
 
