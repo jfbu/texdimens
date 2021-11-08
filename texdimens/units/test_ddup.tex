@@ -1,0 +1,60 @@
+\input texdimens
+
+\newcount\counta
+\newcount\countA
+
+\counta 30000
+\countA 40000
+
+\def\testpos{\edef\x{\texdimenddup{\counta sp}}%
+             \edef\w{\texdimenddupquick{\counta sp}}%
+             \ifx\x\w\else\immediate\write128{Erreur ddup: \the\counta sp}\ERROR\fi
+             \edef\y{\the\numexpr\dimexpr\x dd}%
+             \edef\z{\the\counta}%
+             \ifnum\y<\z\relax\immediate\write128{Erreur ddup: \the\counta sp}ERROR\fi
+            }
+
+\loop
+\testpos
+\advance\counta 1
+\ifnum\countA>\counta
+\repeat
+
+\counta\maxdimen
+% from doc "\maxdimen-1sp is attainable via 15312.02584dd"
+% starting with \maxdimen-1sp, output can be used
+\countA\numexpr\maxdimen-1\relax
+
+% simply check if \maxdimen input does not trigger error
+\def\test{\edef\x{\texdimenddup{\counta sp}}}%
+
+\loop
+\test
+\advance\counta -1
+\ifnum\counta>\countA
+\repeat
+
+\countA\numexpr\maxdimen-100\relax
+\loop
+\testpos % we can use the full test in this range
+\advance\counta -1
+\ifnum\counta>\countA
+\repeat
+
+\counta -100
+\countA 100
+
+\def\testneg{\edef\x{\texdimenddup{\counta sp}}%
+             \edef\w{\texdimenddupquick{\counta sp}}%
+             \ifx\x\w\else\immediate\write128{Erreur ddup: \the\counta sp}\ERROR\fi
+            }
+
+\loop
+\testneg
+\advance\counta 1
+\ifnum\countA>\counta
+\repeat
+
+\bye
+
+
