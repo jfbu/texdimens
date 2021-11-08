@@ -12,6 +12,16 @@ v1.0 (2021/11/??)
   largest dimension not exceeding (in absolute value) the input
   and expressible exactly both in the bp and in the mm units.
 
+- modified: \texdimenUUup and \texdimenUUdown with UU being dd,
+  nc or in, now accept \maxdimen as input, as was already the
+  case for all other such macros associated with the other
+  units.
+
+- renamed: \texdimenUUupquick and \texdimenUUdownquick, with UU
+  one of nd, nc or in, are the new names of the formerly
+  existing macros without "quick", which can not be used with
+  \maxdimen (or less by a few sp's) as input.
+
 - breaking: the \texdimenwithunit output with a positive second
   argument smaller than 1pt has changed. Both old and new
   outputs verify the specification from the documentation, but
