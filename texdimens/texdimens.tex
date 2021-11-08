@@ -40,83 +40,6 @@
 %
 % - the two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
 %
-% Stumbling block
-% ---------------
-%
-% I will in what follows refer to trunc(), floor() or ceil() only for
-% positive arguments, obtained as ratios x/y or sometimes as a numexpr
-% "scaling" operation" x*y/z which uses temporarily use doubled
-% precision.
-%
-% As \numexpr's x/y is round(x/y), with rounding away from zero, we have
-% access to floor(t) for t>=0 as round(t+0.5)-1 and for t>0 also as
-% round(t-0.5). The former may cause overflow as it involves
-% (2x+y)/(2y) but the latter (2x-y)/(2y) will not overflow if x comes
-% from a dimension as 2x<2**31 then.
-%
-% ceil(t) is more complex as it is floor(t)+1 only for t not an integer.
-% Below I will explain some tricks, but roughly the a priori prejudice
-% is that computing ceil() is costly. And this is not only a prejudice,
-% it is an actual fact.
-%
-% This package initial core idea was to base the analysis and
-% implementation on an alternative quantity to the Zu = ceil(T psi) and
-% Zd = ceil((T+1)psi) - 1, is R = round((T+0.5)psi) because it is
-% much more accessible to direct computation in \numexpr. (notice in
-% particular that 2*T+1<2**31 will never cause overflow).
-
-% This documentation referred to the ceil(t) based formula as "stumbling
-% block" because a naive handling, for example **assuming t is not an
-% integer**, would mean looking at round(t+0.5). For example for the "in"
-% unit with psi = 100/7227 this leads to computation such as
-% round((T*200+7227)/14454). This already raises the problem that 200*T
-% will easily overflow. Computation of R = round((T+0.5)psi) however
-% had no such issue at all, so the implementation became naturally based
-% upon it.
-%
-% And the computation of Zu and Zd was based upon getting R first, as is
-% described in the next section, not on their ceil() based formulae.
-%
-% For the units "dd", "nc", "in", this approach had a limitation that
-% \maxdimen or very close dimensions could not be used as inputs to
-% the up and down macros. At 1.0, an alternative approach based
-% on the ceil() formulae for Zd and Zu was implemented. Here is
-% its detailed escription added 2021/11/07 in the case of Zd/"in".
-%
-% We want Zd = ceil((T+1)*100/7227) - 1, with T assumed positive.
-%
-% Let T = k*7227 + r with 0<= r < 7227, 0<=k, and r>0 if k=0.
-%
-% (T+1)*100/7227 becomes 100*k + (r+1)*100/7227 and thus
-%
-% Zd = 100 * k + ceil(x) - 1
-%
-% with  x = n*100/7227, and n = 1+r, so 0<n<=7227
-%
-% Here we have a nice situation 0 < x <= 100. Then:
-% 
-% ceil(x) = 100 - floor(100 - x)
-%         = 100 - (round(100 - x + 0.5) - 1)
-%         = 101 - round(100 * (1 - n/7227) + 0.5)
-%         = 101 - round((200 * (7227 - n) + 7227)/14454)
-%
-% We can thus achieve the computation of Zd = ceil((T+1)*100/7227) - 1
-% for T>0 without overflow in \numexpr this way:
-%
-%     k = floor(T/7227) = round(T/7227 - 0.5)
-%                       = round((2*T - 7227) / 14454)  (T>0 used here)
-%
-%     r = T - 7227 * k  = T modulo 7227
-%
-%     Zd = 100 * k + 100 - round( (201*7227 - 200*(r+1))/14454 )
-%
-% Everything here is computable within \numexpr and has absolutely
-% no potential overflow problem at all. However it has number of steps
-% and computations.
-%
-% The same analysis can be done for Zu = ceil(T*100/7227) and for all
-% core TeX units.
-%
 % The round((T+0.5)*psi) based approach
 % --------------------------------------
 %
@@ -213,19 +136,64 @@
 % For T=\maxdimen (or very close) this is what happens for the units
 % "dd", "nc", and "in".
 %
-% And using X=round(T psi) for the "in" which has phi>2 in place of R
-% does not help.
-% Choosing the R or X approaches has no decisive impact on the potential
-% "Dimension too large error" problem. 
+% Besides, it turns out that this test which is done to decide whether
+% R=Zu or R=Zd, and on which the initial implementation of the macros
+% "up" and "down" were done at 0.9 gamma release is a bit costly.
 %
-% So I chose to use the round(T psi) approach for all units with phi>2
-% and the round((T+0.5) phi) approach for the units with 1<phi<2.
+% At 1.0 release, all the "up" and "down" macros were re-implemented
+% via a more stubborn usage of the ceil() based formulae for Zd and Zu.
+% This made all usable even with \maxdimen input and besided, proved
+% on average slightly faster.
 %
-% In future, the \texdimenUU{up,down} for UU = dd, nc, in, will probably
-% be re-implemented using the alternatvie approach to Zd and Zu
-% described in the section added 2021/11/07 on the ceil() function.
-% This approach will allow the macros to accept \maxdimen as input.
+% Overcoming the ceil() stumbling block (1.0 release)
+% ---------------------------------------------------
+%
+% I will in what follows refer to trunc(), floor() or ceil() only for
+% positive arguments, obtained as ratios x/y or sometimes as a numexpr
+% "scaling" operation" x*y/z which uses temporarily use doubled
+% precision.
+%
+% As \numexpr's x/y is round(x/y), with rounding away from zero, we have
+% access to floor(t) for t>=0 as round(t+0.5)-1 and for t>0 also as
+% round(t-0.5). The former may cause overflow as it involves
+% (2x+y)/(2y) but the latter (2x-y)/(2y) will not overflow if x comes
+% from a dimension as 2x<2**31 then.
+%
+% ceil(t) is more complex as it is floor(t)+1 only for t not an integer.
+% Let's explain how to overcome the challenge for Zd and the "in" unit,
+% i.e. a conversion factor of 7227/100.
+%
+% We want Zd = ceil((T+1)*100/7227) - 1, with T assumed positive.
+%
+% Let T = k*7227 + r with 0<= r < 7227, 0<=k, and r>0 if k=0.
+%
+% (T+1)*100/7227 becomes 100*k + (r+1)*100/7227 and thus
+%
+% Zd = 100 * k + ceil(x) - 1
+%
+% with  x = n*100/7227, and n = 1+r, so 0<n<=7227
+%
+% Here we have a nice situation 0 < x <= 100. Then:
 % 
+% ceil(x) = 100 - floor(100 - x)
+%         = 100 - (round(100 - x + 0.5) - 1)
+%         = 101 - round(100 * (1 - n/7227) + 0.5)
+%         = 101 - round((200 * (7227 - n) + 7227)/14454)
+%
+% We can thus achieve the computation of Zd = ceil((T+1)*100/7227) - 1
+% for T>0 without overflow in \numexpr this way:
+%
+%     k = floor(T/7227) = round(T/7227 - 0.5)
+%                       = round((2*T - 7227) / 14454)  (T>0 used here)
+%
+%     r = T - 7227 * k  = T modulo 7227
+%
+%     Zd = 100 * k + 100 - round( (201*7227 - 200*(r+1))/14454 )
+%
+% Everything here is computable within \numexpr and has absolutely no
+% potential overflow problem at all. The same analysis can be done for
+% Zu = ceil(T*100/7227) and for all core TeX units. See the comments
+% below for all obtained formulae.
 %
 % Implementation
 % ==============
@@ -233,7 +201,6 @@
 \def\texdimenfirstofone#1{#1}%
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
-%
 %
 % pt
 %
@@ -260,7 +227,7 @@
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
 }%
 %
-% mm 7227/2540 phi now >2, use from here on the simpler approach
+% mm 7227/2540 phi now >2, use from here on the X = round(T psi) approach
 %
 \def\texdimenmm#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*2540/7227\relax}%
 %
@@ -284,9 +251,20 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 %
-% ceil()-based approach to up and down macros (release 1.0)
-% =========================================================
+% "no test" ceil()-based approach to up and down macros (release 1.0)
+% ===================================================================
+% The notation <u/v> is used for u/v in numexpr, which does rounding
+% away from zero. It is essential that the argument be >-0.5 else <x+1>
+% not same as <x>+1. All formulae are overflow free. The comments are
+% for T > 0. Roughly such an approch works for conversion factors a/b,
+% a>b such that a*(2b+1)<2**31 if a is odd, <2**32 if a is even.
+% This is true for all core units with quite some margin, the worst
+% being phi=14856/1157 for "cc".
 %
+% Note: for a unit such as "ex" or "em" where morally b=65536=2**16,
+% this limits to a<=16383 if a is odd and to a<=32766 if a is even.
+% Thus the general \texdimenwithunit{dim1}{dim2} (which for dim2<1pt
+% computes basically an "up" value) can not imitate fully this scheme.
 \def\texdimenuudownup_zero#1;{\z@\relax}%
 \def\texdimenuudownup_neg#1-{-#1}%
 % bp 803/800
