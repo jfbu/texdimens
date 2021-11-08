@@ -7,24 +7,26 @@
 \endlinechar13\relax%
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
 %
-% Mathematics ("down" and "up" macros)
+% Mathematics (the challenge of the "down" and "up" macros)
 % ===========
 %
 % In the entire discussion here, "uu" stands for some core unit,
-% or some unit corresponding to a dimension > 1pt. For the case
-% of a unit corresponding to a dimension < 1pt, i.e. to
-% \texdimenwithunit macro added at 0.99, refer to the
-% comments of issue #2 on the tracker site.
+% or some unit corresponding to an internal dimension > 1pt.
 %
 % Is T sp attainable from unit "uu"?.
 % If not, what is largest dimension < Tsp which is attainable?
 % Here we suppose T>0.
 %
-% phi>1, psi=1/phi, psi<1.
+% D uu --> N = round(D * 65536) --> T = trunc (N * phi)
 %
-%     U(N,phi)=trunc(N phi) is the strictly increasing sequence,
-%     indexed by non-negative integers, of attainable dimensions.
-%     (in sp unit)
+% phi>1 is the conversion factor associated to "uu"
+% psi=1/phi, psi<1. Define U(N, phi) = trunc (N * phi)
+% 
+%     U(N,phi) is thus the strictly increasing sequence,
+%     indexed by non-negative integers, of non-negative
+%     attainable dimensions. (in sp unit)
+%
+% T>0, then:
 %
 %     U(N)<= T <  U(N+1)    iff    N = ceil((T+1)psi) - 1
 %     U(M)<  T <= U(M+1)    iff    M = ceil(T psi)    - 1
@@ -40,15 +42,16 @@
 %
 % - the two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
 %
-% The round((T+0.5)*psi) based approach
-% --------------------------------------
+% The round((T+0.5)*psi) based approach (basis of the "\texdimenUU" macros)
+% -------------------------------------
 %
 % Recall in all of this T > 0. And phi>1, psi=1/phi<1.
 %
 % Let's return to our analysis of the
-%  U(N)<= T < U(N+1) and U(M)< T <= U(M+1) equations.
 %
-% We will also use the N=Zd, and M+1=Zu notations of the introduction.
+%         U(N)<= T < U(N+1) and U(M)< T <= U(M+1)
+%
+% equations. We will also use the N=Zd, and M+1=Zu notations.
 %
 % case1:  M = N, i.e. Zd<Zu, i.e. T is not attainable:
 %         M=N=Zd < T psi < (T+1) psi <= N+1=Zu
@@ -68,29 +71,34 @@
 %         And as v = (T+1)psi - 0.5psi it is > N - 0.5.
 %         So R = round(v) = N.
 %
-% We thus have the initial observation which was at the coe of this
+% We thus have the initial observation which was at the core of this
 % package initial release:
 %
 % - compute R = round((T+0.5) psi)
+%
 % - if T is attained, then T = trunc(R * phi)
-% - if T is not attained then Zd = R and Zu = R+1 or Zd = R-1 and Zu =
-% R.
 %
-% How do we check if R = Zd or Zu? We need to evaluate trunc(R phi) and
-% compare it with T. But this trunc(R phi) can be computed the following
-% way:
+% - if T is not attained then either { Zd = R and Zu = R+1 }  or 
+%    {Zd = R-1 and Zu = R}.
 %
-% - obtain D pt from \the\dimexpr R sp. Knuth's algorithm guarantees
+%   How do we check if R = Zd or Zu? We need to evaluate trunc(R phi) and
+%   compare it with T. This trunc(R phi) can be computed the following way:
+%
+%   - obtain D pt from \the\dimexpr R sp. Knuth's algorithm guarantees
 %   that R = round(D * 65536)
-% - then D uu where uu is the unit with conversion factor phi is
-%   converted by TeX into "trunc(R phi) sp", i.e. 
-%   trunc(R phi) = \number\dimexpr Duu\relax, where D pt = \the\dimexpr Rsp\relax.
+%
+%   - then D uu where uu is the unit with conversion factor phi is
+%     converted by TeX into "trunc(R phi) sp", i.e.  trunc(R phi) =
+%     \number\dimexpr Duu\relax, where D pt = \the\dimexpr Rsp\relax.
 %
 % Conclusion:
+%
 % 1. the macro \texdimenuu does the one-liner R=round((T+0.5) psi)
 %    then \the\dimexpr Rsp\relax and strips the "pt" unit
+%
 % 2. macros \texdimenuuup and \texdimenuudown go further and check
 %    which one of Zd or Zu is R, obtaining thus Zd or Zu.
+%    [update: this describes the macros prior to 1.0 release]
 %
 % For units with conversion factor phi>2, a simplification is possible.
 % In that case let X = round(T psi) (it has the advantage compared to 
@@ -124,8 +132,8 @@
 % In contrast if we find out that trunc(R phi)<T, we then know for sure
 % that Zd=R, Zu=R+1 and that T is not attained.
 %
-% Problems with \maxdimen and the obtention of Zu and Zd
-% ------------------------------------------------------
+% Problems with \maxdimen in the obtention of Zu and Zd
+% -----------------------------------------------------
 %
 % Obtaining R = round((T+0.5)psi) has no risk of overflow.
 % But checking as described above which one of Zd or Zu (or both)
@@ -138,15 +146,15 @@
 %
 % Besides, it turns out that this test which is done to decide whether
 % R=Zu or R=Zd, and on which the initial implementation of the macros
-% "up" and "down" were done at 0.9 gamma release is a bit costly.
+% "up" and "down" was done at 0.9 gamma release is a bit costly.
 %
 % At 1.0 release, all the "up" and "down" macros were re-implemented
 % via a more stubborn usage of the ceil() based formulae for Zd and Zu.
 % This made all usable even with \maxdimen input and besided, proved
 % on average slightly faster.
 %
-% Overcoming the ceil() stumbling block (1.0 release)
-% ---------------------------------------------------
+% Overcoming the ceil() stumbling block (i.e. the 1.0 manner for "up/down")
+% ------------------------------------- 
 %
 % I will in what follows refer to trunc(), floor() or ceil() only for
 % positive arguments, obtained as ratios x/y or sometimes as a numexpr
@@ -193,7 +201,7 @@
 % Everything here is computable within \numexpr and has absolutely no
 % potential overflow problem at all. The same analysis can be done for
 % Zu = ceil(T*100/7227) and for all core TeX units. See the comments
-% below for all obtained formulae.
+% below for all obtained formulae and some additional details.
 %
 % Implementation
 % ==============
@@ -252,19 +260,32 @@
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 %
 % "no test" ceil()-based approach to up and down macros (release 1.0)
-% ===================================================================
-% The notation <u/v> is used for u/v in numexpr, which does rounding
+% =====================================================
+%
+% The notation <u/v> means u/v in numexpr, which does rounding
 % away from zero. It is essential that the argument be >-0.5 else <x+1>
-% not same as <x>+1. All formulae are overflow free. The comments are
-% for T > 0. Roughly such an approch works for conversion factors a/b,
-% a>b such that a*(2b+1)<2**31 if a is odd, <2**32 if a is even.
-% This is true for all core units with quite some margin, the worst
-% being phi=7227/2540 for "mm".
+% not same as <x>+1. All formulae are overflow free.
+%
+% The comments are for T > 0.
+%
+% Roughly such an approach works for phi = a/b > 1, such that:
+%
+%     a*(2b+1)<2**31 if a is odd, <2**32 if a is even
+%
+% This is true for all core units with quite some margin, the one with
+% largest a*b being phi=7227/2540 for "mm".
 %
 % Note: for a unit such as "ex" or "em" where morally b=65536=2**16,
 % this limits to a<=16383 if a is odd and to a<=32766 if a is even.
 % Thus the general \texdimenwithunit{dim1}{dim2} (which for dim2<1pt
-% computes basically an "up" value) can not imitate fully this scheme.
+% computes basically an "up" value) can *not imitate fully* this scheme.
+%
+% The macros and formulas in the comments were obtained from a template
+% (see the project repository), and we could actually combine them into
+% a generic one handling general a/b (verifying the above
+% condition). But for the the sake of efficiency, this is "rolled-out"
+% here unit per unit.
+%
 \def\texdimenuudownup_zero#1;{\z@\relax}%
 \def\texdimenuudownup_neg#1-{-#1}%
 % bp 803/800
@@ -501,8 +522,8 @@
 \def\texdimeninup_b#1;{\expandafter\texdimeninup_c\the\numexpr(2*#1-7227)/14454;#1;}%
 \def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
 \def\texdimeninup_d#1;#2;{\numexpr#200+101-(1452627-2*#100)/14454sp}%
-% both in and cm
-% Mathematics ("both" macros)
+%
+% Mathematics ("both in and cm", added at release 0.9)
 % ===========
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
@@ -579,8 +600,8 @@
 \def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr(((2*#3-3612)/7227)*7227+1)/2-1\relax\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
-% both mm and bp, cf issue #10 on tracker
-% Mathematics and Algorithm
+%
+% Mathematics and Algorithm ("both mm and bp", added at release 1.0)
 % =========================
 % We start from a dimension expressed in sp unit, "T sp". Assume T positive.
 % We know how to get largest "X sp <= T sp" which is exactly expressible
@@ -681,8 +702,8 @@
 % \texdimenbothbpmmsp and its alias \texdimenbothmmbpsp
 \def\texdimenbothbpmmsp#1{\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm\relax\relax}%
 \let\texdimenbothmmbpsp\texdimenbothbpmmsp
-% (\texdimenwithunit, added at 0.99)
-% Mathematics
+%
+% Mathematics (\texdimenwithunit, added at release 0.99, modified at 1.0)
 % ===========
 %
 % As explained in the README.md, the ex and em units are
@@ -722,28 +743,27 @@
 % (it is funny that N=round((2T+1)*32768/f) works for all f>0
 %  *except* f=65536).
 %
-% But the 0.999 release tries to use ceil(T/phi) formula rather
-% as it is closer to naive expectation "dim1/dim2" of a division.
+% The 1.0 release chooses to implement the ceil(T/phi) formula rather as
+% it is closer to naive expectation "dim1/dim2" of a division.
 %
-% It is not obvious to compute this ceil(T/phi) without overflow
-% (and within the \numexpr tools where division rounds).
-% See implementation.
+% It is not obvious to compute this ceil(T/phi) without overflow.
 %
 % Implementation
 % ==============
 %
 % \texdimenwithunit{dim1}{dim2}
 %
-% First done at 0.99, then refactored at 0.999:
+% First done at 0.99, then refactored at 1.0:
 % - to add support for dim2<0pt
 % - to handle differently the dim2<1pt case and make the output
 %   closer to mathematical dim1/dim2
 %
 % To handle dim2<0pt, we simply simultaneously do
-% dim1<-- -dim1 and dim2<-- -dim2.
+% dim1<-- (-dim1) and dim2<-- (-dim2).
 %
-% dim2=0pt is not intercepted and will cause division by zero low-level error.
-% Code comments below were not adjusted and handle only dim2>0pt.
+% dim2=0pt is not intercepted and will cause division by zero low-level
+% error.  Code comments below were not adjusted and handle only
+% dim2>0pt.
 %
 % We first get f from dim2 and branch according to whether f>65536,
 % or f<=65536.
