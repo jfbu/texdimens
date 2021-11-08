@@ -72,10 +72,16 @@
 % round((T*200+7227)/14454). This already raises the problem that 200*T
 % will easily overflow. Computation of R = round((T+0.5)psi) however
 % had no such issue at all, so the implementation became naturally based
-% upon it. And computation of Zu and Zd was based upon getting R first.
+% upon it.
 %
-% A worked-out alternative to current package approach (2021/11/07)
-% -----------------------------------------------------------------
+% And the computation of Zu and Zd was based upon getting R first, as is
+% described in the next section, not on their ceil() based formulae.
+%
+% For the units "dd", "nc", "in", this approach had a limitation that
+% \maxdimen or very close dimensions could not be used as inputs to
+% the up and down macros. At 1.0, an alternative approach based
+% on the ceil() formulae for Zd and Zu was implemented. Here is
+% its detailed escription added 2021/11/07 in the case of Zd/"in".
 %
 % We want Zd = ceil((T+1)*100/7227) - 1, with T assumed positive.
 %
