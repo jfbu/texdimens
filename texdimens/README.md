@@ -253,7 +253,8 @@ Remarks about "Dimension too large" issues:
    assignment or expression, will (as is logical) trigger a "Dimension
    too large" error.
 2. For `dd`, `nc` and `in`, it turns out that `\texdimen<uu>{X}` chooses
-   the "up" approximant for `X` equal to or very near `\maxdimen`,
+   the "up" approximant for `X` equal to or very near `\maxdimen` (check
+   the respective macro documentations),
    i.e. the output `D` is such that `Duu` is the first virtually
    attainable dimension beyond `\maxdimen`. Hence `Duu` will trigger on
    use a "Dimension too large error".  With the other units for which
@@ -321,8 +322,9 @@ Remarks about "Dimension too large" issues:
 > known in advance if it will be above or below.
 
 > Warning: the output for `\maxdimen` is `15312.02585` but `15312.02585dd`
-> will trigger "Dimension too large" error.
-> `\maxdimen-1sp` is attainable via `15312.02584dd`.
+> will trigger on use "Dimension too large" error.
+> `\maxdimen-1sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-1sp`).
 
 `\texdimendddown{<dim. expr.>}`
 
@@ -333,18 +335,19 @@ Remarks about "Dimension too large" issues:
 `\texdimendddownquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-1sp`.
 
 `\texdimenddup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
+> If input is `\maxdimen`, then `Ddd` virtually represents `\maxdimen+1sp`.
 
 `\texdimenddupquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-1sp`.
 
 `\texdimenmm{<dim. expr.>}`
 
@@ -399,9 +402,10 @@ Remarks about "Dimension too large" issues:
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is `1279.62628` but `1279.62628nc`
-> will trigger "Dimension too large" error.
-> `\maxdimen-9sp` is attainable via `1279.62627nc`.
+> Warning: the output for `\maxdimen-1sp` is `1279.62628` but `1279.62628nc`
+> will trigger on use "Dimension too large" error.
+> `\maxdimen-2sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-9sp`).
 
 `\texdimenncdown{<dim. expr.>}`
 
@@ -412,18 +416,19 @@ Remarks about "Dimension too large" issues:
 `\texdimenncdownquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-2sp`.
 
 `\texdimenncup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+> If input is `>\maxdimen-9sp`, then `Dnc` triggers on use "Dimension too large".
 
 `\texdimenncupquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-2sp`.
 
 `\texdimencc{<dim. expr.>}`
 
@@ -479,9 +484,10 @@ Remarks about "Dimension too large" issues:
 > known in advance which one (and it is not known if the other choice
 > would have been closer).
 
-> Warning: the output for `\maxdimen` is `226.70541` but `226.70541in`
-> will trigger "Dimension too large" error.
-> `\maxdimen-55sp` is maximal attainable dimension (via `226.7054in`).
+> Warning: the output for `\maxdimen-18sp` is `226.70541` but `226.70541in`
+> will trigger on  use "Dimension too large" error.
+> `\maxdimen-19sp` is the maximal input for which the output remains
+> less than `\maxdimen` (max attainable dimension: `\maxdimen-55sp`).
 
 `\texdimenindown{<dim. expr.>}`
 
@@ -492,18 +498,19 @@ Remarks about "Dimension too large" issues:
 `\texdimenindownquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-19sp`.
 
 `\texdimeninup{<dim. expr.>}`
 
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+> If input is `>\maxdimen-55sp`, then `Din` triggers on use "Dimension too large".
 
 `\texdimeninupquick{<dim. expr.>}`
 
 > Expands slightly faster than the variant without `quick` in its name,
-> but does not accept input equal to or very close to `\maxdimen`.
+> but requires input to be at most `\maxdimen-19sp`.
 
 `\texdimenbothcmin{<dim. expr.>}`
 
