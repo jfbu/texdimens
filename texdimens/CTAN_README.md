@@ -48,7 +48,9 @@ from the other direction would have been better or worst.
 
 The variants `\texdimenbpup` and `\texdimenbpdown` expand slightly less
 fast than `\texdimenbp` but they allow to choose the direction of
-approximation (in absolute value). The macros for the other units have
+approximation (in absolute value).
+
+The macros associated to the other units have
 the same descriptions.
 
 `\texdimenbothincm`, respectively `\texdimenbothbpmm`, find the largest

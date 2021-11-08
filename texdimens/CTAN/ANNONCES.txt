@@ -12,15 +12,12 @@ v1.0 (2021/11/??)
   largest dimension not exceeding (in absolute value) the input
   and expressible exactly both in the bp and in the mm units.
 
-- enhanced: \texdimenUUup and \texdimenUUdown with UU being dd,
-  nc or in, now accept \maxdimen as input, as was already the
-  case for all other such macros associated with the other
-  units.
-
-- renamed: \texdimenUUuplegacy and \texdimenUUdownlegacy, with UU
-  one of nd, nc or in, are the new names of the formerly
-  existing macros without "legacy", which can not be used with
-  \maxdimen (or less by a few sp's) as input.
+- enhanced: all \texdimenUUup and \texdimenUUdown macros now
+  accept all inputs up to and inclusive of \maxdimen. Formerly
+  the macros associated to the "dd", "nc", and "in" units need
+  the inpu to a be a few sp's away from \maxdimen. All these
+  "up" and "down" macros use a new algorithm and are for most
+  inputs a bit faster.
 
 - breaking: the \texdimenwithunit output with a positive second
   argument smaller than 1pt has changed. Both old and new
@@ -28,8 +25,8 @@ v1.0 (2021/11/??)
   the new output has the advantage of being closer to the
   mathematical ratio of the two arguments.
 
-- enhanced: \texdimenwithunit's second argument is allowed to be
-  negative.
+- enhanced: \texdimenwithunit's second argument is now allowed
+  to be negative.
 
 Thanks to Ruixi Zhang for multiple remarks, analyses and feature
 requests.
