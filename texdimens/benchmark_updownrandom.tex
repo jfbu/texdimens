@@ -9,7 +9,7 @@
 \edef\w{\pdfuniformdeviate 131072}%
 \expandafter\let\expandafter\NEW\csname texdimen#3#4\endcsname
 % turns out the old versions are NOT quicker...
-\expandafter\let\expandafter\OLD\csname texdimen#3#4quick\endcsname
+\expandafter\let\expandafter\OLD\csname texdimen#3#4legacy\endcsname
 \pdfresettimer
 \xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\NEW{\w sp}}}}%
 \edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%

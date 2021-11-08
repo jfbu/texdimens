@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimendddown{\counta sp}}%
-             \edef\w{\texdimendddownquick{\counta sp}}%
+             \edef\w{\texdimendddownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur dddown: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x dd}%
              \edef\z{\the\counta}%
@@ -22,7 +22,7 @@
 
 \counta\maxdimen
 % from doc "\maxdimen-1sp is attainable via 15312.02584dd"
-% starting with \maxdimen-1sp, quick variant can be used
+% starting with \maxdimen-1sp, legacy variant can be used
 \countA\numexpr\maxdimen-1\relax
 
 \def\test{\edef\x{\texdimendddown{\counta sp}}%
@@ -39,7 +39,7 @@
 
 \countA\numexpr\maxdimen-100\relax
 \loop
-\testpos % we can use the downquick also
+\testpos % we can use the downlegacy also
 \advance\counta -1
 \ifnum\counta>\countA
 \repeat
@@ -48,7 +48,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimendddown{\counta sp}}%
-             \edef\w{\texdimendddownquick{\counta sp}}%
+             \edef\w{\texdimendddownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur dddown: \the\counta sp}\ERROR\fi
             }
 

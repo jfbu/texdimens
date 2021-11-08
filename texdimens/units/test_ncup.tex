@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimenncup{\counta sp}}%
-             \edef\w{\texdimenncupquick{\counta sp}}%
+             \edef\w{\texdimenncuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ncup: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x nc}%
              \edef\z{\the\counta}%
@@ -22,7 +22,7 @@
 
 \counta\maxdimen
 % from doc "\maxdimen-9sp is attainable via 1279.62627nc."
-% max allowed input for quick is \maxdimen-2sp
+% max allowed input for legacy is \maxdimen-2sp
 \countA\numexpr\maxdimen-2\relax
 
 % simply check if \maxdimen input does not trigger error
@@ -34,10 +34,10 @@
 \ifnum\counta>\countA
 \repeat
 
-% from now we can compare with "quick" macro
+% from now we can compare with "legacy" macro
 \countA\numexpr\maxdimen-9\relax
 \def\test{\edef\x{\texdimenncup{\counta sp}}%
-             \edef\w{\texdimenncupquick{\counta sp}}%
+             \edef\w{\texdimenncuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur inup: \the\counta sp}\ERROR\fi
             }
 \loop
@@ -59,7 +59,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimenncup{\counta sp}}%
-             \edef\w{\texdimenncupquick{\counta sp}}%
+             \edef\w{\texdimenncuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ncup: \the\counta sp}\ERROR\fi
             }
 

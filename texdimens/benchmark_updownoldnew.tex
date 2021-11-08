@@ -6,7 +6,7 @@
 \def\test#1#2#3#4#5{%
 \expandafter\let\expandafter\NEW\csname texdimen#4#5\endcsname
 % turns out the old versions are NOT quicker...
-\expandafter\let\expandafter\OLD\csname texdimen#4#5quick\endcsname
+\expandafter\let\expandafter\OLD\csname texdimen#4#5legacy\endcsname
 \pdfresettimer
 \xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\NEW{#3}}}}%
 \edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%

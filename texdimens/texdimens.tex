@@ -306,9 +306,9 @@
     \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
 }%
 % \texdimendddown: maximal dim exactly expressible in dd and at most equal to input
-\def\texdimendddownquick#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+\def\texdimendddownlegacy#1{\expandafter\texdimendown_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 % \texdimenddup: minimal dim exactly expressible in dd and at least equal to input
-\def\texdimenddupquick#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
+\def\texdimendduplegacy#1{\expandafter\texdimenup_A\the\numexpr\dimexpr#1;*1157/2476;dd;}%
 %
 % mm 7227/2540 phi now >2, use from here on the simpler approach
 %
@@ -330,9 +330,9 @@
 %
 \def\texdimennc#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*107/1370\relax}%
 % \texdimenncdown: maximal dim exactly expressible in nc and at most equal to input
-\def\texdimenncdownquick#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+\def\texdimenncdownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 % \texdimenncup: minimal dim exactly expressible in nc and at least equal to input
-\def\texdimenncupquick#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
+\def\texdimenncuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*107/1370;nc;}%
 %
 % cc 14856/1157
 %
@@ -354,9 +354,9 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 % \texdimenindown: maximal dim exactly expressible in in and at most equal to input
-\def\texdimenindownquick#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+\def\texdimenindownlegacy#1{\expandafter\texdimendown_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 % \texdimeninup: minimal dim exactly expressible in in and at least equal to input
-\def\texdimeninupquick#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
+\def\texdimeninuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 %
 % ceil()-based approach to up and down for dd, nc, in (release 1.0)
 % =================================================================

@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimenindown{\counta sp}}%
-             \edef\w{\texdimenindownquick{\counta sp}}%
+             \edef\w{\texdimenindownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur indown: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x in}%
              \edef\z{\the\counta}%
@@ -22,7 +22,7 @@
 
 \counta\maxdimen
 % from doc "\maxdimen-55sp is maximal attainable dimension (via 226.7054in)."
-% starting with \maxdimen-19sp, indownquick can be used
+% starting with \maxdimen-19sp, indownlegacy can be used
 \countA\numexpr\maxdimen-19\relax
 
 \def\test{\edef\x{\texdimenindown{\counta sp}}%
@@ -40,7 +40,7 @@
 
 \countA\numexpr\maxdimen-100\relax
 \loop
-\testpos % we can use the downquick also
+\testpos % we can use the downlegacy also
 \advance\counta -1
 \ifnum\counta>\countA
 \repeat
@@ -49,7 +49,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimenindown{\counta sp}}%
-             \edef\w{\texdimenindownquick{\counta sp}}%
+             \edef\w{\texdimenindownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur indown: \the\counta sp}\ERROR\fi
             }
 

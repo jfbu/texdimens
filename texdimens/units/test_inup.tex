@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimeninup{\counta sp}}%
-             \edef\w{\texdimeninupquick{\counta sp}}%
+             \edef\w{\texdimeninuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur inup: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x in}%
              \edef\z{\the\counta}%
@@ -22,7 +22,7 @@
 
 \counta\maxdimen
 % from doc "\maxdimen-55sp is maximal attainable dimension (via 226.7054in)."
-% max allowed input for quick \maxdimen-19sp
+% max allowed input for legacy \maxdimen-19sp
 \countA\numexpr\maxdimen-19\relax
 
 % simply check if \maxdimen input does not trigger error
@@ -34,10 +34,10 @@
 \ifnum\counta>\countA
 \repeat
 
-% from now we can compare with "quick" macro
+% from now we can compare with "legacy" macro
 \countA\numexpr\maxdimen-55\relax
 \def\test{\edef\x{\texdimeninup{\counta sp}}%
-             \edef\w{\texdimeninupquick{\counta sp}}%
+             \edef\w{\texdimeninuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur inup: \the\counta sp}\ERROR\fi
             }
 \loop
@@ -49,7 +49,7 @@
 % from now on output is < \maxdimen so \dimexpr <output> is usable, use full test
 \countA\numexpr\maxdimen-100\relax
 \loop
-\testpos % we can use the upquick also
+\testpos % we can use the uplegacy also
 \advance\counta -1
 \ifnum\counta>\countA
 \repeat
@@ -58,7 +58,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimeninup{\counta sp}}%
-             \edef\w{\texdimeninupquick{\counta sp}}%
+             \edef\w{\texdimeninuplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur inup: \the\counta sp}\ERROR\fi
             }
 

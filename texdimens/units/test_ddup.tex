@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimenddup{\counta sp}}%
-             \edef\w{\texdimenddupquick{\counta sp}}%
+             \edef\w{\texdimendduplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ddup: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x dd}%
              \edef\z{\the\counta}%
@@ -45,7 +45,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimenddup{\counta sp}}%
-             \edef\w{\texdimenddupquick{\counta sp}}%
+             \edef\w{\texdimendduplegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ddup: \the\counta sp}\ERROR\fi
             }
 

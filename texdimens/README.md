@@ -332,10 +332,10 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be smaller by `1sp` from the original dimension.
 
-`\texdimendddownquick{<dim. expr.>}`
+`\texdimendddownlegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-1sp`.
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-1sp`.
 
 `\texdimenddup{<dim. expr.>}`
 
@@ -344,10 +344,10 @@ Remarks about "Dimension too large" issues:
 > will be larger by `1sp` from the original dimension.
 > If input is `\maxdimen`, then `Ddd` virtually represents `\maxdimen+1sp`.
 
-`\texdimenddupquick{<dim. expr.>}`
+`\texdimendduplegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-1sp`.
+> The earlier versions from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-1sp`.
 
 `\texdimenmm{<dim. expr.>}`
 
@@ -413,10 +413,10 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdimenncdownquick{<dim. expr.>}`
+`\texdimenncdownlegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-2sp`.
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-2sp`.
 
 `\texdimenncup{<dim. expr.>}`
 
@@ -425,10 +425,10 @@ Remarks about "Dimension too large" issues:
 > will be smallest representable dimension larger than the original one.
 > If input is `>\maxdimen-9sp`, then `Dnc` triggers on use "Dimension too large".
 
-`\texdimenncupquick{<dim. expr.>}`
+`\texdimenncuplegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-2sp`.
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-2sp`.
 
 `\texdimencc{<dim. expr.>}`
 
@@ -495,10 +495,10 @@ Remarks about "Dimension too large" issues:
 > represents the dimension exactly if possible. If not possible it
 > will be largest representable dimension smaller than the original one.
 
-`\texdimenindownquick{<dim. expr.>}`
+`\texdimenindownlegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-19sp`.
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-19sp`.
 
 `\texdimeninup{<dim. expr.>}`
 
@@ -507,10 +507,10 @@ Remarks about "Dimension too large" issues:
 > will be smallest representable dimension larger than the original one.
 > If input is `>\maxdimen-55sp`, then `Din` triggers on use "Dimension too large".
 
-`\texdimeninupquick{<dim. expr.>}`
+`\texdimeninuplegacy{<dim. expr.>}`
 
-> Expands slightly faster than the variant without `quick` in its name,
-> but requires input to be at most `\maxdimen-19sp`.
+> The earlier version from 0.9 gamma release,
+> It requires input to be at most `\maxdimen-19sp`.
 
 `\texdimenbothcmin{<dim. expr.>}`
 

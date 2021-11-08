@@ -7,7 +7,7 @@
 \countA 40000
 
 \def\testpos{\edef\x{\texdimenncdown{\counta sp}}%
-             \edef\w{\texdimenncdownquick{\counta sp}}%
+             \edef\w{\texdimenncdownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ncdown: \the\counta sp}\ERROR\fi
              \edef\y{\the\numexpr\dimexpr\x nc}%
              \edef\z{\the\counta}%
@@ -22,7 +22,7 @@
 
 \counta\maxdimen
 % from doc "\maxdimen-9sp is attainable via 1279.62627nc."
-% starting with \maxdimen-2sp, ncdownquick can be used
+% starting with \maxdimen-2sp, ncdownlegacy can be used
 \countA\numexpr\maxdimen-2\relax
 
 \def\test{\edef\x{\texdimenncdown{\counta sp}}%
@@ -39,7 +39,7 @@
 
 \countA\numexpr\maxdimen-100\relax
 \loop
-\testpos % we can use the downquick also
+\testpos % we can use the downlegacy also
 \advance\counta -1
 \ifnum\counta>\countA
 \repeat
@@ -48,7 +48,7 @@
 \countA 100
 
 \def\testneg{\edef\x{\texdimenncdown{\counta sp}}%
-             \edef\w{\texdimenncdownquick{\counta sp}}%
+             \edef\w{\texdimenncdownlegacy{\counta sp}}%
              \ifx\x\w\else\immediate\write128{Erreur ncdown: \the\counta sp}\ERROR\fi
             }
 
