@@ -262,11 +262,15 @@ Remarks about "Dimension too large" issues:
    use a "Dimension too large error".  With the other units for which
    `\maxdimen` is not attainable exactly, `\texdimen<uu>{\maxdimen}`
    output is by luck the "down" approximant.
-3. `\texdimenwithunit{D1pt}{D2pt}` may trigger "Dimension too large"
-   error during *its execution* if `D2>1` and if `D1pt` is very close to
-   `\maxdimen`, roughly if `D1pt>\maxdimen-D2sp`, if 
-   `\maxdimen` turns out to not be exactly representable as `E<D2pt>`
-   for some decimal `E` (which becomes more likely as `D2` increases).
+3. Similarly the macro `\texdimenwithunit{D1pt}{D2pt}` covers the entire
+   dimension range, but its output `F` for `D1pt` equal to or very close
+   to `\maxdimen` (roughly `D1pt>\maxdimen-D2sp` enters the danger zone)
+   may be such that `F<D2pt>` represents a dimension beyond `\maxdimen`,
+   if the latter is not exactly representable.  Hence it would trigger
+   "Dimension too large" on use.  This can only happen if
+   `D2pt>1pt`. For `D2pt<1pt`, all dimensions `D1pt` are exactly
+   representable, in particular `\maxdimen`, and the output `F` will
+   always be such that `D1pt=F<D2pt>`.
 
 `\texdimenpt{<dim. expr.>}`
 
@@ -566,11 +570,6 @@ Remarks about "Dimension too large" issues:
 > will ensure for `D<dim2>` to be a closest match to the first argument
 > `dim1` either from above or below, but one does not know if the other
 > direction would have given a better or worst match.
->
-> `\texdimenwithunit{D1pt}{D2pt}` may trigger "Dimension too large"
-> error during execution if `D2>1` and if `D1pt>\maxdimen-D2sp`, in the
-> case that `\maxdimen` turns out to not be exactly representable as
-> `E<D2pt>` for some decimal `E`.
 >
 > `\texdimenwithunit{dim}{1bp}` and `\texdimenbp{dim}` are not
 > the same: The former produces a decimal `D` such that `D\dimexpr
