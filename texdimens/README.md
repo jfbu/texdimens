@@ -600,39 +600,6 @@ Remarks about "Dimension too large" issues:
 > the (rounded) value `D1/D2` or rather `N1/N2` still stands.
 
 
-## Extras?
-
-As already stated the "up" and also the "down" macros for the `dd`, `nc`
-and `in` units will trigger "Dimension too large" if used with inputs
-equal to or very near `\maxdimen`.  "Safe" variants which are guaranteed
-never to trigger this error but have some extra overhead to filter out
-inputs very close to `\maxdimen` will *perhaps* be provided if there is
-some demand for it.
-
-But of course anyhow the output from the "up" macros if used
-as input with the corresponding unit will be beyond `\maxdimen` if the
-latter is not attainable, i.e. for all units except `bp`, and `nd`
-(and `pt` but there is no "up" macro for it).
-
-The
-dimensions representable with both `in` and `cm` units have the shape
-`trunc(3613.5*k)sp` for some integer `k`. The largest one not exceeding
-a given dimension will thus differ from it by at most about `0.055pt`,
-which is also about `0.02mm`.
-
-For example `\texdimenbothincm{1cm}` expands to `0.99994cm` which maps
-internally to `1864566sp` which differs from TeX's `1cm` by only
-`-113sp`. It can be obtained from `0.39368in` or `28.45102pt`.
-
-And `\texdimenbothcmin{1in}` expands to `0.99945in`, maps internally to
-`4733685sp` which differs from TeX's `1in` by `-2601sp`. It can be obtained
-as `2.5386cm` or `72.2303pt`.
-
-Currently the package does not provide analogous approximations from above.
-For the `1in` for example it would be `4737298sp`, i.e. `1.00021in` which
-differs from TeX's `1in` by `+1012sp` and is obtained also as `2.54054cm`
-and `72.28543pt`.
-
 ## Acknowledgements
 
 Thanks to Denis Bitouzé for raising an
