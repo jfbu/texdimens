@@ -115,6 +115,7 @@ do
   if [ $? -eq 0 ]
   then
       # echo -n "fait"
+      # tester existence dans le parent ou ici?
       if [ -f "../`basename $i .tex`-out.txt" ]
       then
 	 git diff --quiet "`basename $i .tex`-out.txt"
@@ -125,7 +126,7 @@ do
              echo -e " \033[1;31mÉCHEC\033[0m"
 	 fi
       else
-	  echo -e " pas d'output (\033[32mOK\033[0m)"
+	  echo -e " (auto-test)"
       fi
   else
       echo -e "fait\033[1;31m"
