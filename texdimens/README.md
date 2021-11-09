@@ -264,7 +264,8 @@ Remarks about "Dimension too large" issues:
    output is by luck the "down" approximant.
 3. Similarly the macro `\texdimenwithunit{D1pt}{D2pt}` covers the entire
    dimension range, but its output `F` for `D1pt` equal to or very close
-   to `\maxdimen` (roughly `D1pt>\maxdimen-D2sp` enters the danger zone)
+   to `\maxdimen` (roughly `D1pt>\maxdimen-D2sp` enters the danger zone,
+   but `D2sp` is less than `0.25pt`...)
    may be such that `F<D2pt>` represents a dimension beyond `\maxdimen`,
    if the latter is not exactly representable.  Hence it would trigger
    "Dimension too large" on use.  This can only happen if
