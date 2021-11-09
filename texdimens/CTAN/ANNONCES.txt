@@ -2,11 +2,11 @@
 
 ------------------------------------------------------------------------
 
-Release 1.0 du ?? novembre 2021
+Release 1.0 du 10 novembre 2021
 
-Téléversé sur CTAN le ?? novembre 2021 vers ??
+Téléversé sur CTAN le 10 novembre 2021 vers ??
 
-v1.0 (2021/11/??)
+v1.0 (2021/11/10)
 
 - new: \texdimenbothbpmm (and relatives).  It produces the
   largest dimension not exceeding (in absolute value) the input
