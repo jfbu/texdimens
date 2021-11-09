@@ -42,7 +42,7 @@ with open('tempmacros.tex', 'w') as f:
                         \krof \texdimen{U}down_b#1}}%
 \def\texdimen{U}down_b#1;{{\expandafter\texdimen{U}down_c\the\numexpr({Deux}#1-{A2sur2})/{A2};#1;}}%
 \def\texdimen{U}down_c#1;#2;{{\expandafter\texdimen{U}down_d\the\numexpr#2-{A}*#1;#1;}}%
-\def\texdimen{U}down_d#1;#2;{{\numexpr{B}*#2+{B}-({C}-{B2}*#1)/{A2}sp}}%
+\def\texdimen{U}down_d#1;#2;{{\numexpr{B}*#2+{B}-({C}-{B2}*#1)/{A2}sp\relax}}%
 % Zu = {B} k + {B} + 1 - <({D} - {B2} r)/{A2}>
 \def\texdimen{U}up#1{{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimen{U}up_a\the\numexpr\dimexpr#1;%
@@ -54,7 +54,7 @@ with open('tempmacros.tex', 'w') as f:
                       \krof \texdimen{U}up_b#1}}%
 \def\texdimen{U}up_b#1;{{\expandafter\texdimen{U}up_c\the\numexpr({Deux}#1-{A2sur2})/{A2};#1;}}%
 \def\texdimen{U}up_c#1;#2;{{\expandafter\texdimen{U}up_d\the\numexpr#2-{A}*#1;#1;}}%
-\def\texdimen{U}up_d#1;#2;{{\numexpr{B}*#2+{Bplus1}-({D}-{B2}*#1)/{A2}sp}}%
+\def\texdimen{U}up_d#1;#2;{{\numexpr{B}*#2+{Bplus1}-({D}-{B2}*#1)/{A2}sp\relax}}%
 """.format(U=uu,A=a,B=b,Bplus1=bplus1,C=c,D=d,B2=b2,A2=a2,Deux=deux,A2sur2=a2sur2))
 
 
