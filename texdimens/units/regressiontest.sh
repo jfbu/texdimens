@@ -8,7 +8,7 @@ ctanbuilddir="ctanbuild/texdimens"
 
 shopt -s nullglob
 
-INFO=""
+infostring=""
 # git ls-files ne trouve que les fichiers dans le répertoire courant,
 # ou dans des sous-répertoires de celui-ci.
 for file in `git ls-files`
@@ -16,7 +16,7 @@ do
     git diff --quiet -- "$file"
     if [ ! $? -eq 0 ]
     then
-        INFO+="
+        infostring+="
 INFO: $file est différent de sa version dans HEAD"
 	# git diff -- "$file"
     fi
@@ -182,5 +182,5 @@ else
     status=1
 fi
 
-echo "$INFO"
+echo "$infostring"
 exit $status
