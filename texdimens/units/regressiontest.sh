@@ -58,32 +58,33 @@ echo "... faite"
 echo "création des liens symboliques..."
 
 # Pour le moment, tout cela est assez absurde car le script
-# n'a plus le code pour faire un checkout d'un commit donné
+# n'a pas le code pour faire un checkout d'un commit donné,
+# donc le texdimens.tex est nécessairement le même.
+#
+# Après hésitation faire aussi les legacy pour les tests
+# "ctan", puisqu'après tout ce sont les tests à faire en
+# dernier donc ils doivent être les plus complets
+cd "$testdir"
 if [ $withctan -eq 1 ]
 then
-    cd "$testdir"
-# ATTENTION ICI
-    for i in ../../"$ctanbuilddir"/texdimens.tex
+    for i in ../../"$ctanbuilddir"/texdimens.tex ../../texdimenslegacy.tex
     do
         ln -s "$i" "`basename $i`"
     done
-    cd ..
-    echo "... faite"
 else
-    cd "$testdir"
     for i in ../../{texdimens,texdimenslegacy}.tex
     do
         ln -s "$i" "`basename $i`"
         # echo $i
     done
-    cd ..
-    echo "... faite"
-    echo "copie des tests de up/down vs legacy..."
-    legacytestfiles="legacytest*tex"
-    testfiles+=" $legacytestfiles"
-    cp $legacytestfiles "$testdir"
-    echo "... faite"
 fi
+cd ..
+echo "... faite"
+echo "copie des tests de up/down vs legacy..."
+legacytestfiles="legacytest*tex"
+testfiles+=" $legacytestfiles"
+cp $legacytestfiles "$testdir"
+echo "... faite"
 
 echo "entrée dans le repertoire $testdir"
 cd "$testdir" && pwd && ls -l
