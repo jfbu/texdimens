@@ -17,6 +17,7 @@ auto/
 *.zip
 tempmacros.tex
 README
+README.rst
 README.html
 ctanbuild/*
 !ctanbuild/private.sh

@@ -10,9 +10,15 @@ TEST =
 README: README.md
 	pandoc -t plain -o README README.md
 
-# added 21/11/02 but I will have to check options
-README.html: README.md
-	pandoc -t html -o README.html README.md
+# For html (if offline), let's go via reStructuredText html5 writer
+# which has some minimal CSS giving satisfactory result, contrarily
+# (afaict even with -s option) to pandoc html5 (but I did not insist
+# much)
+README.rst: README.md
+	pandoc -t rst -o README.rst README.md
+
+README.html: README.rst
+	rst2html5.py README.rst README.html
 
 # 21/11/04. Attention to leave no spaces after the backsslashes
 texdimens.ltx: README.md
