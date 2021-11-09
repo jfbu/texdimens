@@ -1,4 +1,4 @@
--*- mode:text; fill-column: 64; -*-
+-*- mode:text; fill-column: 64; sentence-end-double-space:t -*-
 
 ------------------------------------------------------------------------
 
@@ -8,22 +8,21 @@ Téléversé sur CTAN le ?? novembre 2021 vers ??
 
 v1.0 (2021/11/??)
 
-- new: \texdimenbothbpmm (and relatives). It produces the
+- new: \texdimenbothbpmm (and relatives).  It produces the
   largest dimension not exceeding (in absolute value) the input
   and expressible exactly both in the bp and in the mm units.
 
 - enhanced: all \texdimenUUup and \texdimenUUdown macros now
-  accept all inputs, up to and inclusive of \maxdimen. Formerly
-  the macros associated to "dd", "nc", and "in" needed
-  the input to stay a few sp's away from \maxdimen. All the
-  "up" and "down" macros use a new algorithm and got a bit
-  faster.
+  accept all inputs, up to and inclusive of \maxdimen.  Formerly
+  the macros associated to "dd", "nc", and "in" needed the input
+  to stay a few sp's away from \maxdimen.  The new macros use
+  a new algorithm and got a bit faster.
 
-- breaking: the \texdimenwithunit output for a positive second
-  argument smaller than 1pt has changed. Both old and new
-  outputs verify the specification from the documentation, but
-  the new one has the advantage of being closer to the exact
-  mathematical ratio of the two arguments.
+- breaking: the \texdimenwithunit output for a second argument
+  smaller than 1pt has changed.  Both old and new outputs verify
+  the specification from the documentation, but the new one has
+  the advantage of remaining closer to the exact mathematical
+  ratio of the two arguments.
 
 - enhanced: \texdimenwithunit's second argument is now allowed
   to be negative.
