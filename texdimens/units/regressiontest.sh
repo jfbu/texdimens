@@ -60,6 +60,8 @@ echo "création des liens symboliques..."
 # Pour le moment, tout cela est assez absurde car le script
 # n'a pas le code pour faire un checkout d'un commit donné,
 # donc le texdimens.tex est nécessairement le même.
+# (pas vraiment il peut-être ancienne version dans ctanbuild/
+#  si "make testctan" est invoqué directement, et pas "make ctan")
 #
 # Après hésitation faire aussi les legacy pour les tests
 # "ctan", puisqu'après tout ce sont les tests à faire en
