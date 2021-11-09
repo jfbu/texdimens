@@ -344,7 +344,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Ddd`
 > represents the dimension exactly if possible. If not possible it
 > will be larger by `1sp` from the original dimension.
-> If input is `\maxdimen`, then `Ddd` virtually represents `\maxdimen+1sp`.
+>
+> If input is `\maxdimen`, then `Ddd` virtually represents
+> `\maxdimen+1sp` and will trigger on use "Dimension too large".
 
 `\texdimenmm{<dim. expr.>}`
 
@@ -355,7 +357,7 @@ Remarks about "Dimension too large" issues:
 > would have been closer).
 
 > `\maxdimen` as input produces on output `5758.31741` and indeed the
-> maximal attainable dimension is `5758.31741mm` (`1073741822sp`).
+> maximal attainable dimension is `5758.31741mm` (`\maxdimen-1sp`).
 
 `\texdimenmmdown{<dim. expr.>}`
 
@@ -368,6 +370,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Dmm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+>
+> If input is `\maxdimen`, then `Dmm` virtually represents
+> `\maxdimen+2sp` and will trigger on use "Dimension too large".
 
 `\texdimenpc{<dim. expr.>}`
 
@@ -377,7 +382,7 @@ Remarks about "Dimension too large" issues:
 > from above is chosen).
 
 > `\maxdimen` as input produces on output `1365.33333` and indeed the
-> maximal attainable dimension is `1365.33333pc` (`1073741820sp`).
+> maximal attainable dimension is `1365.33333pc` (`\maxdimen-3sp`).
 
 `\texdimenpcdown{<dim. expr.>}`
 
@@ -390,6 +395,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Dpc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+>
+> If input is `>\maxdimen-3sp`, then `Dpc` virtually represents
+> `\maxdimen+9sp` and will trigger on use "Dimension too large".
 
 `\texdimennc{<dim. expr.>}`
 
@@ -415,7 +423,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Dnc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
-> If input is `>\maxdimen-9sp`, then `Dnc` triggers on use "Dimension too large".
+>
+> If input is `>\maxdimen-9sp`, then `Dnc` virtually represents
+> `\maxdimen+4sp` and will trigger on use "Dimension too large".
 
 `\texdimencc{<dim. expr.>}`
 
@@ -426,7 +436,7 @@ Remarks about "Dimension too large" issues:
 > would have been closer).
 
 > `\maxdimen` as input produces on output `1276.00215` and indeed the
-> maximal attainable dimension is `1276.00215cc` (`1073741821sp`).
+> maximal attainable dimension is `1276.00215cc` (`\maxdimen-2sp`).
 
 `\texdimenccdown{<dim. expr.>}`
 
@@ -439,6 +449,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Dcc`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+>
+> If input is `>\maxdimen-2sp`, then `Dcc` virtually represents
+> `\maxdimen+11sp` and will trigger on use "Dimension too large".
 
 `\texdimencm{<dim. expr.>}`
 
@@ -449,7 +462,7 @@ Remarks about "Dimension too large" issues:
 > would have been closer).
 
 > `\maxdimen` as input produces on output `575.83174` and indeed the
-> maximal attainable dimension is `575.83174cm` (`1073741822sp`).
+> maximal attainable dimension is `575.83174cm` (`\maxdimen-1sp`).
 
 `\texdimencmdown{<dim. expr.>}`
 
@@ -462,6 +475,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Dcm`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
+>
+> If input is `\maxdimen`, then `Dcm` virtually represents
+> `\maxdimen+28sp` and will trigger on use "Dimension too large".
 
 `\texdimenin{<dim. expr.>}`
 
@@ -487,7 +503,9 @@ Remarks about "Dimension too large" issues:
 > Produces a decimal (with up to five decimal places) `D` such that `Din`
 > represents the dimension exactly if possible. If not possible it
 > will be smallest representable dimension larger than the original one.
-> If input is `>\maxdimen-55sp`, then `Din` triggers on use "Dimension too large".
+>
+> If input is `>\maxdimen-55sp`, then `Din` virtually represents
+> `\maxdimen+17sp` and will trigger on use "Dimension too large".
 
 `\texdimenbothcmin{<dim. expr.>}`
 
