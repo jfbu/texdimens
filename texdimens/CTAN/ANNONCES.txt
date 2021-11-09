@@ -4,7 +4,7 @@
 
 Release 1.0 du 10 novembre 2021
 
-Téléversé sur CTAN le 10 novembre 2021 vers ??
+Téléversé sur CTAN le 9 novembre 2021 vers 21h15
 
 v1.0 (2021/11/10)
 
