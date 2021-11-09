@@ -264,14 +264,15 @@ Remarks about "Dimension too large" issues:
    output is by luck the "down" approximant.
 3. Similarly the macro `\texdimenwithunit{D1pt}{D2pt}` covers the entire
    dimension range, but its output `F` for `D1pt` equal to or very close
-   to `\maxdimen` (roughly `D1pt>\maxdimen-D2sp` enters the danger zone,
-   but `D2sp` is less than `0.25pt`...)
-   may be such that `F<D2pt>` represents a dimension beyond `\maxdimen`,
-   if the latter is not exactly representable.  Hence it would trigger
-   "Dimension too large" on use.  This can only happen if
-   `D2pt>1pt`. For `D2pt<1pt`, all dimensions `D1pt` are exactly
-   representable, in particular `\maxdimen`, and the output `F` will
-   always be such that `D1pt=F<D2pt>`.
+   to `\maxdimen` may be such that `F<D2pt>` represents a dimension
+   beyond `\maxdimen`, if the latter is not exactly representable.
+   Hence `F<D2pt>` would trigger "Dimension too large" on use.  This can
+   only happen if `D2pt>1pt` and (roughly) `D1pt>\maxdimen-D2sp`. As
+   `D2sp` is less than `0.25pt`, this is not likely to occur in real
+   life practice except if deliberately targeting `\maxdimen`. For
+   `D2pt<1pt`, all dimensions `D1pt` are exactly representable, in
+   particular `\maxdimen`, and the output `F` will always be such that
+   TeX parses `F<D2pt>` into exactly the same dimension as `D1pt`.
 
 `\texdimenpt{<dim. expr.>}`
 
@@ -583,18 +584,18 @@ Remarks about "Dimension too large" issues:
 
 > Produces a decimal `D` such that `D\dimexpr <dim expr. 2>\relax` is
 > considered by TeX the same as `<dim. expr. 1>` if at all possible.  If
-> the (assumed non zero) second argument `dim2` is at most `1pt` (in
+> the (assumed non zero) second argument `<dim2>` is at most `1pt` (in
 > absolute value), then this is always possible.  If the second argument
-> `dim2` is `>1pt` then this is not always possible and the output `D`
+> `<dim2>` is `>1pt` then this is not always possible and the output `D`
 > will ensure for `D<dim2>` to be a closest match to the first argument
 > `dim1` either from above or below, but one does not know if the other
 > direction would have given a better or worst match.
 >
-> `\texdimenwithunit{dim}{1bp}` and `\texdimenbp{dim}` are not
+> `\texdimenwithunit{<dim>}{1bp}` and `\texdimenbp{<dim>}` are not
 > the same: The former produces a decimal `D` such that `D\dimexpr
-> 1bp\relax` is represented internally as is `dim` if at all possible,
+> 1bp\relax` is represented internally as is `<dim>` if at all possible,
 > whereas the latter produces a decimal `D` such that `D bp` is the one
-> aiming at being the same as `dim`. Using `D\dimexpr 1bp\relax` implies
+> aiming at being the same as `<dim>`. Using `D\dimexpr 1bp\relax` implies
 > a conversion factor equal to `65781/65536`, whereas `D bp` involves
 > the `803/800` conversion factor.
 >
