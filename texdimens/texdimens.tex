@@ -281,10 +281,10 @@
 % computes basically an "up" value) can *not imitate fully* this scheme.
 %
 % The macros and formulas in the comments were obtained from a template
-% (see the project repository), and we could actually combine them into
-% a generic one handling general a/b (verifying the above
-% condition). But for the the sake of efficiency, this is "rolled-out"
-% here unit per unit.
+% (see file generateupdownmacros.py at the project repository),
+% and we could actually combine them into a generic macro handling
+% general a/b (assuming above bounds are verified).
+% But for the the sake of efficiency, this is "rolled-out" here unit per unit.
 %
 \def\texdimenuudownup_zero#1;{\z@\relax}%
 \def\texdimenuudownup_neg#1-{-#1}%
