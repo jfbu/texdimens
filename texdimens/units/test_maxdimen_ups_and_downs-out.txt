@@ -1,0 +1,45 @@
+bp: R, up, down = 16322.78954, 16322.78954, 16322.78954
+    (phi=1.0037500000... is about 1.00375)
+    max attainable is 1073741823sp i.e. \maxdimen-0sp
+    first attainable at least \maxdimen is 1073741823sp i.e. \maxdimen+0sp
+
+nd: R, up, down = 15355.51532, 15355.51532, 15355.51532
+    (phi=1.0669781931... is about 1.06697)
+    max attainable is 1073741823sp i.e. \maxdimen-0sp
+    first attainable at least \maxdimen is 1073741823sp i.e. \maxdimen+0sp
+
+dd: R, up, down = 15312.02585, 15312.02585, 15312.02583
+    (phi=1.0700086430... is about 1.07)
+    max attainable is 1073741822sp i.e. \maxdimen-1sp
+    first attainable at least \maxdimen is 1073741824sp i.e. \maxdimen+1sp
+
+mm: R, up, down = 5758.31741, 5758.31743, 5758.31741
+    (phi=2.8452755905... is about 2.84528)
+    max attainable is 1073741822sp i.e. \maxdimen-1sp
+    first attainable at least \maxdimen is 1073741825sp i.e. \maxdimen+2sp
+
+pc: R, up, down = 1365.33333, 1365.33334, 1365.33333
+    (phi=12.0000000000... is about 12.0)
+    max attainable is 1073741820sp i.e. \maxdimen-3sp
+    first attainable at least \maxdimen is 1073741832sp i.e. \maxdimen+9sp
+
+nc: R, up, down = 1279.62628, 1279.62628, 1279.62627
+    (phi=12.8037383177... is about 12.80374)
+    max attainable is 1073741814sp i.e. \maxdimen-9sp
+    first attainable at least \maxdimen is 1073741827sp i.e. \maxdimen+4sp
+
+cc: R, up, down = 1276.00215, 1276.00217, 1276.00215
+    (phi=12.8401037165... is about 12.8401)
+    max attainable is 1073741821sp i.e. \maxdimen-2sp
+    first attainable at least \maxdimen is 1073741834sp i.e. \maxdimen+11sp
+
+cm: R, up, down = 575.83174, 575.83176, 575.83174
+    (phi=28.4527559055... is about 28.45276)
+    max attainable is 1073741822sp i.e. \maxdimen-1sp
+    first attainable at least \maxdimen is 1073741851sp i.e. \maxdimen+28sp
+
+in: R, up, down = 226.70541, 226.70541, 226.7054
+    (phi=72.2700000000... is about 72.27)
+    max attainable is 1073741768sp i.e. \maxdimen-55sp
+    first attainable at least \maxdimen is 1073741840sp i.e. \maxdimen+17sp
+

@@ -1,0 +1,38 @@
+\input texdimens
+\newwrite\out
+\immediate\openout\out=\jobname-out.txt
+
+\input xinttools.sty
+\input xintexpr.sty
+\edef\spaces{\space\space\space\space}
+\newlinechar10
+\xintForthree #1#2#3 in {
+    (803,    800, bp),
+    (685,    642, nd),
+    (1238,  1157, dd),
+    (7227,  2540, mm),
+    (12,       1, pc),
+    (1370,   107, nc),
+    (14856, 1157, cc),
+    (7227,   254, cm),
+    (7227,   100, in)% beware trailing ,
+}
+:{%
+\edef\R{\csname texdimen#3\endcsname{\maxdimen}}%
+\edef\Up{\csname texdimen#3up\endcsname{\maxdimen}}%
+\edef\Down{\csname texdimen#3down\endcsname{\maxdimen}}%
+\immediate\write\out{#3: R, up, down = \R, \Up, \Down^^J\spaces
+(phi=\xinteval{trunc(#1/#2,10)}... is about \texdimenwithunit{#1pt}{#2pt})}%
+\immediate\write\out{\spaces
+    max attainable is \number\dimexpr\Down#3\relax sp
+    i.e. \string\maxdimen% \string to avoid a space in output...
+   -\the\numexpr\maxdimen-\dimexpr\Down#3\relax sp%
+}%
+\edef\nextone{\xinteval{trunc(round(\Up*65536)*#1/#2)}}%
+\immediate\write\out{\spaces
+   first attainable at least \maxdimen is \nextone sp\space
+   i.e. \string\maxdimen+\xinteval{\nextone-\maxdimen}sp^^J%
+}%
+}%
+\immediate\closeout\out
+\bye
