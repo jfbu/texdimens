@@ -1,0 +1,74 @@
+% etex '\def\RSEED{<randomseed}\input benchmark_witunit_random.tex'
+% (or the \RSEED will itself be randomly generated)
+
+% This file compares \texdimenwithunit from release 1.0
+% (or whatever is in texdimenslegacy) and a new version
+\input texdimenslegacy
+\input texdimens
+
+\input xintkernel.sty
+
+%\input xinttools.sty
+
+\ifdefined\RSEED\else\edef\RSEED{\pdfuniformdeviate 100000000}\fi
+
+\def\itera{100}\def\iterb{100}% for 100x100, we could avoid general Replicate
+\def\reps{50}
+
+\newwrite\out
+\immediate\openout\out=\jobname-\RSEED.txt
+\immediate\write\out{Random seed: \RSEED}
+\immediate\write128{Random seed: \RSEED}
+
+\pdfsetrandomseed \RSEED\relax
+
+\let\NEW\texdimenwithunit
+\let\OLD\texdimenwithunitlegacy
+
+\immediate\write128{NEW is \string\texdimenwithunit, OLD is \string\texdimenwithunitlegacy}%
+\immediate\write\out{NEW is \string\texdimenwithinit, OLD is \string\texdimenwithunitlegacy}%
+
+\immediate\write128{Timings being on various hardware have no absolute meanings}%
+\immediate\write128{Ratios should be more-or-less hardware insensitive}%
+\immediate\write128{\itera x\iterb\space repetitions for each of the \reps\space timings}%
+
+\immediate\write\out{Timings being on various hardware have no absolute meanings}%
+\immediate\write\out{Ratios should be more-or-less hardware insensitive}%
+\immediate\write\out{\itera x\iterb\space repetitions for each of the \reps\space timings}%
+
+
+\def\mywrite#1{\immediate\write\out{#1}\message{. }}
+
+\def\Ttotal{0}%
+\def\Utotal{0}%
+
+\def\test{%
+\edef\w{\pdfuniformdeviate 65536}% let's count on it never returning 0...
+\edef\y{\pdfuniformdeviate \w}% let's count on it never returning 0...
+% NEW
+    \pdfresettimer
+    \xintReplicate{\itera}{\xintReplicate{\iterb}{\edef\tata{\NEW{\y sp}{\w sp}}}}%
+    \edef\Tn{\the\pdfelapsedtime}%
+    \edef\T{\expandafter\texdimenstrippt\the\dimexpr\Tn sp}%
+% OLD
+    \pdfresettimer
+    \xintReplicate{\itera}{\xintReplicate{\iterb}{\edef\toto{\OLD{\y sp}{\w sp}}}}%
+    \edef\Un{\the\pdfelapsedtime}%
+    \edef\U{\expandafter\texdimenstrippt\the\dimexpr\Un sp}%
+% output OLD/NEw
+\immediate\mywrite{\U/\T\space= OLD/NEW = about \texdimenwithunit{\U pt}{\T pt} for \y sp/\w sp}%
+%
+\ifx\tata\toto\else\ERROR\fi
+%
+\edef\Ttotal{\the\numexpr\Tn+\Ttotal}%
+\edef\Utotal{\the\numexpr\Un+\Utotal}%
+}
+
+
+\xintReplicate{\reps}{\test}
+
+
+\immediate\write128{\Utotal/\Ttotal\space = OLD/NEW = about \texdimenwithunit{\Utotal sp}{\Ttotal sp}}%
+\immediate\write\out{\Utotal/\Ttotal\space = OLD/NEW = about \texdimenwithunit{\Utotal sp}{\Ttotal sp}}%
+
+\bye
