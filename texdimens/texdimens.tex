@@ -925,19 +925,17 @@
     \expandafter\texdimenwithunit_Bb\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
 }%
 % now k;T;f;. Get the remainder r=T-k*f,
-% In a later commit we will leave the k=#1 upfront and avoid having to
-% grab it again, but we will benchmark that later. So provisory here.
+% We drop a \numexpr k+0.d..d here, hence drop f-expandability.
 \def\texdimenwithunit_Bb#1;#2;#3;{%
-    \expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#1;#3;%
+    #1\expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#3;%
 }%
-% now r;k;f;. Get R=<r*65536/f>
-\def\texdimenwithunit_Bc#1;#2;#3;{%
-    \the\numexpr#2+%
-    \expandafter\texdimenwithunit_Bd\the\numexpr #1*\p@/#3;#1;#3;%
+% now r;f;. Get R=<r*65536/f>
+\def\texdimenwithunit_Bc#1;#2;{%
+    \expandafter\texdimenwithunit_Bd\the\numexpr #1*\p@/#2;#1;#2;%
 }%
 % R;r;f; Is 4*(S*f-16384*r)+t*f < 0 ? with S=<R/4>, t=R-4S
 \def\texdimenwithunit_Bd#1;#2;#3;{%
-    \expandafter\texdimenstrippt
+    \expandafter\texdimenwithunitstripzeroandpt
     \the\dimexpr\numexpr#1%
 % Never tested if \ifnumA<B better with checking sign of A-B.
 % (indeed, very little usage of \ifnum in xint, so no need to test in
@@ -945,6 +943,7 @@
     \ifnum\numexpr 4*((#1/4)*#3-16384*#2)<\numexpr(4*(#1/4)-#1)*#3\relax
      +1\fi sp\relax
 }%
+{\catcode`P12\catcode`T12\lowercase{\gdef\texdimenwithunitstripzeroandpt0#1PT}{#1}}%
 % Here definitely not caring about f-expandability. Or efficiency.
 \def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
 \def\texdimenwithunit_Bzero#1;#2;{0.0}%
