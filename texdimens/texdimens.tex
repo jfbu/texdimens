@@ -769,23 +769,22 @@
 % or f<=65536.
 % We will also need to check the sign of T (dim1=T sp).
 % f>65536: we compute round((2T+1)*32768/f)
-% f=65536: merged with f<65536 branch (as it turns out the latter
-%          works with it, and 1pt as second argument need not be handled
-%          preferentially)
+% f=65536: merged with f<65536 branch (as it works and avoids checking for it)
 % f<65536: 0.99 release used the round((2T+1)*32768/f) formula
-%          (it is funny it works for all f except f=65536)
+%          (it is funny that it works for all f except for f=65536)
 %
-%          But it diverges noticeably from naive expectation
-%          dim1/dim2 "=" T*65536/f, the more so when f is small.
+%          But the output then diverges noticeably from mathematical
+%          dim1/dim2 "=" T*65536/f, the more so the smaller the dim2.
 %          See issue #16 and also the discussion at #13.
 %
-%          1.0 release thus uses the ceil(T*65536/f) formula, as it is the
+%          1.0 release thus opted for the ceil(T*65536/f) formula, as it is the
 %          smallest allowable choice, hence the closest to naive dim1/dim2.
 %
 %          To avoid arithmetic overflow issues we first do the euclidean
 %          division T = k f + r, 0<= r < f, 0<= k
 %
-%          The final result in "sp" unit would be k*65536 + ceil(r * 65536/f).
+%          The final result in "sp" unit would be k*65536 + C with
+%          C = ceil(r * 65536/f).
 %
 %          We don't do this k*65536 explicitly as it may overflow and is
 %          anyhow unneeded: the output will be the integer k concatenated with
@@ -801,14 +800,14 @@
 %          as we are careful to never have T=0 in-there...
 %
 %          Computing C = ceil(r * 65536/f) in \numexpr is the delicate
-%          part, as r can be as large as f-1 hence 65535 and r*65536 would
-%          overflow.  Let's try this to reduce to a numexpr rounding <x/y>:
+%          part, as r can be as large as f-1 hence 65535 and 65535*65536 would
+%          overflow.  Let's try anyhow to see how to compute ceil() with round():
 %
 %          C = 65536 - floor(65536 * (1 - r/f))
-%            = 65536 - round(65536*(f-r)/f - 0.5) (r<f, no round(-0.5)=-1)
+%            = 65536 - round(65536*(f-r)/f - 0.5) (as r<f so no "round(-0.5)=-1")
 %            = 65536 - <(2*65536*(f-r) - f)/(2f)>
 %
-%          Here the problem is with small r, and large f, naive implementation
+%          Here the problem is with small r, and large f, and naive implementation
 %          of this formula can overflow...
 %          Let's thus retreat to eTeX scaling operation <r*65536/f> as it
 %          operates with temporary double precision.
@@ -818,27 +817,18 @@
 %          - if R < x,  C=R+1.
 %          - if R >= x, C=R.
 %
-%          As has been analyzed generally earlier C=ceil(r*65536/f)
-%          is the smallest integer such that trunc(C*f/65536)>=r,
-%          or more precisely (as f<=65536) the smallest integer
-%          with trunc(C*f/65536) exactly identical with r.
+%          C=ceil(r*65536/f) is the smallest integer such that
+%          trunc(C*f/65536)>=r, or more precisely (as f<=65536) the
+%          smallest integer with trunc(C*f/65536)=r. So trunc(R*f/65536)
+%          will be either r (then R=C), or r-1, then R=C-1.
 %
-%          So trunc(R*f/65536) will be either r, then R=C, or r-1,
-%          then R=C-1.
-%
-%          Method from release 1.0: 
-% 
-%          Let's TeX compute P=trunc(R*f/65536) itself!
-%          We do this via P sp = E <f sp> where E is
-%          a decimal with round(E*65536)=R, i.e. E pt = R sp.
+%          Method from release 1.0: let's TeX compute P=trunc(R*f/65536) itself!
+%          Via P sp = E <f sp> where E is a decimal such that E pt = R sp.
 %          So
 %          - if P>=r (it is then equal to r in fact) then C=R
 %          - if P<r (it is then equal to r-1), then C=R+1.
 %
-%          New method: 
-%
-%          Get the sign of R-x, i.e. the sign of
-%          R*f-65536*r.  How to avoid overflow in this?
+%          New method: overflow-free pure \numexpr way to get the sign of R-x. 
 %
 %          Write R=4*S+t, with say S=<R/4>=round(R/4), so t=-2,-1,0,+1.
 %
@@ -862,7 +852,7 @@
 %
 %              Ept=\the\dimexpr Csp, E=0.d...d
 %
-%              Return the contatenation <digits of k>.d...d
+%              End expansion with the contatenation k.d...d
 %
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_i
 % no premultiplication of dim1 by 2 as was done for technical
@@ -924,8 +914,8 @@
     % no overflow possible from 2*#1#3=2*dim1
     \expandafter\texdimenwithunit_Bb\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
 }%
-% now k;T;f;. Get the remainder r=T-k*f,
-% We drop a \numexpr k+0.d..d here, hence drop f-expandability.
+% now k;T;f;. Get the remainder r=T-k*f, and abandon k in the token stream.
+% (hence we drop f-expandability which would be ensured by \the\numexpr k+...).
 \def\texdimenwithunit_Bb#1;#2;#3;{%
     #1\expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#3;%
 }%
@@ -938,13 +928,13 @@
     \expandafter\texdimenwithunitstripzeroandpt
     \the\dimexpr\numexpr#1%
 % Never tested if \ifnumA<B better with checking sign of A-B.
-% (indeed, very little usage of \ifnum in xint, so no need to test in
-% the past). We will use this for time being.
+% (indeed, very little usage of \ifnum in xint, so no need to test that in
+% the past). We will use this for time being. I felt computing #1/4 only
+% but adding an extra step would cost, but I have not tested.
     \ifnum\numexpr 4*((#1/4)*#3-16384*#2)<\numexpr(4*(#1/4)-#1)*#3\relax
      +1\fi sp\relax
 }%
 {\catcode`P12\catcode`T12\lowercase{\gdef\texdimenwithunitstripzeroandpt0#1PT}{#1}}%
-% Here definitely not caring about f-expandability. Or efficiency.
 \def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
 \def\texdimenwithunit_Bzero#1;#2;{0.0}%
 \texdimensendinput
