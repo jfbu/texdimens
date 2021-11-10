@@ -39,8 +39,8 @@ This package provides expandable macros:
 
 `\texdimenbp` takes on input some dimension or dimension expression and
 produces on output a decimal `D` such that `D bp` is guaranteed to be
-the same dimension as the input, *if* it admits any representation as `E
-bp`; else it will be either the closest match from above or from
+the same dimension as the input, *if* it admits any representation as `E bp`;
+else it will be either the closest match from above or from
 below. For this unit, as well as for `nd` and `dd` the difference is at
 most `1sp`. For other units (not `pt` of course) the distance will
 usually be larger than `1sp` and one does not know if the approximant
