@@ -36,15 +36,15 @@
 \immediate\write\out{Ratios should be more-or-less hardware insensitive}%
 \immediate\write\out{\itera x\iterb\space repetitions for each of the \reps\space timings}%
 
-
-\def\mywrite#1{\immediate\write\out{#1}\message{. }}
+\newlinechar10
+\def\mywrite#1{\immediate\write\out{#1^^J}\message{. }}
 
 \def\Ttotal{0}%
 \def\Utotal{0}%
 
 \def\test{%
 \edef\w{\pdfuniformdeviate 65536}% let's count on it never returning 0...
-\edef\y{\pdfuniformdeviate \w}% let's count on it never returning 0...
+\edef\y{\pdfuniformdeviate \w}%
 % NEW
     \pdfresettimer
     \xintReplicate{\itera}{\xintReplicate{\iterb}{\edef\tata{\NEW{\y sp}{\w sp}}}}%
