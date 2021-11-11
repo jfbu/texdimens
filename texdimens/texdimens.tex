@@ -698,7 +698,6 @@
 % now the lazy way for \texdimenbothmmbp
 \def\texdimenbothmmbp#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenbothmmbp_a\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
-% or remove the + and do \if-#1-\else+\fi1 ?
 % If zero at this stage, we will correctly get 0.0 in the end
 \def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax}%
 % \texdimenbothbpmmpt and its alias \texdimenbothmmbppt
