@@ -222,21 +222,21 @@
 %
 \def\texdimenbp#1{\expandafter\texdimenbp_\the\numexpr\dimexpr#1;}%
 \def\texdimenbp_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax
 }%
 %
 % nd 685/642
 %
 \def\texdimennd#1{\expandafter\texdimennd_\the\numexpr\dimexpr#1;}%
 \def\texdimennd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*321/685sp\relax
 }%
 %
 % dd 1238/1157
 %
 \def\texdimendd#1{\expandafter\texdimendd_\the\numexpr\dimexpr#1;}%
 \def\texdimendd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*1157/2476sp\relax
 }%
 %
 % mm 7227/2540 phi now >2, use from here on the X = round(T psi) approach
@@ -700,7 +700,7 @@
     \expandafter\texdimenbothmmbp_a\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
 % or remove the + and do \if-#1-\else+\fi1 ?
 % If zero at this stage, we will correctly get 0.0 in the end
-\def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax}%
+\def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax}%
 % \texdimenbothbpmmpt and its alias \texdimenbothmmbppt
 \def\texdimenbothbpmmpt#1{\texdimenpt{\texdimenbothbpmm{#1}mm}}%
 \let\texdimenbothmmbppt\texdimenbothbpmmpt
@@ -846,7 +846,7 @@
 % Attention it would be wrong for unit=1pt!
 \def\texdimenwithunit_A\fi\texdimenwithunit_B#1#2;#3;{\fi
     \expandafter\texdimenstrippt
-    \the\dimexpr\numexpr(2*#1#3+\if-#1-\fi1)*32768/#2sp\relax
+    \the\dimexpr\numexpr(2*#1#3+\texdimengobtilminus#1-1)*32768/#2sp\relax
     % - fine if dim1>0, <0, or =0
     % - with *\p@ better but an early doubled dim2 would complicate 1pt
     % test and not sure if doing \p@/(2*#2) here advantageous
