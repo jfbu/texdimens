@@ -34,17 +34,17 @@
     \pdfresettimer
     \xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\NEW{\w sp}}}}%
     \edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
-\immediate\write128{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
-\immediate\write\out{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
+% \immediate\write128{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
+% \immediate\write\out{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
 %
     \pdfresettimer
     \xintReplicate{#1}{\xintReplicate{#2}{\edef\y{\OLD{\w sp}}}}%
     \edef\U{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
-\immediate\write128{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
-\immediate\write\out{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
+% \immediate\write128{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
+% \immediate\write\out{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
 %
-\immediate\write128{\U/\T = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
-\immediate\write\out{\U/\T= about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
+\immediate\write128{\U/\T\space = ROUND/CEIL = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
+\immediate\write\out{\U/\T\space = ROUND/CEIL = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
 \ifx\x\y\else\ERROR\fi
 \immediate\write128{}%
 \immediate\write\out{}%
