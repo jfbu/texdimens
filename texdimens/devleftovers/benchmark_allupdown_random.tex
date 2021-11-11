@@ -24,6 +24,9 @@
 \immediate\write\out{Random seed: \RSEED}
 \immediate\write128{Random seed: \RSEED}
 
+\newlinechar10
+\def\mywrite#1{\immediate\write\out{#1^^J}\message{. }}
+
 \pdfsetrandomseed \RSEED\relax
 
 \def\test#1#2#3#4{%
@@ -33,21 +36,14 @@
 %
     \pdfresettimer
     \xintReplicate{#1}{\xintReplicate{#2}{\edef\x{\NEW{\w sp}}}}%
-    \edef\T{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
-% \immediate\write128{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
-% \immediate\write\out{\T s (ceil, \the\numexpr#1*#2\relax\space reps)}%
+    \edef\T{\the\pdfelapsedtime}\edef\totalT{\the\numexpr\totalT+\T}%
 %
     \pdfresettimer
     \xintReplicate{#1}{\xintReplicate{#2}{\edef\y{\OLD{\w sp}}}}%
-    \edef\U{\expandafter\texdimenstrippt\the\dimexpr\pdfelapsedtime sp}%
-% \immediate\write128{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
-% \immediate\write\out{\U s (round, \the\numexpr#1*#2\relax\space reps)}%
+    \edef\U{\the\pdfelapsedtime}\edef\totalU{\the\numexpr\totalU+\U}%
 %
-\immediate\write128{\U/\T\space = ROUND/CEIL = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
-\immediate\write\out{\U/\T\space = ROUND/CEIL = about \texdimenwithunit{\U pt}{\T pt} for #3#4 with \w sp}%
+\immediate\mywrite{\texdimenpt{\U sp}/\texdimenpt{\T sp} = ROUND/CEIL = about \texdimenwithunit{\U sp}{\T sp} for #3#4 with \w sp}%
 \ifx\x\y\else\ERROR\fi
-\immediate\write128{}%
-\immediate\write\out{}%
 }
 
 \def\Test#1#2#3#4{\test{#1}{#2}{#3}{#4}%
@@ -55,6 +51,9 @@
                   \test{#1}{#2}{#3}{#4}}
 
 \def\TEST{%
+\def\totalT{0}%
+\def\totalU{0}%
+%
 \xintFor ##1 in {%
 bp,
 nd,
@@ -65,8 +64,13 @@ nc,
 cc,
 cm,
 in
-}:{\xintFor ##2 in {up, down}:{\Test{100}{1000}{##1}{##2}}%
+}:{\xintFor ##2 in {up, down}:{\Test{100}{250}{##1}{##2}}%
     }%
+%
+\immediate\write128{\totalU/\totalT\space = ROUND/CEIL = about
+                    \texdimenwithunit{\totalU sp}{\totalT sp}}%
+\immediate\write\out{\totalU/\totalT\space = ROUND/CEIL = about
+                    \texdimenwithunit{\totalU sp}{\totalT sp}}%
 }%
 
 \TEST
