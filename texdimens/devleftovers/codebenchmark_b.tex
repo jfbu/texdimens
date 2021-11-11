@@ -1,0 +1,50 @@
+\input xintkernel.sty
+\long\def\ReplicateM#1{\ReplicateC{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateC#1{\ReplicateX{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateX#1{#1#1#1#1#1#1#1#1#1#1}%
+
+\catcode`@ 11
+\catcode`_ 11
+
+\def\machin{}
+
+\def\foo#1{\if-#1\foo_neg\fi\machin#1}
+\def\foo_neg\fi\machin-{\fi-\machin}
+
+\def\bar#1{\xint_gob_til_minus#1\bar_neg-\machin#1}
+\def\bar_neg-\machin-{-\machin}
+
+
+
+\def\testfoo{\foo-+}%
+\def\testbar{\bar-+}%
+
+\def\TEST{
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\edef\z{\testfoo}}}%
+%\ReplicateM{\ReplicateM{\testfoo}}%
+\edef\TEMPSfoo{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\edef\z{\testbar}}}%
+%\ReplicateM{\ReplicateM{\testbar}}%
+\edef\TEMPSbar{\the\pdfelapsedtime}%
+
+
+\immediate\write128{foo: \TEMPSfoo, bar: \TEMPSbar, foo/bar about
+\the\dimexpr\numexpr\TEMPSfoo*65536/\TEMPSbar sp}
+
+}
+
+\TEST
+
+\def\testfoo{\foo+}%
+\def\testbar{\bar+}%
+
+\TEST
+
+\bye
+
+% \if based macro circa 10%-20% slower than gob_til_minus one in
+% negative branch, equivalent in positive
