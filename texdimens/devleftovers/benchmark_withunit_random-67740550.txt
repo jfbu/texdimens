@@ -1,5 +1,5 @@
 Random seed: 67740550
-NEW is \texdimenwithinit, OLD is \texdimenwithunitlegacy
+NEW is \texdimenwithunit, OLD is \texdimenwithunitlegacy
 Timings being on various hardware have no absolute meanings
 Ratios should be more-or-less hardware insensitive
 100x100 repetitions for each of the 50 timings
