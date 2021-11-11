@@ -6,6 +6,12 @@
 \catcode`\noexpand @=\the\catcode`\@\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
+% so tempted to do \input xintkernel.sty to have some utilities...
+% not even a \@gobble in Plain...
+\def\texdimengobtominus#1-{}%
+\def\texdimenzerominusfork #10-#2#3\krof {#2}%
+\let\texdimenorthat\texdimenfirstofone
+\def\texdimendothis#1#2\texdimenorthat#3{\fi#1}%
 %
 % Mathematics (the challenge of the "down" and "up" macros)
 % ===========
@@ -640,7 +646,6 @@
 % via an already positioned \dimexpr waiting to output final result.
 \def\texdimenbothbpmm#1{\expandafter\texdimenstrippt\the\dimexpr
                         \expandafter\texdimenbothbpmm_fork\the\numexpr\dimexpr#1;}%
-% the \texdimenzerominusfork is defined in the \texdimenwithunit section
 \def\texdimenbothbpmm_fork#1{\texdimenzerominusfork
                              #1-\texdimenbothbpmm_zero
                              0#1\texdimenbothbpmm_neg
@@ -815,13 +820,8 @@
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_i
 % no premultiplication of dim1 by 2 as was done for technical
 % reasons when dim2<1pt branch used round((2T+1)*32768/f)
-    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;}%
-%
-% so tempted to do \input xintkernel.sty to have some utilities...
-% not even a \@gobble in Plain...
-\let\texdimenorthat\texdimenfirstofone
-\def\texdimendothis#1#2\texdimenorthat#3{\fi#1}%
-\def\texdimengobtominus#1-{}%
+    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;%
+}%
 \def\texdimenwithunit_i#1{%
      \texdimengobtominus#1\texdimenwithunit_switchsigns-%
      \texdimenwithunit_j#1%
@@ -862,7 +862,6 @@
 % will even be at least 2 if f<65536).
 % The dim1=0 case must get filtered out due to way of calculating the
 % "ceil" in \numexpr
-\def\texdimenzerominusfork #10-#2#3\krof {#2}%
 \def\texdimenwithunit_B#1{\texdimenzerominusfork
                            #1-\texdimenwithunit_Bzero
                            0#1\texdimenwithunit_Bneg
