@@ -1,0 +1,105 @@
+\input xintkernel.sty
+\long\def\ReplicateM#1{\ReplicateC{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateC#1{\ReplicateX{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateX#1{#1#1#1#1#1#1#1#1#1#1}%
+
+\catcode`@ 11
+\catcode`_ 11
+
+\def\foo#1;#2{%
+        \ifnum#1>\p@\foo_A\fi
+        \macro_B#2#1;%
+}%
+\def\foo_A#1\macro_B#2#3;#4;{#1}%
+
+\def\Foo#1;#2{%
+        \ifnum#1>\p@\Foo_A\fi
+        \macro_B#2#1;%
+}%
+\def\Foo_A\fi\macro_B#1#2;#3;{\fi}%
+
+\def\bar#1;#2{%
+        \ifnum#1>\p@\xint_dothis\bar_A\fi
+        \xint_orthat\macro_B#2#1;%
+}%
+\def\bar_A#1#2;#3;{}%
+
+\def\xafter#1;#2{%
+        \ifnum#1>\p@\expandafter\xafter_A
+        \else\expandafter\macro_B\fi #2#1;%
+}%
+\def\xafter_A#1#2;#3;{}%
+
+\def\xoneafter#1;#2{%
+        \ifnum#1>\p@\expandafter\xoneafter_A\fi
+        \macro_B #2#1;%
+}%
+\def\xoneafter_A\macro_B#1#2;#3;{}%
+
+
+\def\testfoo{\foo65537;65536;}%
+\def\testFoo{\Foo65537;65536;}%
+\def\testbar{\bar65537;65536;}%
+\def\testxafter{\xafter65537;65536;}%
+\def\testxoneafter{\xoneafter65537;65536;}%
+
+\def\TEST{
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\testfoo}}%
+\edef\TEMPSfoo{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\testbar}}%
+\edef\TEMPSbar{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\testxafter}}%
+\edef\TEMPSxafter{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\testFoo}}%
+\edef\TEMPSFoo{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateM{\ReplicateM{\testxoneafter}}%
+\edef\TEMPSxoneafter{\the\pdfelapsedtime}%
+
+\immediate\write128{Foo: \TEMPSFoo, foo: \TEMPSfoo,
+                    xoneafter: \TEMPSxoneafter, xafter: \TEMPSxafter,
+                    bar: \TEMPSbar,
+%\space
+%                    (foo/bar: \the\dimexpr\numexpr\TEMPSfoo*65536/\TEMPSbar
+%                    sp)
+}
+
+}
+
+\TEST
+
+
+\edef\z{\the\numexpr65537+\pdfuniformdeviate100000}
+
+\edef\testfoo{\noexpand\foo\z;65536;}%
+\edef\testbar{\noexpand\bar\z;65536;}%
+\edef\testFoo{\noexpand\Foo\z;65536;}%
+\edef\testxafter{\noexpand\xafter\z;65536;}%
+\edef\testxoneafter{\noexpand\xoneafter\z;65536;}%
+
+\TEST
+
+\edef\z{\the\numexpr65537+\pdfuniformdeviate100000}
+
+\edef\testfoo{\noexpand\foo\z;65536;}%
+\edef\testbar{\noexpand\bar\z;65536;}%
+\edef\testFoo{\noexpand\Foo\z;65536;}%
+\edef\testxafter{\noexpand\xafter\z;65536;}%
+\edef\testxoneafter{\noexpand\xoneafter\z;65536;}%
+
+\TEST
+
+\bye
+
+Up to vagaries (always suspected order of execution could influence \pdfelapsedtime)
+
+Foo < foo < xoneafter < xafter < bar (some very close)
