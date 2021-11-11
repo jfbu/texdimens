@@ -8,7 +8,7 @@
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
 % so tempted to do \input xintkernel.sty to have some utilities...
 % not even a \@gobble in Plain...
-\def\texdimengobtominus#1-{}%
+\def\texdimengobtilminus#1-{}%
 \def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
 % Mathematics (the challenge of the "down" and "up" macros)
@@ -579,14 +579,15 @@
 \def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
                           \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
 \let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenboth_a#1{\if-#1\texdimenboth_neg\fi\texdimenboth_b#1}%
+\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\texdimenboth_b#1}%
 % The opening parenthesis ( is closed in #2, it was added to share "pt" output
 % with the two others
 \def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
 % negative branch. This is expanded in a \dimexpr so we can insert the -
 % in front of the \numexpr.
-% #1 is here \texdimenboth_b
-\def\texdimenboth_neg\fi#1-#2;#3;{\fi-\numexpr(((2*#2-3612)/7227)*#3sp\relax}%
+\def\texdimenboth_neg-\texdimenboth_b-#1;#2;{%
+    -\numexpr(((2*#1-3612)/7227)*#2sp\relax
+}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
@@ -595,12 +596,14 @@
 % (it is a bit ironical to worry about not creating too many macros
 % in such a small package, by the way)
 \def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
-\def\texdimenbothsp_a#1{\if-#1\texdimenbothsp_neg\fi\texdimenbothsp_b#1}%
+\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\texdimenbothsp_b#1}%
 \def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
 % we need to regrab here or to add a \numexpr..\relax layer to
 % \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
 % finally doing the job of \texdimenbothsp_b directly
-\def\texdimenbothsp_neg\fi#1-#2;{\fi-\numexpr(((2*#2-3612)/7227)*7227+1)/2-1\relax\relax}%
+\def\texdimenbothsp_neg-\texdimenbothsp_b-#1;{%
+    -\numexpr(((2*#1-3612)/7227)*7227+1)/2-1\relax\relax
+}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
@@ -820,7 +823,7 @@
     \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;%
 }%
 \def\texdimenwithunit_i#1{%
-     \texdimengobtominus#1\texdimenwithunit_switchsigns-%
+     \texdimengobtilminus#1\texdimenwithunit_switchsigns-%
      \texdimenwithunit_j#1%
 }%
 \def\texdimenwithunit_switchsigns-\texdimenwithunit_j-#1;#2%
