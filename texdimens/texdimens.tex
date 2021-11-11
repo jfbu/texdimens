@@ -6,6 +6,10 @@
 \catcode`\noexpand @=\the\catcode`\@\relax\noexpand\endinput}%
 \endlinechar13\relax%
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
+% so tempted to do \input xintkernel.sty to have some utilities...
+% not even a \@gobble in Plain...
+\def\texdimengobtilminus#1-{}%
+\def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
 % Mathematics (the challenge of the "down" and "up" macros)
 % ===========
@@ -218,21 +222,21 @@
 %
 \def\texdimenbp#1{\expandafter\texdimenbp_\the\numexpr\dimexpr#1;}%
 \def\texdimenbp_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax
 }%
 %
 % nd 685/642
 %
 \def\texdimennd#1{\expandafter\texdimennd_\the\numexpr\dimexpr#1;}%
 \def\texdimennd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*321/685sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*321/685sp\relax
 }%
 %
 % dd 1238/1157
 %
 \def\texdimendd#1{\expandafter\texdimendd_\the\numexpr\dimexpr#1;}%
 \def\texdimendd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\if-#1-\fi1)*1157/2476sp\relax
+    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*1157/2476sp\relax
 }%
 %
 % mm 7227/2540 phi now >2, use from here on the X = round(T psi) approach
@@ -575,14 +579,15 @@
 \def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
                           \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
 \let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenboth_a#1{\if-#1\texdimenboth_neg\fi\texdimenboth_b#1}%
+\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\texdimenboth_b#1}%
 % The opening parenthesis ( is closed in #2, it was added to share "pt" output
 % with the two others
 \def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
 % negative branch. This is expanded in a \dimexpr so we can insert the -
 % in front of the \numexpr.
-% #1 is \fi here and #2 is \texdimenboth_b
-\def\texdimenboth_neg#1#2-#3;#4;{#1-\numexpr(((2*#3-3612)/7227)*#4sp\relax}%
+\def\texdimenboth_neg-\texdimenboth_b-#1;#2;{%
+    -\numexpr(((2*#1-3612)/7227)*#2sp\relax
+}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
@@ -591,13 +596,14 @@
 % (it is a bit ironical to worry about not creating too many macros
 % in such a small package, by the way)
 \def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
-\def\texdimenbothsp_a#1{\if-#1\texdimenbothsp_neg\fi\texdimenbothsp_b#1}%
+\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\texdimenbothsp_b#1}%
 \def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
-% #1 is \fi
 % we need to regrab here or to add a \numexpr..\relax layer to
 % \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
 % finally doing the job of \texdimenbothsp_b directly
-\def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr(((2*#3-3612)/7227)*7227+1)/2-1\relax\relax}%
+\def\texdimenbothsp_neg-\texdimenbothsp_b-#1;{%
+    -\numexpr(((2*#1-3612)/7227)*7227+1)/2-1\relax\relax
+}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
@@ -640,7 +646,6 @@
 % via an already positioned \dimexpr waiting to output final result.
 \def\texdimenbothbpmm#1{\expandafter\texdimenstrippt\the\dimexpr
                         \expandafter\texdimenbothbpmm_fork\the\numexpr\dimexpr#1;}%
-% the \texdimenzerominusfork is defined in the \texdimenwithunit section
 \def\texdimenbothbpmm_fork#1{\texdimenzerominusfork
                              #1-\texdimenbothbpmm_zero
                              0#1\texdimenbothbpmm_neg
@@ -695,7 +700,7 @@
     \expandafter\texdimenbothmmbp_a\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm;}%
 % or remove the + and do \if-#1-\else+\fi1 ?
 % If zero at this stage, we will correctly get 0.0 in the end
-\def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\if-#1-\fi1)*400/803sp\relax}%
+\def\texdimenbothmmbp_a#1#2;{\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax}%
 % \texdimenbothbpmmpt and its alias \texdimenbothmmbppt
 \def\texdimenbothbpmmpt#1{\texdimenpt{\texdimenbothbpmm{#1}mm}}%
 \let\texdimenbothmmbppt\texdimenbothbpmmpt
@@ -857,15 +862,10 @@
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_i
 % no premultiplication of dim1 by 2 as was done for technical
 % reasons when dim2<1pt branch used round((2T+1)*32768/f)
-    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;}%
-%
-% so tempted to do \input xintkernel.sty to have some utilities...
-% not even a \@gobble in Plain...
-\let\texdimenorthat\texdimenfirstofone
-\def\texdimendothis#1#2\texdimenorthat#3{\fi#1}%
-\def\texdimengobtominus#1-{}%
+    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;%
+}%
 \def\texdimenwithunit_i#1{%
-     \texdimengobtominus#1\texdimenwithunit_switchsigns-%
+     \texdimengobtilminus#1\texdimenwithunit_switchsigns-%
      \texdimenwithunit_j#1%
 }%
 \def\texdimenwithunit_switchsigns-\texdimenwithunit_j-#1;#2%
@@ -881,19 +881,14 @@
 }%
 \def\texdimenwithunit_ic#1#2;{\texdimenwithunit_j#2;-#1}%
 \def\texdimenwithunit_j#1;#2{%
-        % \ifnum#1=\p@\texdimendothis\texdimenwithunit_p@\fi
-        \ifnum#1>\p@\texdimendothis\texdimenwithunit_A\fi
-        \texdimenorthat\texdimenwithunit_B#2#1;%
+        \ifnum#1>\p@\texdimenwithunit_A\fi
+        \texdimenwithunit_B#2#1;%
 }%
-% not needed, as the "ceil" branch is fine to use for f = 65536
-% \def\texdimenwithunit_p@#1#2;#3;{%
-%     \expandafter\texdimenstrippt\the\dimexpr#1#3sp/2\relax
-% }%
-% unit>1pt, handle this as for bp. Attention it would be wrong for
-% unit=1pt!
-\def\texdimenwithunit_A#1#2;#3;{%
+% unit>1pt, handle this as for bp.
+% Attention it would be wrong for unit=1pt!
+\def\texdimenwithunit_A\fi\texdimenwithunit_B#1#2;#3;{\fi
     \expandafter\texdimenstrippt
-    \the\dimexpr\numexpr(2*#1#3+\if-#1-\fi1)*32768/#2sp\relax
+    \the\dimexpr\numexpr(2*#1#3+\texdimengobtilminus#1-1)*32768/#2sp\relax
     % - fine if dim1>0, <0, or =0
     % - with *\p@ better but an early doubled dim2 would complicate 1pt
     % test and not sure if doing \p@/(2*#2) here advantageous
@@ -904,7 +899,6 @@
 % will even be at least 2 if f<65536).
 % The dim1=0 case must get filtered out due to way of calculating the
 % "ceil" in \numexpr
-\def\texdimenzerominusfork #10-#2#3\krof {#2}%
 \def\texdimenwithunit_B#1{\texdimenzerominusfork
                            #1-\texdimenwithunit_Bzero
                            0#1\texdimenwithunit_Bneg
