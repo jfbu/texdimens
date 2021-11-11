@@ -585,8 +585,8 @@
 \def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
 % negative branch. This is expanded in a \dimexpr so we can insert the -
 % in front of the \numexpr.
-% #1 is \fi here and #2 is \texdimenboth_b
-\def\texdimenboth_neg#1#2-#3;#4;{#1-\numexpr(((2*#3-3612)/7227)*#4sp\relax}%
+% #1 is here \texdimenboth_b
+\def\texdimenboth_neg\fi#1-#2;#3;{\fi-\numexpr(((2*#2-3612)/7227)*#3sp\relax}%
 %
 % \texdimenbothincmsp is done separately as I found no easy way to share
 % its macros with the others; alternative would have been to make it the
@@ -597,11 +597,10 @@
 \def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
 \def\texdimenbothsp_a#1{\if-#1\texdimenbothsp_neg\fi\texdimenbothsp_b#1}%
 \def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
-% #1 is \fi
 % we need to regrab here or to add a \numexpr..\relax layer to
 % \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
 % finally doing the job of \texdimenbothsp_b directly
-\def\texdimenbothsp_neg#1#2-#3;{#1-\numexpr(((2*#3-3612)/7227)*7227+1)/2-1\relax\relax}%
+\def\texdimenbothsp_neg\fi#1-#2;{\fi-\numexpr(((2*#2-3612)/7227)*7227+1)/2-1\relax\relax}%
 %
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
@@ -842,9 +841,9 @@
 }%
 % unit>1pt, handle this as for bp.
 % Attention it would be wrong for unit=1pt!
-\def\texdimenwithunit_A#1\texdimenwithunit_B#2#3;#4;{#1% is \fi
+\def\texdimenwithunit_A\fi\texdimenwithunit_B#1#2;#3;{\fi
     \expandafter\texdimenstrippt
-    \the\dimexpr\numexpr(2*#2#4+\if-#2-\fi1)*32768/#3sp\relax
+    \the\dimexpr\numexpr(2*#1#3+\if-#1-\fi1)*32768/#2sp\relax
     % - fine if dim1>0, <0, or =0
     % - with *\p@ better but an early doubled dim2 would complicate 1pt
     % test and not sure if doing \p@/(2*#2) here advantageous
