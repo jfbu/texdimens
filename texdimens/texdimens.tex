@@ -220,24 +220,22 @@
 %
 % bp 7227/7200 = 803/800
 %
-\def\texdimenbp#1{\expandafter\texdimenbp_\the\numexpr\dimexpr#1;}%
-\def\texdimenbp_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax
-}%
+\def\texdimenbp#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*400/803sp\relax}%
+\def\texdimen_bpnddd_signcheck#1{\texdimengobtilminus#1-1+#1}%
 %
 % nd 685/642
 %
-\def\texdimennd#1{\expandafter\texdimennd_\the\numexpr\dimexpr#1;}%
-\def\texdimennd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*321/685sp\relax
-}%
+\def\texdimennd#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*321/685sp\relax}%
 %
 % dd 1238/1157
 %
-\def\texdimendd#1{\expandafter\texdimendd_\the\numexpr\dimexpr#1;}%
-\def\texdimendd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*1157/2476sp\relax
-}%
+\def\texdimendd#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*1157/2476sp\relax}%
 %
 % mm 7227/2540 phi now >2, use from here on the X = round(T psi) approach
 %
