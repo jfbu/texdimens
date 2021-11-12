@@ -8,6 +8,7 @@
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
 % so tempted to do \input xintkernel.sty to have some utilities...
 % not even a \@gobble in Plain...
+\def\texdimenfirstofone#1{#1}%
 \def\texdimengobtilminus#1-{}%
 \def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
@@ -210,7 +211,6 @@
 % Implementation
 % ==============
 %
-\def\texdimenfirstofone#1{#1}%
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
 %
