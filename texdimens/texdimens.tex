@@ -570,28 +570,22 @@
 % else if U > T, replace it by U - 3614. This is alternative road to the maximal
 % floor(k 7227/2) at most equal to T.
 %
-% There is some slight under-efficiency to share macros across the 3 end targets
-% as it meant adding one extra pair of parentheses to incm and cmin for incmpt
 \def\texdimenbothincm#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenboth_a
-    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*127)sp\relax}%
+    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*127sp\relax}%
 \def\texdimenbothcmin#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenboth_a
-    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*50)sp\relax}%
+    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*50sp\relax}%
 \def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenboth_a
     \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*7227+1)/2-1sp\relax}%
-\let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\numexpr(((2*#1}%
-\def\texdimenboth_neg-\numexpr(((2*-{-\numexpr(((2*}%
+\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\numexpr((2*#1}%
+\def\texdimenboth_neg-\numexpr((2*-{-\numexpr((2*}%
 %
-% \texdimenbothincmsp is done separately as I found no easy way to share
-% its macros with the others; alternative would have been to make it the
-% core, and derive the others from it, (\texdimencm{\texdimenbothincmsp{...}sp})
-% but then they would be less efficient than their current versions.
-% (it is a bit ironical to worry about not creating too many macros
-% in such a small package, by the way)
 \def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
+\def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
+                          \the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;sp\relax}%
+\let\texdimenbothcminpt\texdimenbothincmpt
 \def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\texdimenbothsp_b#1}%
 \def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
 % we need to regrab here or to add a \numexpr..\relax layer to
