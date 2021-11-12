@@ -7,7 +7,25 @@ http://www.latex-project.org/lppl.txt
 This is work in progress and this repo was created to receive
 suggestions/comments/bug reports.
 
-Package starting date: 2021/06/29
+CTAN package
+------------
+
+Releases (see [tags](https://github.com/jfbu/texdimens/tags)) are pushed to
+[CTAN](https://ctan.org) ([here](https://ctan.org/pkg/texdimens)).  Here is
+how files from this repository map to those from user TeX/LaTeX installations:
+
+| here in `texdimens/`   | in TeX/LaTeX installations |
+|------------------------|----------------------------|
+| texdimens.tex          | texdimens.tex              |
+| texdimens.sty          | texdimens.sty              |
+| README.md              | texdimens.md               |
+| N/A                    | texdimens.pdf              |
+| CTAN_README.md         | README.md                  |
+
+To build the files of the [CTAN](https://ctan.org) submissions, `cd` to
+`texdimens/` and execute `make ctan`.  The archive `texdimens.zip` used for
+`CTAN` submissions will be found in the `CTAN/` sub-directory and the original
+files will be in the `ctanbuild/` sub-directory.
 
 Opening a new issue
 -------------------
@@ -29,17 +47,6 @@ for repos I own*.
 
 Last investigated on 2021/11/06.  If I am missing something obvious, please
 tell me.
-
-Build instructions
-------------------
-
-The user documentation is [texdimens/README.md](texdimens/README.md) in the
-`texdimens/` sub-directory.  It becomes `texdimens.md` in the CTAN releases.
-To convert it into a pdf, `cd texdimens` and `make texdimens.pdf` (on
-unix-like systems; `pandoc` is a dependency).
-
-To build the `texdimens.zip` archive as used for CTAN uploads, `cd texdimens`
-and `make ctan`.  The file will be in the `CTAN/` sub-directory.
 
 <!--
 Local variables:

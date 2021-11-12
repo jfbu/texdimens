@@ -8,6 +8,7 @@
 \catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
 % so tempted to do \input xintkernel.sty to have some utilities...
 % not even a \@gobble in Plain...
+\def\texdimenfirstofone#1{#1}%
 \def\texdimengobtilminus#1-{}%
 \def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
@@ -210,7 +211,6 @@
 % Implementation
 % ==============
 %
-\def\texdimenfirstofone#1{#1}%
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
 %
@@ -220,24 +220,22 @@
 %
 % bp 7227/7200 = 803/800
 %
-\def\texdimenbp#1{\expandafter\texdimenbp_\the\numexpr\dimexpr#1;}%
-\def\texdimenbp_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*400/803sp\relax
-}%
+\def\texdimenbp#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*400/803sp\relax}%
+\def\texdimen_bpnddd_signcheck#1{\texdimengobtilminus#1-1+#1}%
 %
 % nd 685/642
 %
-\def\texdimennd#1{\expandafter\texdimennd_\the\numexpr\dimexpr#1;}%
-\def\texdimennd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*321/685sp\relax
-}%
+\def\texdimennd#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*321/685sp\relax}%
 %
 % dd 1238/1157
 %
-\def\texdimendd#1{\expandafter\texdimendd_\the\numexpr\dimexpr#1;}%
-\def\texdimendd_#1#2;{%
-    \expandafter\texdimenstrippt\the\dimexpr\numexpr(2*#1#2+\texdimengobtilminus#1-1)*1157/2476sp\relax
-}%
+\def\texdimendd#1{\expandafter\texdimenstrippt\the\dimexpr\numexpr(%
+                  \expandafter\texdimen_bpnddd_signcheck
+                  \the\numexpr2*\dimexpr#1\relax\relax)*1157/2476sp\relax}%
 %
 % mm 7227/2540 phi now >2, use from here on the X = round(T psi) approach
 %
@@ -527,7 +525,8 @@
 \def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
 \def\texdimeninup_d#1;#2;{\numexpr#200+101-(1452627-2*#100)/14454sp\relax}%
 %
-% Mathematics ("both in and cm", added at release 0.9)
+% Mathematics ("both in and cm")
+% added at release 0.9 and macros refactored for small gain (hopefully) at 1.1
 % ===========
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
@@ -570,41 +569,25 @@
 % else if U > T, replace it by U - 3614. This is alternative road to the maximal
 % floor(k 7227/2) at most equal to T.
 %
-% There is some slight under-efficiency to share macros across the 3 end targets
-% as I added one layer of parentheses.
 \def\texdimenbothincm#1{\expandafter\texdimenstrippt\the\dimexpr
-                        \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;127);}%
+    \expandafter\texdimenboth_a
+    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*127sp\relax}%
 \def\texdimenbothcmin#1{\expandafter\texdimenstrippt\the\dimexpr
-                        \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;50);}%
+    \expandafter\texdimenboth_a
+    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*50sp\relax}%
+\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\numexpr((2*#1}%
+\def\texdimenboth_neg-\numexpr((2*-{-\numexpr((2*}%
+%
+\def\texdimenbothincmsp#1{\number
+    \expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1\relax\relax
+     -3612)/7227)*7227+1)/2-1\relax}%
 \def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
-                          \expandafter\texdimenboth_a\the\numexpr\dimexpr#1;7227+1)/2-1;}%
+    \expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1\relax\relax
+     -3612)/7227)*7227+1)/2-1sp\relax}%
+\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\numexpr(((2*#1}%
+\def\texdimenbothsp_neg-\numexpr(((2*-{-\numexpr(((2*}%
+%
 \let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\texdimenboth_b#1}%
-% The opening parenthesis ( is closed in #2, it was added to share "pt" output
-% with the two others
-\def\texdimenboth_b#1;#2;{\numexpr(((2*#1-3612)/7227)*#2sp\relax}%
-% negative branch. This is expanded in a \dimexpr so we can insert the -
-% in front of the \numexpr.
-\def\texdimenboth_neg-\texdimenboth_b-#1;#2;{%
-    -\numexpr(((2*#1-3612)/7227)*#2sp\relax
-}%
-%
-% \texdimenbothincmsp is done separately as I found no easy way to share
-% its macros with the others; alternative would have been to make it the
-% core, and derive the others from it, (\texdimencm{\texdimenbothincmsp{...}sp})
-% but then they would be less efficient than their current versions.
-% (it is a bit ironical to worry about not creating too many macros
-% in such a small package, by the way)
-\def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
-\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\texdimenbothsp_b#1}%
-\def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
-% we need to regrab here or to add a \numexpr..\relax layer to
-% \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
-% finally doing the job of \texdimenbothsp_b directly
-\def\texdimenbothsp_neg-\texdimenbothsp_b-#1;{%
-    -\numexpr(((2*#1-3612)/7227)*7227+1)/2-1\relax\relax
-}%
-%
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
 % Mathematics and Algorithm ("both mm and bp", added at release 1.0)
