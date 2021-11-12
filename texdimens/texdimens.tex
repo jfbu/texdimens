@@ -12,8 +12,18 @@
 \def\texdimengobtilminus#1-{}%
 \def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
-% Mathematics (the challenge of the "down" and "up" macros)
-% ===========
+% \texdimenuu, \texdimenuudown, \texdimenuuup
+% ===========================================
+%
+% uu = core TeX unit (not sp, and no down/up for pt)
+%
+% added (\texdimenuu): initial release
+% added (\texdimenuudown, \texdimenuuup): 0.9gamma
+% modified: 1.0
+% modified: 1.1 (micro coding improvements)
+%
+% Mathematics
+% -----------
 %
 % In the entire discussion here, "uu" stands for some core unit,
 % or some unit corresponding to an internal dimension > 1pt.
@@ -158,7 +168,7 @@
 % This made all usable even with \maxdimen input and besided, proved
 % on average slightly faster.
 %
-% Overcoming the ceil() stumbling block (i.e. the 1.0 manner for "up/down")
+% Overcoming the ceil() stumbling block
 % ------------------------------------- 
 %
 % I will in what follows refer to trunc(), floor() or ceil() only for
@@ -207,9 +217,6 @@
 % potential overflow problem at all. The same analysis can be done for
 % Zu = ceil(T*100/7227) and for all core TeX units. See the comments
 % below for all obtained formulae and some additional details.
-%
-% Implementation
-% ==============
 %
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
@@ -261,8 +268,7 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 %
-% "no test" ceil()-based approach to up and down macros (release 1.0)
-% =====================================================
+% "up and down macros" (1.0 version)
 %
 % The notation <u/v> means u/v in numexpr, which does rounding
 % away from zero. It is essential that the argument be >-0.5 else <x+1>
@@ -525,9 +531,14 @@
 \def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
 \def\texdimeninup_d#1;#2;{\numexpr#200+101-(1452627-2*#100)/14454sp\relax}%
 %
-% Mathematics ("both in and cm")
-% added at release 0.9 and macros refactored for small gain (hopefully) at 1.1
-% ===========
+% "both in and cm"
+% ================
+%
+% added:    0.9
+% modified: 1.1 (micro coding improvements)
+%
+% Mathematics 
+% -----------
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
 % floor(b 7227/254).  It can be proven that a=50k, b=127k for some integer k.
@@ -551,7 +562,7 @@
 % avoiding overflow.
 %
 % Implementation
-% ==============
+% --------------
 %
 % Regarding the output in pt or sp, we seem to need floor(k 7227/2).
 % The computation of floor(k 7227/2) as <(7227 k - 1)/2> would require to
@@ -590,8 +601,13 @@
 \let\texdimenbothcminpt\texdimenbothincmpt
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
-% Mathematics and Algorithm ("both mm and bp", added at release 1.0)
-% =========================
+% "both mm and bp"
+% ================
+%
+% added: 1.0
+% 
+% Mathematics and Algorithm
+% -------------------------
 % We start from a dimension expressed in sp unit, "T sp". Assume T positive.
 % We know how to get largest "X sp <= T sp" which is exactly expressible
 % in mm unit
@@ -690,8 +706,15 @@
 \def\texdimenbothbpmmsp#1{\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm\relax\relax}%
 \let\texdimenbothmmbpsp\texdimenbothbpmmsp
 %
-% Mathematics (\texdimenwithunit, added at release 0.99, modified at 1.0)
-% ===========
+% \texdimenwithunit
+% =================
+%
+% added:    0.99
+% modified: 1.0 (new output for second argument < 1pt)
+% modified: 1.1 (new algorithm for second arg < 1pt)
+%
+% Mathematics
+% -----------
 %
 % As explained in the README.md, the ex and em units are
 % handled by TeX as if multiplying by a conversion factor f/65536
@@ -736,7 +759,7 @@
 % It is not obvious to compute this ceil(T/phi) without overflow.
 %
 % Implementation
-% ==============
+% --------------
 %
 % \texdimenwithunit{dim1}{dim2}
 %
