@@ -576,25 +576,19 @@
 \def\texdimenbothcmin#1{\expandafter\texdimenstrippt\the\dimexpr
     \expandafter\texdimenboth_a
     \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*50sp\relax}%
-\def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
-    \expandafter\texdimenboth_a
-    \the\numexpr\dimexpr#1\relax\relax-3612)/7227)*7227+1)/2-1sp\relax}%
 \def\texdimenboth_a#1{\texdimengobtilminus#1\texdimenboth_neg-\numexpr((2*#1}%
 \def\texdimenboth_neg-\numexpr((2*-{-\numexpr((2*}%
 %
-\def\texdimenbothincmsp#1{\the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;}%
+\def\texdimenbothincmsp#1{\number
+    \expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1\relax\relax
+     -3612)/7227)*7227+1)/2-1\relax}%
 \def\texdimenbothincmpt#1{\expandafter\texdimenstrippt\the\dimexpr
-                          \the\numexpr\expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1;sp\relax}%
-\let\texdimenbothcminpt\texdimenbothincmpt
-\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\texdimenbothsp_b#1}%
-\def\texdimenbothsp_b#1;{(((2*#1-3612)/7227)*7227+1)/2-1\relax}%
-% we need to regrab here or to add a \numexpr..\relax layer to
-% \texdimenbothsp_b (parentheses could do but using 0-(...) syntax)
-% finally doing the job of \texdimenbothsp_b directly
-\def\texdimenbothsp_neg-\texdimenbothsp_b-#1;{%
-    -\numexpr(((2*#1-3612)/7227)*7227+1)/2-1\relax\relax
-}%
+    \expandafter\texdimenbothsp_a\the\numexpr\dimexpr#1\relax\relax
+     -3612)/7227)*7227+1)/2-1sp\relax}%
+\def\texdimenbothsp_a#1{\texdimengobtilminus#1\texdimenbothsp_neg-\numexpr(((2*#1}%
+\def\texdimenbothsp_neg-\numexpr(((2*-{-\numexpr(((2*}%
 %
+\let\texdimenbothcminpt\texdimenbothincmpt
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
 % Mathematics and Algorithm ("both mm and bp", added at release 1.0)
