@@ -620,6 +620,16 @@ Remarks about "Dimension too large" issues:
 
 ## Change log
 
+### 1.1
+
+- internal refactorings across the entire code base aiming at (small)
+  efficiency gains from optimized TeX token manipulations
+- in particular, the algorithm for `\texdimenwithunit{<dim1>}{<dim2>}`
+  in the "`dim2<1pt`" branch got modified (output unchanged)
+- the usual batch of documentation additions or fix-ups, also in
+  code comments (fix in particular issues #21, #22), addition of
+  this Change log
+
 ### 1.0 (2021/11/10)
 
 - new: `\texdimenbothbpmm` and relatives (feature request #10)
