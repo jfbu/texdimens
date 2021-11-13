@@ -878,7 +878,7 @@
 % due to \texdimenwithunit_Bneg we can not simply prefix dim1
 % with -, as -0 is bad there. So let's check also if #2 is 0
     \texdimenzerominusfork
-      #2-\texdimenwithunit_Bzero % abusive double usage
+      #2-\texdimenwithunit_Bzero % also used in \texdimenwithunit_B
       0#2\texdimenwithunit_j     % abusive shortcut
        0-{\texdimenwithunit_ic#2}%
     \krof
@@ -907,14 +907,24 @@
 \def\texdimenwithunit_B#1{\texdimenzerominusfork
                            #1-\texdimenwithunit_Bzero
                            0#1\texdimenwithunit_Bneg
-                           0-\texdimenwithunit_Ba
+                            0-\texdimenwithunit_Ba
                           \krof#1}%
+\def\texdimenwithunit_Bzero#1;#2;{0.0}%
 \def\texdimenwithunit_Ba#1#2;#3;{%
-    % no overflow possible from 2*#1#3=2*dim1
-    \expandafter\texdimenwithunit_Bb\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
+    % no overflow possible from 2*#1#3 in \numexpr
+    \expanded{\expandafter\texdimenwithunit_Bb
+              \the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;}%
+}%
+% I could have inserted \expanded\bgroup in \texdimenwithunit_B
+% but then needed to modify _Bzero (used also by \texdimenwithunit_switchsigns)
+% so easiest is to simply defined Bneg explicitly here rather than
+% insisting on deriving it from _Ba
+\def\texdimenwithunit_Bneg-#1;#2;{%
+    \expanded{-\expandafter\texdimenwithunit_Bb
+               \the\numexpr(2*#2-#1)/(2*#1);#2;#1;}%
 }%
 % now k;T;f;. Get the remainder r=T-k*f, and abandon k in the token stream.
-% (hence we drop f-expandability which would be ensured by \the\numexpr k+...).
+% the earlier \expanded maintains f-expandability
 \def\texdimenwithunit_Bb#1;#2;#3;{%
     #1\expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#3;%
 }%
@@ -934,8 +944,6 @@
      +1\fi sp\relax
 }%
 {\catcode`P12\catcode`T12\lowercase{\gdef\texdimenwithunitstripzeroandpt0#1PT}{#1}}%
-\def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
-\def\texdimenwithunit_Bzero#1;#2;{0.0}%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
