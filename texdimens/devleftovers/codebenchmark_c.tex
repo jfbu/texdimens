@@ -1,0 +1,133 @@
+\input xintkernel.sty
+\long\def\ReplicateM#1{\ReplicateC{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateC#1{\ReplicateX{#1#1#1#1#1#1#1#1#1#1}}%
+\long\def\ReplicateX#1{#1#1#1#1#1#1#1#1#1#1}%
+
+{\catcode`p 12\catcode`t 12
+ \csname expandafter\endcsname
+     \gdef\csname strippt\endcsname#1pt{#1}%
+ \csname expandafter\endcsname
+     \gdef\csname stripzeroandpt\endcsname0#1pt{#1}%
+}%
+
+\catcode`@ 11
+\catcode`_ 11
+
+\def\machin{}
+
+\def\fooA{\the\numexpr99999+%
+          \expandafter\strippt\the\dimexpr65535sp\relax}
+
+\def\fooB{%
+ \expanded{99999\expandafter\expandafter\expandafter}%
+ \expandafter\stripzeroandpt
+ \the\dimexpr65535sp\relax}
+
+\def\fooBb{%
+ \expanded{99999\expandafter\stripzeroandpt
+ \the\dimexpr65535sp\relax}}
+
+\def\stripletterpt#1pt{#1}
+\def\stripzeroletterpt0#1pt{#1}
+
+\def\fooC{\the\numexpr99999+\stripletterpt0.99998pt}
+
+\def\fooD{\expanded{99999\expandafter}\stripzeroletterpt0.99998pt}
+
+\def\fooE{\expandafter\stripletterpt\the\numexpr99999+0.99998pt}
+
+\def\fooF{\expanded{99999\stripzeroletterpt0.99998pt}}
+
+\def\TEST{
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zA{\fooA}}}%
+\edef\timeA{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zB{\fooB}}}%
+\edef\timeB{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zBb{\fooBb}}}%
+\edef\timeBb{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zC{\fooC}}}%
+\edef\timeC{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zD{\fooD}}}%
+\edef\timeD{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zE{\fooE}}}%
+\edef\timeE{\the\pdfelapsedtime}%
+
+\pdfresettimer
+\ReplicateC{\ReplicateM{\fdef\zF{\fooF}}}%
+\edef\timeF{\the\pdfelapsedtime}%
+
+\immediate\write128{%
+        fooA: \timeA,
+        fooB: \timeB,
+        fooBb: \timeBb,
+                    fooC: \timeC,
+                    fooD: \timeD,
+                    fooE: \timeE,
+                    fooF: \timeF
+                   }
+
+\ifx\zA\zB\else\ERROR\fi
+\ifx\zA\zBb\else\ERROR\fi
+\ifx\zA\zC\else\ERROR\fi
+\ifx\zA\zD\else\ERROR\fi
+\ifx\zA\zE\else\ERROR\fi
+\ifx\zA\zF\else\ERROR\fi
+}
+
+\immediate\write128{(99999)}
+
+\TEST
+
+\TEST
+
+\TEST
+
+
+
+\def\fooA{\the\numexpr1+%
+          \expandafter\strippt\the\dimexpr65535sp\relax}
+
+\def\fooB{%
+ \expanded{1\expandafter\expandafter\expandafter}%
+ \expandafter\stripzeroandpt
+ \the\dimexpr65535sp\relax}
+
+\def\fooBb{%
+ \expanded{1\expandafter\stripzeroandpt
+ \the\dimexpr65535sp\relax}}
+
+\def\stripletterpt#1pt{#1}
+\def\stripzeroletterpt0#1pt{#1}
+
+\def\fooC{\the\numexpr1+\stripletterpt0.99998pt}
+
+\def\fooD{\expanded{1\expandafter}\stripzeroletterpt0.99998pt}
+
+\def\fooE{\expandafter\stripletterpt\the\numexpr1+0.99998pt}
+
+\def\fooF{\expanded{1\stripzeroletterpt0.99998pt}}
+
+\immediate\write128{(1)}
+\TEST
+
+\TEST
+
+\TEST
+
+
+\bye
+
+% \if based macro circa 10%-20% slower than gob_til_minus one in
+% negative branch, equivalent in positive
