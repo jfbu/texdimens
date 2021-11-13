@@ -618,6 +618,50 @@ Remarks about "Dimension too large" issues:
 > bias to be "shifted upwards" (in its last decimal place) compared to
 > the (rounded) value `D1/D2` or rather `N1/N2` still stands.
 
+## Change log
+
+### 1.0 (2021/11/10)
+
+- new: `\texdimenbothbpmm` and relatives (feature request #10)
+- breaking: `\texdimenwithunit` output for second argument `<1pt` still
+  obeys specs but is closer to mathematical ratio (feature request #16)
+- enhanced: all `up/down` macros (i.e. also for the `dd`, `nc`, `in`
+  units) accept the full range of dimensions (feature request #18)
+- enhanced: `\texdimenwithunit`'s second argument is now allowed
+  to be negative (feature request #13)
+
+### 0.99a-d (2021/11/04)
+
+- documentation in TeX/LaTeX installations available in pdf format
+- the usual batch of documentation additions or fix-ups
+- let the CTAN `README.md` be much shortened, and provide `texdimens.md`
+  as the one matching the repo `README.md`
+- fix bugs of `\texdimenwithunit{<dim1>}{<dime2>}` for `dim1=0pt` or
+  `dim2=1pt` (#3, #4, #6, #8)
+
+### 0.99 (2021/11/02)
+
+- new: `\texdimenwithunit{<dim1>}{<dim2>}` (feature request #2)
+
+### 0.9 (2021/07/21)
+
+- breaking: use `\texdimen` not `\texdimin` macro namespace
+- new: `\texdimenbothincmsp`
+
+### 0.9delta (2021/07/15)
+
+- internal refactorings
+
+### 0.9gamma (2021/07/14)
+
+- new: `\texdiminbpdown`, `\texdiminbpup` and similar named macros for
+  the other units
+
+### 0.9beta (2021/06/30)
+
+- initial release: provides `\texdiminbp` and similar named macros for
+  the units `nd`, `dd`, `mm`, `pc`, `nc`, `cc`, `cm`, `in`
+
 
 ## Acknowledgements
 
