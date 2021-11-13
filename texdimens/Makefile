@@ -21,10 +21,18 @@ README.html: README.rst
 	rst2html5.py README.rst README.html
 
 # 21/11/04. Attention to leave no spaces after the backsslashes
+# 21/11/13. Filter TeX/LaTeX (memo: <space>TeX no good if TeX starts paragraph)
 texdimens.ltx: README.md
 	pandoc -s -t latex --toc -Vcolorlinks -Vpapersize=a4 \
 	-Vfontsize=11pt -Vfontfamily=newtxtext -Vclassoption=dvipdfmx \
 	-Vurlcolor=magenta -Vtoccolor=Blue -o texdimens.ltx README.md
+	@# cp texdimens.ltx texdimens-old.ltx
+	sed -i 's/LaTeX/LATEX/g' texdimens.ltx
+	sed -i 's/e-TeX/ETEX/g' texdimens.ltx
+	sed -i 's/TeX/\\TeX{}/g' texdimens.ltx
+	sed -i 's/LATEX/\\LaTeX{}/g' texdimens.ltx
+	sed -i 's/ETEX/$$\\varepsilon$$-\\TeX{}/g' texdimens.ltx
+	@# diff -u texdimens-old.ltx texdimens.ltx
 
 texdimens.pdf: texdimens.ltx
 	latex -halt-on-error -interaction=batchmode texdimens.ltx
