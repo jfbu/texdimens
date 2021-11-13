@@ -1,4 +1,5 @@
-% 2011/11/08
+% \texdimenUUup, \texdimenUUdown, the 0.9gamma versions
+% -----------------------------------------------------
 % archiving the up and down macros from 0.9gamma release
 % (also to check if new up and down macros are backwards
 %  compatible and do tests to compare the efficiencies)
@@ -159,6 +160,102 @@
 % \texdimeninup: minimal dim exactly expressible in in and at least equal to input
 \def\texdimeninuplegacy#1{\expandafter\texdimenup_a\the\numexpr\dimexpr#1;*100/7227;in;}%
 %
+%
+% \texdimenwithunit, the 1.0 version
+% ----------------------------------
+\def\texdimenwithunitlegacy#1#2{\expandafter\texdimenwithunitlegacy_i
+% no premultiplication of dim1 by 2 as was done for technical
+% reasons when dim2<1pt branch used round((2T+1)*32768/f)
+    \the\numexpr\dimexpr#2\expandafter;\the\numexpr\dimexpr#1;}%
+%
+% so tempted to do \input xintkernel.sty to have some utilities...
+% not even a \@gobble in Plain...
+\let\texdimenorthat\texdimenfirstofone
+\def\texdimendothis#1#2\texdimenorthat#3{\fi#1}%
+\def\texdimengobtominus#1-{}%
+\def\texdimenwithunitlegacy_i#1{%
+     \texdimengobtominus#1\texdimenwithunitlegacy_switchsigns-%
+     \texdimenwithunitlegacy_j#1%
+}%
+\def\texdimenwithunitlegacy_switchsigns-\texdimenwithunitlegacy_j-#1;#2%
+{%
+% due to \texdimenwithunitlegacy_Bneg we can not simply prefix dim1
+% with -, as -0 is bad there. So let's check also if #2 is 0
+    \texdimenzerominusfork
+      #2-\texdimenwithunitlegacy_Bzero % abusive double usage
+      0#2\texdimenwithunitlegacy_j     % abusive shortcut
+       0-{\texdimenwithunitlegacy_ic#2}%
+    \krof
+    #1;%
+}%
+\def\texdimenwithunitlegacy_ic#1#2;{\texdimenwithunitlegacy_j#2;-#1}%
+\def\texdimenwithunitlegacy_j#1;#2{%
+        % \ifnum#1=\p@\texdimendothis\texdimenwithunitlegacy_p@\fi
+        \ifnum#1>\p@\texdimendothis\texdimenwithunitlegacy_A\fi
+        \texdimenorthat\texdimenwithunitlegacy_B#2#1;%
+}%
+% not needed, as the "ceil" branch is fine to use for f = 65536
+% \def\texdimenwithunitlegacy_p@#1#2;#3;{%
+%     \expandafter\texdimenstrippt\the\dimexpr#1#3sp/2\relax
+% }%
+% unit>1pt, handle this as for bp. Attention it would be wrong for
+% unit=1pt!
+\def\texdimenwithunitlegacy_A#1#2;#3;{%
+    \expandafter\texdimenstrippt
+    \the\dimexpr\numexpr(2*#1#3+\if-#1-\fi1)*32768/#2sp\relax
+    % - fine if dim1>0, <0, or =0
+    % - with *\p@ better but an early doubled dim2 would complicate 1pt
+    % test and not sure if doing \p@/(2*#2) here advantageous
+}%
+% unit<=1pt.
+% if dim1<0, simply negate result for dim1>0 as it can not possibly be 0.0
+% Indeed T*65536/f will be at least 1 so its ceil also (in fact ceil
+% will even be at least 2 if f<65536).
+% The dim1=0 case must get filtered out due to way of calculating the
+% "ceil" in \numexpr
+\def\texdimenzerominusfork #10-#2#3\krof {#2}%
+\def\texdimenwithunitlegacy_B#1{\texdimenzerominusfork
+                           #1-\texdimenwithunitlegacy_Bzero
+                           0#1\texdimenwithunitlegacy_Bneg
+                           0-\texdimenwithunitlegacy_Ba
+                          \krof#1}%
+\def\texdimenwithunitlegacy_Ba#1#2;#3;{%
+    % no overflow possible from 2*#1#3=2*dim1
+    \expandafter\texdimenwithunitlegacy_Bb\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
+}%
+% now k;T;f;. Get the remainder r=T-k*f
+\def\texdimenwithunitlegacy_Bb#1;#2;#3;{%
+    \expandafter\texdimenwithunitlegacy_Bc\the\numexpr#2-#1*#3;#1;#3;%
+}%
+% now r;k;f;. We can start \the\numexpr k+ ....
+% and there we will need to get R=round(r*65536/f), Ept=Rsp,
+% check if E"f sp"<"r sp", if yes replace R by R+1 else keep E etc.
+\def\texdimenwithunitlegacy_Bc#1;#2;#3;{%
+% \the\numexpr k+0.ddddd is handy because it can well be actually
+% \the\numexpr k+1.0, now that we use ceil approach in this branch
+    \the\numexpr#2+\expandafter\texdimenwithunitlegacy_Bd
+                   \the\numexpr #1*\p@/#3;#1;#3;%
+}%
+% R;r;f;
+\def\texdimenwithunitlegacy_Bd#1;{%
+    \expandafter\texdimenwithunitlegacy_Be\the\dimexpr#1sp;#1;%
+}%
+% Ept;R;r;f;
+% #1=0.ddd... or 1.0 but has no end marker hence the
+% \texdimenfirstofone{#1} as in \texdimendown_d and \texdimenup_d
+{\catcode`P 12\catcode`T 12
+\lowercase{\gdef\texdimenwithunitlegacy_Be#1PT};#2;#3;#4;{%
+    \ifdim#1\dimexpr#4sp<#3sp \texdimenwithunitlegacy_Bf{#2}\fi
+    \texdimenfirstofone{#1}%
+    }%
+}%
+% #2 is \fi. Add a dimen storage \onesp for 1sp?
+\def\texdimenwithunitlegacy_Bf#1#2\texdimenfirstofone#3{#2%
+    \expandafter\texdimenstrippt\the\dimexpr#1sp+1sp\relax
+}%
+% Here definitely not caring about f-expandability. Or efficiency.
+\def\texdimenwithunitlegacy_Bneg-{-\texdimenwithunitlegacy_Ba{}}%
+\def\texdimenwithunitlegacy_Bzero#1;#2;{0.0}%
 \texdimenslegacyendinput
 %! Local variables:
 %! mode: TeX

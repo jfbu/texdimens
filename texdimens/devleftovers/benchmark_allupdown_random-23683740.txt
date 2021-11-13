@@ -1,110 +1,110 @@
 Random seed: 23683740
-0.15605/0.15024 = ROUND/CEIL = about 1.0387 for bpup with 128293sp
+0.15633/0.15059 = ROUND/CEIL = about 1.0381 for bpup with 128293sp
 
-0.15468/0.14568 = ROUND/CEIL = about 1.06181 for bpup with 66104sp
+0.15773/0.15047 = ROUND/CEIL = about 1.04828 for bpup with 66104sp
 
-0.15427/0.14919 = ROUND/CEIL = about 1.03407 for bpup with 33249sp
+0.15881/0.15224 = ROUND/CEIL = about 1.04321 for bpup with 33249sp
 
-0.16513/0.14693 = ROUND/CEIL = about 1.1239 for bpdown with 106563sp
+0.1658/0.15337 = ROUND/CEIL = about 1.0811 for bpdown with 106563sp
 
-0.15147/0.14607 = ROUND/CEIL = about 1.03699 for bpdown with 85474sp
+0.15771/0.14948 = ROUND/CEIL = about 1.05513 for bpdown with 85474sp
 
-0.15625/0.14812 = ROUND/CEIL = about 1.05492 for bpdown with 106571sp
+0.15935/0.15749 = ROUND/CEIL = about 1.01183 for bpdown with 106571sp
 
-0.15648/0.14687 = ROUND/CEIL = about 1.06546 for ndup with 25737sp
+0.15427/0.14944 = ROUND/CEIL = about 1.03227 for ndup with 25737sp
 
-0.15909/0.1501 = ROUND/CEIL = about 1.05989 for ndup with 77297sp
+0.1553/0.15202 = ROUND/CEIL = about 1.02159 for ndup with 77297sp
 
-0.15318/0.15224 = ROUND/CEIL = about 1.00623 for ndup with 64892sp
+0.15997/0.14354 = ROUND/CEIL = about 1.1145 for ndup with 64892sp
 
-0.1597/0.14844 = ROUND/CEIL = about 1.07587 for nddown with 88438sp
+0.15933/0.15094 = ROUND/CEIL = about 1.0556 for nddown with 88438sp
 
-0.15584/0.14957 = ROUND/CEIL = about 1.04193 for nddown with 66945sp
+0.15921/0.15346 = ROUND/CEIL = about 1.03749 for nddown with 66945sp
 
-0.15872/0.14821 = ROUND/CEIL = about 1.07094 for nddown with 108766sp
+0.1601/0.15547 = ROUND/CEIL = about 1.02974 for nddown with 108766sp
 
-0.1535/0.14328 = ROUND/CEIL = about 1.07137 for ddup with 5781sp
+0.15042/0.1425 = ROUND/CEIL = about 1.05559 for ddup with 5781sp
 
-0.15387/0.14297 = ROUND/CEIL = about 1.0762 for ddup with 97379sp
+0.15656/0.1516 = ROUND/CEIL = about 1.03271 for ddup with 97379sp
 
-0.1587/0.14378 = ROUND/CEIL = about 1.10379 for ddup with 99119sp
+0.15652/0.14635 = ROUND/CEIL = about 1.06955 for ddup with 99119sp
 
-0.15855/0.14659 = ROUND/CEIL = about 1.08162 for dddown with 23188sp
+0.15613/0.1451 = ROUND/CEIL = about 1.07603 for dddown with 23188sp
 
-0.16208/0.15172 = ROUND/CEIL = about 1.0683 for dddown with 128443sp
+0.1638/0.14748 = ROUND/CEIL = about 1.11072 for dddown with 128443sp
 
-0.15886/0.14978 = ROUND/CEIL = about 1.06062 for dddown with 43823sp
+0.15875/0.14194 = ROUND/CEIL = about 1.11847 for dddown with 43823sp
 
-0.1414/0.15306 = ROUND/CEIL = about 0.92384 for mmup with 2799sp
+0.14282/0.14627 = ROUND/CEIL = about 0.97643 for mmup with 2799sp
 
-0.19228/0.15468 = ROUND/CEIL = about 1.24307 for mmup with 41342sp
+0.18434/0.14677 = ROUND/CEIL = about 1.25597 for mmup with 41342sp
 
-0.15454/0.15222 = ROUND/CEIL = about 1.01524 for mmup with 100111sp
+0.1497/0.14946 = ROUND/CEIL = about 1.00165 for mmup with 100111sp
 
-0.1406/0.14235 = ROUND/CEIL = about 0.98769 for mmdown with 6434sp
+0.1403/0.14505 = ROUND/CEIL = about 0.96729 for mmdown with 6434sp
 
-0.14595/0.15741 = ROUND/CEIL = about 0.92722 for mmdown with 88968sp
+0.14943/0.14998 = ROUND/CEIL = about 0.99634 for mmdown with 88968sp
 
-0.14316/0.14302 = ROUND/CEIL = about 1.00096 for mmdown with 38934sp
+0.14703/0.1514 = ROUND/CEIL = about 0.97118 for mmdown with 38934sp
 
-0.13441/0.14288 = ROUND/CEIL = about 0.94073 for pcup with 24394sp
+0.14142/0.14209 = ROUND/CEIL = about 0.99529 for pcup with 24394sp
 
-0.13762/0.14185 = ROUND/CEIL = about 0.97021 for pcup with 101217sp
+0.1426/0.1391 = ROUND/CEIL = about 1.02513 for pcup with 101217sp
 
-0.13867/0.13947 = ROUND/CEIL = about 0.99432 for pcup with 91782sp
+0.14108/0.13512 = ROUND/CEIL = about 1.04416 for pcup with 91782sp
 
-0.14146/0.13533 = ROUND/CEIL = about 1.04533 for pcdown with 98775sp
+0.13576/0.131 = ROUND/CEIL = about 1.03635 for pcdown with 98775sp
 
-0.18082/0.13754 = ROUND/CEIL = about 1.31464 for pcdown with 127254sp
+0.18016/0.13634 = ROUND/CEIL = about 1.32144 for pcdown with 127254sp
 
-0.13266/0.1373 = ROUND/CEIL = about 0.96622 for pcdown with 11306sp
+0.1347/0.13725 = ROUND/CEIL = about 0.98145 for pcdown with 11306sp
 
-0.1817/0.14462 = ROUND/CEIL = about 1.2564 for ncup with 10261sp
+0.1849/0.13817 = ROUND/CEIL = about 1.33827 for ncup with 10261sp
 
-0.14336/0.13799 = ROUND/CEIL = about 1.03893 for ncup with 8023sp
+0.14317/0.14162 = ROUND/CEIL = about 1.011 for ncup with 8023sp
 
-0.14977/0.13799 = ROUND/CEIL = about 1.08537 for ncup with 11365sp
+0.14749/0.14096 = ROUND/CEIL = about 1.04634 for ncup with 11365sp
 
-0.18481/0.14398 = ROUND/CEIL = about 1.2836 for ncdown with 28816sp
+0.1824/0.14455 = ROUND/CEIL = about 1.26192 for ncdown with 28816sp
 
-0.14911/0.14235 = ROUND/CEIL = about 1.0475 for ncdown with 65457sp
+0.14658/0.14264 = ROUND/CEIL = about 1.0276 for ncdown with 65457sp
 
-0.15329/0.14803 = ROUND/CEIL = about 1.03557 for ncdown with 130431sp
+0.1557/0.14308 = ROUND/CEIL = about 1.0882 for ncdown with 130431sp
 
-0.18752/0.14687 = ROUND/CEIL = about 1.2768 for ccup with 84927sp
+0.18744/0.14478 = ROUND/CEIL = about 1.2947 for ccup with 84927sp
 
-0.18925/0.15048 = ROUND/CEIL = about 1.25766 for ccup with 111608sp
+0.20229/0.16385 = ROUND/CEIL = about 1.23459 for ccup with 111608sp
 
-0.19214/0.1524 = ROUND/CEIL = about 1.26073 for ccup with 130205sp
+0.19476/0.15005 = ROUND/CEIL = about 1.29796 for ccup with 130205sp
 
-0.15211/0.14705 = ROUND/CEIL = about 1.03445 for ccdown with 27569sp
+0.14957/0.15128 = ROUND/CEIL = about 0.98871 for ccdown with 27569sp
 
-0.15527/0.1502 = ROUND/CEIL = about 1.03374 for ccdown with 13524sp
+0.15189/0.1512 = ROUND/CEIL = about 1.00455 for ccdown with 13524sp
 
-0.15112/0.15414 = ROUND/CEIL = about 0.98041 for ccdown with 124527sp
+0.15585/0.14867 = ROUND/CEIL = about 1.04836 for ccdown with 124527sp
 
-0.15091/0.14586 = ROUND/CEIL = about 1.03464 for cmup with 88165sp
+0.1454/0.14638 = ROUND/CEIL = about 0.99333 for cmup with 88165sp
 
-0.18056/0.14815 = ROUND/CEIL = about 1.21878 for cmup with 113224sp
+0.18599/0.1538 = ROUND/CEIL = about 1.20935 for cmup with 113224sp
 
-0.14899/0.15114 = ROUND/CEIL = about 0.98578 for cmup with 114343sp
+0.15111/0.15184 = ROUND/CEIL = about 0.99518 for cmup with 114343sp
 
-0.18002/0.14917 = ROUND/CEIL = about 1.20685 for cmdown with 15415sp
+0.17712/0.14862 = ROUND/CEIL = about 1.19179 for cmdown with 15415sp
 
-0.18138/0.15125 = ROUND/CEIL = about 1.19926 for cmdown with 97159sp
+0.18181/0.1482 = ROUND/CEIL = about 1.22684 for cmdown with 97159sp
 
-0.14235/0.1444 = ROUND/CEIL = about 0.98584 for cmdown with 79588sp
+0.14185/0.14752 = ROUND/CEIL = about 0.96153 for cmdown with 79588sp
 
-0.1412/0.14343 = ROUND/CEIL = about 0.98448 for inup with 32147sp
+0.13934/0.15573 = ROUND/CEIL = about 0.89478 for inup with 32147sp
 
-0.1817/0.1509 = ROUND/CEIL = about 1.20418 for inup with 103585sp
+0.17912/0.15083 = ROUND/CEIL = about 1.18756 for inup with 103585sp
 
-0.17853/0.14874 = ROUND/CEIL = about 1.20026 for inup with 92080sp
+0.17906/0.15115 = ROUND/CEIL = about 1.18465 for inup with 92080sp
 
-0.14752/0.1427 = ROUND/CEIL = about 1.0338 for indown with 119328sp
+0.14648/0.15208 = ROUND/CEIL = about 0.96318 for indown with 119328sp
 
-0.17752/0.14354 = ROUND/CEIL = about 1.23674 for indown with 33659sp
+0.17215/0.1448 = ROUND/CEIL = about 1.18884 for indown with 33659sp
 
-0.14175/0.14752 = ROUND/CEIL = about 0.9609 for indown with 22933sp
+0.14413/0.14671 = ROUND/CEIL = about 0.98244 for indown with 22933sp
 
-560457/519029 = ROUND/CEIL = about 1.07982
+562369/521783 = ROUND/CEIL = about 1.07779

@@ -71,13 +71,6 @@ details in the complete macro description.
 
 ## Quick review of basics: TeX points and scaled points
 
-This project requires the e-TeX extensions `\dimexpr` and `\numexpr`.
-The notation `<dim. expr.>` in the macro descriptions refers to a
-*dimensional expression* as accepted by `\dimexpr`.  The syntax has some
-peculiarities: among them the fact that `-(...)` (for example `-(3pt)`)
-is illegal, one must use alternatives such as `0pt-(...)` or a
-sub-expression `-\dimexpr...\relax` for example.
-
 TeX dimensions are represented internally by a signed integer which is
 in absolute value at most `0x3FFFFFFF`, i.e. `1073741823`.  The
 corresponding unit is called the "scaled point", i.e. `1sp` is `1/65536`
@@ -237,10 +230,20 @@ the `pt`.
 
 ## Macros of this package (full list)
 
-The macros are all expandable, and most are f-expandable (check the
-source code). They parse their arguments via `\dimexpr` so can be nested
+This project requires the `\dimexpr`, `\numexpr` e-TeX extensions.  It
+also requires the `\expanded` primitive (available in all engines since
+TeXLive 2019).
+
+The macros provided by the package are all expandable, even
+f-expandable. They parse their arguments via `\dimexpr` so can be nested
 (with appropriate units added, as the outputs always are bare decimal
 numbers).
+
+The notation `<dim. expr.>` in the macro descriptions refers to a
+*dimensional expression* as accepted by `\dimexpr`.  The syntax has some
+peculiarities: among them the fact that `-(...)` (for example `-(3pt)`)
+is illegal, one must use alternatives such as `0pt-(...)` or a
+sub-expression `-\dimexpr...\relax` for example.
 
 Negative dimensions behave as if replaced by their absolute value, then
 at last step the sign (if result is not zero) is applied (so "down" means
@@ -619,6 +622,21 @@ Remarks about "Dimension too large" issues:
 > the (rounded) value `D1/D2` or rather `N1/N2` still stands.
 
 ## Change log
+
+### 1.1
+
+- internal refactorings across the entire code base aiming at (small)
+  efficiency gains from optimized TeX token manipulations
+- in particular, the algorithm for `\texdimenwithunit{<dim1>}{<dim2>}`
+  in the "`dim2<1pt`" branch got modified (output unchanged)
+- all macros now f-expandable (this was already the case at `1.0` except
+  for `\texdimenwithunit` in certain cases with one of the two arguments
+  negative)
+- the `\expanded` primitive is required (present in all engines since
+  TeXLive 2019)
+- the usual batch of documentation additions or fix-ups, also in
+  code comments (fix in particular issues #21, #22)
+- addition of this Change log
 
 ### 1.0 (2021/11/10)
 

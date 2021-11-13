@@ -12,8 +12,18 @@
 \def\texdimengobtilminus#1-{}%
 \def\texdimenzerominusfork #10-#2#3\krof {#2}%
 %
-% Mathematics (the challenge of the "down" and "up" macros)
-% ===========
+% \texdimenuu, \texdimenuudown, \texdimenuuup
+% ===========================================
+%
+% uu = core TeX unit (not sp, and no down/up for pt)
+%
+% added (\texdimenuu): initial release
+% added (\texdimenuudown, \texdimenuuup): 0.9gamma
+% modified: 1.0
+% modified: 1.1 (micro coding improvements)
+%
+% Mathematics
+% -----------
 %
 % In the entire discussion here, "uu" stands for some core unit,
 % or some unit corresponding to an internal dimension > 1pt.
@@ -158,7 +168,7 @@
 % This made all usable even with \maxdimen input and besided, proved
 % on average slightly faster.
 %
-% Overcoming the ceil() stumbling block (i.e. the 1.0 manner for "up/down")
+% Overcoming the ceil() stumbling block
 % ------------------------------------- 
 %
 % I will in what follows refer to trunc(), floor() or ceil() only for
@@ -207,9 +217,6 @@
 % potential overflow problem at all. The same analysis can be done for
 % Zu = ceil(T*100/7227) and for all core TeX units. See the comments
 % below for all obtained formulae and some additional details.
-%
-% Implementation
-% ==============
 %
 {\catcode`p 12\catcode`t 12
  \csname expandafter\endcsname\gdef\csname texdimenstrippt\endcsname#1pt{#1}}%
@@ -261,8 +268,7 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 %
-% "no test" ceil()-based approach to up and down macros (release 1.0)
-% =====================================================
+% "up and down macros" (1.0 version)
 %
 % The notation <u/v> means u/v in numexpr, which does rounding
 % away from zero. It is essential that the argument be >-0.5 else <x+1>
@@ -525,9 +531,14 @@
 \def\texdimeninup_c#1;#2;{\expandafter\texdimeninup_d\the\numexpr#2-7227*#1;#1;}%
 \def\texdimeninup_d#1;#2;{\numexpr#200+101-(1452627-2*#100)/14454sp\relax}%
 %
-% Mathematics ("both in and cm")
-% added at release 0.9 and macros refactored for small gain (hopefully) at 1.1
-% ===========
+% "both in and cm"
+% ================
+%
+% added:    0.9
+% modified: 1.1 (micro coding improvements)
+%
+% Mathematics 
+% -----------
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
 % floor(b 7227/254).  It can be proven that a=50k, b=127k for some integer k.
@@ -551,7 +562,7 @@
 % avoiding overflow.
 %
 % Implementation
-% ==============
+% --------------
 %
 % Regarding the output in pt or sp, we seem to need floor(k 7227/2).
 % The computation of floor(k 7227/2) as <(7227 k - 1)/2> would require to
@@ -590,8 +601,13 @@
 \let\texdimenbothcminpt\texdimenbothincmpt
 \let\texdimenbothcminsp\texdimenbothincmsp
 %
-% Mathematics and Algorithm ("both mm and bp", added at release 1.0)
-% =========================
+% "both mm and bp"
+% ================
+%
+% added: 1.0
+% 
+% Mathematics and Algorithm
+% -------------------------
 % We start from a dimension expressed in sp unit, "T sp". Assume T positive.
 % We know how to get largest "X sp <= T sp" which is exactly expressible
 % in mm unit
@@ -690,8 +706,15 @@
 \def\texdimenbothbpmmsp#1{\the\numexpr\dimexpr\texdimenbothbpmm{#1}mm\relax\relax}%
 \let\texdimenbothmmbpsp\texdimenbothbpmmsp
 %
-% Mathematics (\texdimenwithunit, added at release 0.99, modified at 1.0)
-% ===========
+% \texdimenwithunit
+% =================
+%
+% added:    0.99
+% modified: 1.0 (new output for second argument < 1pt)
+% modified: 1.1 (new algorithm for second arg < 1pt)
+%
+% Mathematics
+% -----------
 %
 % As explained in the README.md, the ex and em units are
 % handled by TeX as if multiplying by a conversion factor f/65536
@@ -736,7 +759,7 @@
 % It is not obvious to compute this ceil(T/phi) without overflow.
 %
 % Implementation
-% ==============
+% --------------
 %
 % \texdimenwithunit{dim1}{dim2}
 %
@@ -756,48 +779,90 @@
 % or f<=65536.
 % We will also need to check the sign of T (dim1=T sp).
 % f>65536: we compute round((2T+1)*32768/f)
-% f=65536: merged with f<65536 branch
-% f<65536: we compute ceil(T*65536/f)
+% f=65536: merged with f<65536 branch (as it works and avoids checking for it)
+% f<65536: 0.99 release used the round((2T+1)*32768/f) formula
+%          (it is funny that it works for all f except for f=65536)
 %
-%          rationale: round((2T+1)*32768/f) which was used at 0.99
-%          would be ok [if f<65536 not f=65536 ! cf #3, #4] 
-%          also for this branch
-%
-%          BUT it diverges noticeably from naive expectation
-%          dim1/dim2 "=" T*65536/f the more so when f is small.
+%          But the output then diverges noticeably from mathematical
+%          dim1/dim2 "=" T*65536/f, the more so the smaller the dim2.
 %          See issue #16 and also the discussion at #13.
 %
-%          As was explained in comments to issue #2 which asked for a
-%          \texdimenwithunit the ceil(T*65536/f) is the smallest
-%          allowable choice
+%          1.0 release thus opted for the ceil(T*65536/f) formula, as it is the
+%          smallest allowable choice, hence the closest to naive dim1/dim2.
 %
 %          To avoid arithmetic overflow issues we first do the euclidean
-%          division T = k f + r, 0<= r < f
+%          division T = k f + r, 0<= r < f, 0<= k
 %
-%          The final result in sp units will be k*65536 + ceil(r * 65536/f)
-%          We don't do this k*65536 explicitly as it may overflow
-%          but output the decimal k + E where E is the conversion
-%          to a decimal 0.ddddd or 1.0 of "ceil(r * 65536/f) sp"
-%          (which is at most 65536sp=1pt so E is at most 1.0).
+%          The final result in "sp" unit would be k*65536 + C with
+%          C = ceil(r * 65536/f).
 %
+%          We don't do this k*65536 explicitly as it may overflow and is
+%          anyhow unneeded: the output will be the integer k concatenated with
+%          the decimal E given by TeX from \the\dimexpr C sp, i.e. such that
+%          E pt = C sp, with C = ceil(r*65536/f).
+%
+%          As r is at most f-1, r*65536/f is at most 65536-65536/f, and as
+%          65536>=f (we use this branch also for f=65536), C<=65535. Hence
+%          E is never 1.0 but always "0.<some digits>"
+%          
 %          To compute the Euclidean quotient k in \numexpr we use there
-%          (2T-f)/(2f) i.e. round((2T-f)/2f) = trunc(T/f)
-%          as we are careful to never have T=0 inthere...
+%          <(2T-f)/(2f)> i.e. round((2T-f)/2f) = trunc(T/f)
+%          as we are careful to never have T=0 in-there...
 %
 %          Computing C = ceil(r * 65536/f) in \numexpr is the delicate
-%          part, as r can be as large as f-1 hence 65535 and r*65536 would
-%          overflow. We could compute R=round(r*65536/f) ("scaling operation")
-%          then C=R+1 if R*f-65536*r<0, else C=R.
+%          part, as r can be as large as f-1 hence 65535 and 65535*65536 would
+%          overflow.  Let's try anyhow to see how to compute ceil() with round():
 %
-%          The problem is then: how to get the sign of R*f-65536*r without
-%          overflow? I considered various ways.
+%          C = 65536 - floor(65536 * (1 - r/f))
+%            = 65536 - round(65536*(f-r)/f - 0.5) (as r<f so no "round(-0.5)=-1")
+%            = 65536 - <(2*65536*(f-r) - f)/(2f)>
 %
-%          But in the end, opted for simply this:
-%          - get R=round(r*65536/f) as \the\numexpr r*65536/f ("scaling" no overflow)
-%          - hence get E pt=\the\dimexpr R sp
-%          - let TeX compute E<f sp>: if it turns out < r sp,
-%            then C=R+1,
-%            else C=R. Done.
+%          Here the problem is with small r, and large f, and naive implementation
+%          of this formula can overflow...
+%          Let's thus retreat to eTeX scaling operation <r*65536/f> as it
+%          operates with temporary double precision.
+%
+%          R=round(r*65536/f)=<r*65536/f> is either C-1 or C
+%          Let x = mathematical exact r*65536/f:
+%          - if R < x,  C=R+1.
+%          - if R >= x, C=R.
+%
+%          C=ceil(r*65536/f) is the smallest integer such that
+%          trunc(C*f/65536)>=r, or more precisely (as f<=65536) the
+%          smallest integer with trunc(C*f/65536)=r. So trunc(R*f/65536)
+%          will be either r (then R=C), or r-1, then R=C-1.
+%
+%          Method from release 1.0: let's TeX compute P=trunc(R*f/65536) itself!
+%          Via P sp = E <f sp> where E is a decimal such that E pt = R sp.
+%          So
+%          - if P>=r (it is then equal to r in fact) then C=R
+%          - if P<r (it is then equal to r-1), then C=R+1.
+%
+%          New method: overflow-free pure \numexpr way to get the sign of R-x. 
+%
+%          Write R=4*S+t, with say S=<R/4>=round(R/4), so t=-2,-1,0,+1.
+%
+%          Then R*f-65536*r = 4*(S*f-16384*r)+t*f
+%
+%          We know that R<=C<65536, so <R/4> <= 16384 and 16384*f
+%          is at worst 2**(14+16)=\maxdimen+1 but we will be in \numexpr,
+%          so no overflow!
+%          And r<f<=65536 so also 16384*r can not overflow.
+%          As |R - r*65536/f|<= 0.5, then |R*f-65536*r|<= f/2, so
+%          4*|S*f-16384*r| <= 2.5*f is very far from overflow risk
+%
+%              T>0, 0<f<=65536
+%              k = <(2*T-f)/(2*f)>
+%              r = T - k*f
+%              R=<r*65536/f>
+%              S=<R/4>
+%              t=R-4*S
+%
+%              IF: 4*(S*f-16384*r)+t*f < 0 THEN C=R+1 ELSE C=R.
+%
+%              Ept=\the\dimexpr Csp, E=0.d...d
+%
+%              End expansion with the contatenation k.d...d
 %
 \def\texdimenwithunit#1#2{\expandafter\texdimenwithunit_i
 % no premultiplication of dim1 by 2 as was done for technical
@@ -813,7 +878,7 @@
 % due to \texdimenwithunit_Bneg we can not simply prefix dim1
 % with -, as -0 is bad there. So let's check also if #2 is 0
     \texdimenzerominusfork
-      #2-\texdimenwithunit_Bzero % abusive double usage
+      #2-\texdimenwithunit_Bzero % also used in \texdimenwithunit_B
       0#2\texdimenwithunit_j     % abusive shortcut
        0-{\texdimenwithunit_ic#2}%
     \krof
@@ -842,45 +907,43 @@
 \def\texdimenwithunit_B#1{\texdimenzerominusfork
                            #1-\texdimenwithunit_Bzero
                            0#1\texdimenwithunit_Bneg
-                           0-\texdimenwithunit_Ba
+                            0-\texdimenwithunit_Ba
                           \krof#1}%
-\def\texdimenwithunit_Ba#1#2;#3;{%
-    % no overflow possible from 2*#1#3=2*dim1
-    \expandafter\texdimenwithunit_Bb\the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;%
-}%
-% now k;T;f;. Get the remainder r=T-k*f
-\def\texdimenwithunit_Bb#1;#2;#3;{%
-    \expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#1;#3;%
-}%
-% now r;k;f;. We can start \the\numexpr k+ ....
-% and there we will need to get R=round(r*65536/f), Ept=Rsp,
-% check if E"f sp"<"r sp", if yes replace R by R+1 else keep E etc.
-\def\texdimenwithunit_Bc#1;#2;#3;{%
-% \the\numexpr k+0.ddddd is handy because it can well be actually
-% \the\numexpr k+1.0, now that we use ceil approach in this branch
-    \the\numexpr#2+\expandafter\texdimenwithunit_Bd
-                   \the\numexpr #1*\p@/#3;#1;#3;%
-}%
-% R;r;f;
-\def\texdimenwithunit_Bd#1;{%
-    \expandafter\texdimenwithunit_Be\the\dimexpr#1sp;#1;%
-}%
-% Ept;R;r;f;
-% #1=0.ddd... or 1.0 but has no end marker hence the
-% \texdimenfirstofone{#1} as in \texdimendown_d and \texdimenup_d
-{\catcode`P 12\catcode`T 12
-\lowercase{\gdef\texdimenwithunit_Be#1PT};#2;#3;#4;{%
-    \ifdim#1\dimexpr#4sp<#3sp \texdimenwithunit_Bf{#2}\fi
-    \texdimenfirstofone{#1}%
-    }%
-}%
-% #2 is \fi. Add a dimen storage \onesp for 1sp?
-\def\texdimenwithunit_Bf#1#2\texdimenfirstofone#3{#2%
-    \expandafter\texdimenstrippt\the\dimexpr#1sp+1sp\relax
-}%
-% Here definitely not caring about f-expandability. Or efficiency.
-\def\texdimenwithunit_Bneg-{-\texdimenwithunit_Ba{}}%
 \def\texdimenwithunit_Bzero#1;#2;{0.0}%
+\def\texdimenwithunit_Ba#1#2;#3;{%
+    % no overflow possible from 2*#1#3 in \numexpr
+    \expanded{\expandafter\texdimenwithunit_Bb
+              \the\numexpr(2*#1#3-#2)/(2*#2);#1#3;#2;}%
+}%
+% I could have inserted \expanded\bgroup in \texdimenwithunit_B
+% but then needed to modify _Bzero (used also by \texdimenwithunit_switchsigns)
+% so easiest is to simply defined Bneg explicitly here rather than
+% insisting on deriving it from _Ba
+\def\texdimenwithunit_Bneg-#1;#2;{%
+    \expanded{-\expandafter\texdimenwithunit_Bb
+               \the\numexpr(2*#2-#1)/(2*#1);#2;#1;}%
+}%
+% now k;T;f;. Get the remainder r=T-k*f, and abandon k in the token stream.
+% the earlier \expanded maintains f-expandability
+\def\texdimenwithunit_Bb#1;#2;#3;{%
+    #1\expandafter\texdimenwithunit_Bc\the\numexpr#2-#1*#3;#3;%
+}%
+% now r;f;. Get R=<r*65536/f>
+\def\texdimenwithunit_Bc#1;#2;{%
+    \expandafter\texdimenwithunit_Bd\the\numexpr #1*\p@/#2;#1;#2;%
+}%
+% R;r;f; Is 4*(S*f-16384*r)+t*f < 0 ? with S=<R/4>, t=R-4S
+\def\texdimenwithunit_Bd#1;#2;#3;{%
+    \expandafter\texdimenwithunitstripzeroandpt
+    \the\dimexpr\numexpr#1%
+% Never tested if \ifnumA<B better with checking sign of A-B.
+% (indeed, very little usage of \ifnum in xint, so no need to test that in
+% the past). We will use this for time being. I felt computing #1/4 only
+% but adding an extra step would cost, but I have not tested.
+    \ifnum\numexpr 4*((#1/4)*#3-16384*#2)<\numexpr(4*(#1/4)-#1)*#3\relax
+     +1\fi sp\relax
+}%
+{\catcode`P12\catcode`T12\lowercase{\gdef\texdimenwithunitstripzeroandpt0#1PT}{#1}}%
 \texdimensendinput
 %! Local variables:
 %! mode: TeX
