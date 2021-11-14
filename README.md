@@ -1,18 +1,17 @@
 texdimens: a TeX and LaTeX package to convert TeX dimensions
 ============================================================
 
-Distributed under the LaTeX Project Public License v1.3c, see
+This is the development repository for the
+[CTAN package texdimens](https://ctan.org/pkg/texdimens), which is distributed
+under the LaTeX Project Public License v1.3c, see
 http://www.latex-project.org/lppl.txt
-
-This is work in progress and this repo was created to receive
-suggestions/comments/bug reports.
 
 CTAN package
 ------------
 
-Releases (see [tags](https://github.com/jfbu/texdimens/tags)) are pushed to
-[CTAN](https://ctan.org) ([here](https://ctan.org/pkg/texdimens)).  Here is
-how files from this repository map to those from user TeX/LaTeX installations:
+Releases (see the [tags](https://github.com/jfbu/texdimens/tags)) are pushed
+to [CTAN](https://ctan.org).  Here is how files from this repository map to
+those from the CTAN submission (hence also from user TeX/LaTeX installations):
 
 | here in `texdimens/`   | in TeX/LaTeX installations |
 |------------------------|----------------------------|
@@ -22,14 +21,14 @@ how files from this repository map to those from user TeX/LaTeX installations:
 | N/A                    | texdimens.pdf              |
 | CTAN_README.md         | README.md                  |
 
-- to build `texdimens.pdf`, `cd` to `texdimens/` and execute
-  `make texdimens.pdf`.  Requires `pandoc` (and some basic TeX/LaTeX
-  installation).
+- to build `texdimens.pdf` from its source (here `texdimens/README.md`), `cd`
+  to `texdimens/` and execute `make texdimens.pdf`.  Requires `pandoc` (and
+  some basic TeX/LaTeX installation).
 
-- to build all the files of the [CTAN](https://ctan.org) submission, `cd` to
-  `texdimens/` and execute `make ctan`.  This produces `texdimens.zip` to be
-  found in the `CTAN/` sub-directory, the files composing the archive are to
-  be found in the `ctanbuild/` sub-directory.
+- to build all the files entering into the [CTAN](https://ctan.org)
+  package, `cd` to `texdimens/` and execute there `make ctan`.  This
+  produces `texdimens.zip` to be found in the `CTAN/` sub-directory, the files
+  included into the archive being in the `ctanbuild/` sub-directory.
 
 Opening a new issue
 -------------------
