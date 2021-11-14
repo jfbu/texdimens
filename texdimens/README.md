@@ -594,8 +594,8 @@ Remarks about "Dimension too large" issues:
 > direction would have given a better or worst match.
 >
 > `\texdimenwithunit{<dim>}{1bp}` and `\texdimenbp{<dim>}` are not
-> the same: The former produces a decimal `D` such that `D\dimexpr
-> 1bp\relax` is represented internally as is `<dim>` if at all possible,
+> the same: The former produces a decimal `D` such that `D\dimexpr 1bp\relax`
+> is represented internally as is `<dim>` if at all possible,
 > whereas the latter produces a decimal `D` such that `D bp` is the one
 > aiming at being the same as `<dim>`. Using `D\dimexpr 1bp\relax` implies
 > a conversion factor equal to `65781/65536`, whereas `D bp` involves
