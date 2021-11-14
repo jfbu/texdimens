@@ -15,9 +15,11 @@ mv README.pdf texdimens.pdf
 mv README.md texdimens.md
 rm README*
 mv CTAN_README.md README.md
+mv CTAN_LICENSE.md LICENSE.md
 echo "... done"
 echo "auxiliary files removed, README.md renamed texdimens.md"
-echo "and CTAN_README.md renamed into README.md"
+echo "CTAN_README.md renamed into README.md"
+echo "CTAN_LICENSE.md renamed into LICENSE.md"
 
 # Local variables:
 # coding: utf-8

@@ -1,4 +1,4 @@
-License for texdimens package
+License for the CTAN texdimens package
 =======
 
 Copyright (c) 2021 Jean-François B.
@@ -17,5 +17,5 @@ This Work has the LPPL maintenance status author-maintained.
 The Author of this Work is Jean-François B.
 
 This Work consists of the package files `texdimens.tex`, `texdimens.sty`,
-`README.md` and `LICENSE.md`.
-
+the documentation `texdimens.md` and its conversion `texdimens.pdf`,
+as well as `README.md` and the present `LICENSE.md`.

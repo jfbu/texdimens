@@ -1,7 +1,7 @@
 # -*- fill-column: 66; sentence-end-double-space: t -*-
 # 29 juin 2021
 # updates on 2021/11/04 for inclusion of a texdimens.pdf in CTAN upload
-docfiles    = README.md LICENSE.md CTAN_README.md
+docfiles    = README.md CTAN_LICENSE.md CTAN_README.md
 sourcefiles = texdimens.tex texdimens.sty
 TEST = 
 
