@@ -663,8 +663,8 @@ Remarks about "Dimension too large" issues:
 
 ### 0.9 (2021/07/21)
 
-- breaking: use `\texdimen` not `\texdimin` macro namespace
-- new: `\texdimenbothincmsp`
+- new: `\texdimenbothincm` and relatives
+- breaking: use `\texdimen` prefix for all macros
 
 ### 0.9delta (2021/07/15)
 
@@ -672,13 +672,15 @@ Remarks about "Dimension too large" issues:
 
 ### 0.9gamma (2021/07/14)
 
-- new: `\texdiminbpdown`, `\texdiminbpup` and similar named macros for
+- new: `\texdiminbpdown` (now `\texdimenbpdown`), `\texdiminbpup`
+  (now `\texdimenbpup`) and similar named macros associated with
   the other units
 
 ### 0.9beta (2021/06/30)
 
-- initial release: provides `\texdiminbp` and similar named macros for
-  the units `nd`, `dd`, `mm`, `pc`, `nc`, `cc`, `cm`, `in`
+- initial release: provides `\texdiminbp` (now `\texdimenbp`) and
+  similar named macros for the units `nd`, `dd`, `mm`, `pc`, `nc`, `cc`,
+  `cm`, `in`
 
 
 ## Acknowledgements
