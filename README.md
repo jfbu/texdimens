@@ -22,10 +22,14 @@ how files from this repository map to those from user TeX/LaTeX installations:
 | N/A                    | texdimens.pdf              |
 | CTAN_README.md         | README.md                  |
 
-To build the files of the [CTAN](https://ctan.org) submissions, `cd` to
-`texdimens/` and execute `make ctan`.  The archive `texdimens.zip` used for
-`CTAN` submissions will be found in the `CTAN/` sub-directory and the original
-files will be in the `ctanbuild/` sub-directory.
+- to build `texdimens.pdf`, `cd` to `texdimens/` and execute
+  `make texdimens.pdf`.  Requires `pandoc` (and some basic TeX/LaTeX
+  installation).
+
+- to build all the files of the [CTAN](https://ctan.org) submission, `cd` to
+  `texdimens/` and execute `make ctan`.  This produces `texdimens.zip` to be
+  found in the `CTAN/` sub-directory, the files composing the archive are to
+  be found in the `ctanbuild/` sub-directory.
 
 Opening a new issue
 -------------------
