@@ -1,5 +1,6 @@
-texdimens
-=========
+% texdimens 1.1
+% Jean-François B.
+% 2021/11/17
 
 ## Copyright and License
 
@@ -9,8 +10,6 @@ This file is part of the texdimens package distributed under the
 LPPL 1.3c.  See file LICENSE.md.
 
 Repository: https://github.com/jfbu/texdimens
-
-Release: `1.1 2021/11/17` (to be released)
 
 ## Usage
 
