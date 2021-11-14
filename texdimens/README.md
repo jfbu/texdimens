@@ -10,7 +10,7 @@ LPPL 1.3c.  See file LICENSE.md.
 
 Repository: https://github.com/jfbu/texdimens
 
-Release: `1.1 2021/11/13` (yet to be released)
+Release: `1.1 2021/11/17` (to be released)
 
 ## Usage
 
@@ -623,7 +623,7 @@ Remarks about "Dimension too large" issues:
 
 ## Change log
 
-### 1.1
+### 1.1 (2021/11/17)
 
 - internal refactorings across the entire code base aiming at (small)
   efficiency gains from optimized TeX token manipulations
