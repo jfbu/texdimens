@@ -5,10 +5,8 @@ texdimens
 
 Copyright (c) 2021 Jean-François B.
 
-This file is part of the texdimens package distributed under the
-LPPL 1.3c.  See file LICENSE.md.
-
-Repository: https://github.com/jfbu/texdimens
+This file is part of the texdimens package distributed (see file
+LICENSE.md) under the [LPPL 1.3c](https://ctan.org/license/lppl1.3c).
 
 Release: `1.1 2021/11/17` (to be released)
 
@@ -19,6 +17,8 @@ Utilities and documentation related to TeX dimensional units, usable:
 - with Plain TeX: `\input texdimens`
 
 - with LaTeX: `\usepackage{texdimens}`
+
+Development and issue tracking: https://github.com/jfbu/texdimens
 
 ## Aim of this package
 

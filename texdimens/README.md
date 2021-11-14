@@ -6,10 +6,8 @@
 
 Copyright (c) 2021 Jean-François B.
 
-This file is part of the texdimens package distributed under the
-LPPL 1.3c.  See file LICENSE.md.
-
-Repository: https://github.com/jfbu/texdimens
+The texdimens [CTAN package](https://ctan.org/pkg/texdimens) is
+distributed under the [LPPL 1.3c](https://ctan.org/license/lppl1.3c).
 
 ## Usage
 
@@ -18,6 +16,9 @@ Utilities and documentation related to TeX dimensional units, usable:
 - with Plain TeX: `\input texdimens`
 
 - with LaTeX: `\usepackage{texdimens}`
+
+For reporting issues, use the
+[package repository](https://github.com/jfbu/texdimens).
 
 ## Aim of this package
 
