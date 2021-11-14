@@ -630,13 +630,13 @@ Remarks about "Dimension too large" issues:
 - in particular, the algorithm for `\texdimenwithunit{<dim1>}{<dim2>}`
   in the "`dim2<1pt`" branch got modified (output unchanged)
 - all macros now f-expandable (this was already the case at `1.0` except
-  for `\texdimenwithunit` in certain cases with one of the two arguments
-  negative)
+  for `\texdimenwithunit` with arguments of opposite signs, the
+  second one not exceeding `1pt` in absolute value)
 - the `\expanded` primitive is required (present in all engines since
   TeXLive 2019)
 - the usual batch of documentation additions or fix-ups, also in
   code comments (fix in particular issues #21, #22)
-- addition of this Change log
+- addition of this Change log to the pdf documentation
 
 ### 1.0 (2021/11/10)
 
