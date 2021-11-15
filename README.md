@@ -22,8 +22,8 @@ those from the CTAN submission (hence also from user TeX/LaTeX installations):
 | CTAN_README.md         | README.md                  |
 
 - to build `texdimens.pdf` from its source (here `texdimens/README.md`), `cd`
-  to `texdimens/` and execute `make texdimens.pdf`.  Requires `pandoc` (and
-  some basic TeX/LaTeX installation).
+  to `texdimens/` and execute `make texdimens.pdf`.  Requires `pandoc`,
+  `pygmentize`, and a TeX/LaTeX installation.
 
 - to build all the files entering into the [CTAN](https://ctan.org)
   package, `cd` to `texdimens/` and execute there `make ctan`.  This

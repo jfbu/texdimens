@@ -16,6 +16,7 @@ auto/
 *.logos
 *.zip
 tempmacros.tex
+pytexdimens.tex
 README
 README.rst
 README.html
