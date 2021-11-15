@@ -5,7 +5,8 @@
 \catcode`\noexpand _=\the\catcode`\_%
 \catcode`\noexpand @=\the\catcode`\@\relax\noexpand\endinput}%
 \endlinechar13\relax%
-\catcode`\_=11 \catcode`\@=11 % only for using \p@ (also \z@ now) of Plain. Check exists?
+% only for using \p@ (also \z@ now) of Plain. Check if \p@, \z@ exists?
+\catcode`\_=11 \catcode`\@=11
 % so tempted to do \input xintkernel.sty to have some utilities...
 % not even a \@gobble in Plain...
 \def\texdimenfirstofone#1{#1}%
@@ -15,28 +16,23 @@
 % \texdimenuu, \texdimenuudown, \texdimenuuup
 % ===========================================
 %
-% uu = core TeX unit (not sp, and no down/up for pt)
-%
-% added (\texdimenuu): initial release
-% added (\texdimenuudown, \texdimenuuup): 0.9gamma
-% modified: 1.0
-% modified: 1.1 (micro coding improvements)
-%
 % Mathematics
 % -----------
 %
 % In the entire discussion here, "uu" stands for some core unit,
 % or some unit corresponding to an internal dimension > 1pt.
 %
-% Is T sp attainable from unit "uu"?.
-% If not, what is largest dimension < Tsp which is attainable?
-% Here we suppose T>0.
+% Main question at the origin of this file was:
+%     Is T sp attainable from unit "uu"?.
+%     If not, what is largest dimension < Tsp which is?
+%
+% Here we suppose T>0. TeX parsing of D uu is equivalent to:
 %
 % D uu --> N = round(D * 65536) --> T = trunc (N * phi)
 %
 % phi>1 is the conversion factor associated to "uu"
 % psi=1/phi, psi<1. Define U(N, phi) = trunc (N * phi)
-% 
+%
 %     U(N,phi) is thus the strictly increasing sequence,
 %     indexed by non-negative integers, of non-negative
 %     attainable dimensions. (in sp unit)
@@ -50,23 +46,16 @@
 %
 % - the largest attainable dimension not exceeding T sp
 %   is obtained via the integer "Zd = ceil((T+1)psi) - 1 = N",
-%   (i.e. find D with Zd=round(65536 D) then "D uu" is "down" approximation)
+%   (i.e. find D with Zd=round(65536 D) then "D uu" is "down"
+%    approximation)
 %
 % - the smallest attainable dimension at least equal to T sp
 %   is obtained from the integer "Zu = ceil(T psi) = M + 1"
 %
 % - the two "Z"'s are either equal (i.e. T is attained) or Zu=Zd+1.
 %
-% The round((T+0.5)*psi) based approach (basis of the "\texdimenUU" macros)
-% -------------------------------------
-%
-% Recall in all of this T > 0. And phi>1, psi=1/phi<1.
-%
-% Let's return to our analysis of the
-%
-%         U(N)<= T < U(N+1) and U(M)< T <= U(M+1)
-%
-% equations. We will also use the N=Zd, and M+1=Zu notations.
+% \texdimenUU macros use round((T+0.5)*psi)
+% -----------------------------------------
 %
 % case1:  M = N, i.e. Zd<Zu, i.e. T is not attainable:
 %         M=N=Zd < T psi < (T+1) psi <= N+1=Zu
@@ -76,8 +65,8 @@
 %         and check if it is < T or > T.
 %
 %         As will be explained later trunc(R phi) can be computed very
-%         easily by hijacking TeX's handling of dimensions, we don't
-%         have to launch into \numexpr evaluations for that.
+%         easily by hijacking TeX's handling of dimensions, no \numexpr
+%         chains is needed.
 %
 % case2:  M = N - 1, i.e. T = Zd = Zu is attained:
 %         T psi <= N < (T+1) psi, T = trunc(N phi)
@@ -91,38 +80,38 @@
 %
 % - compute R = round((T+0.5) psi)
 %
-% - if T is attained, then T = trunc(R * phi)
+%   - if T is attained, then T = trunc(R * phi)
 %
-% - if T is not attained then either { Zd = R and Zu = R+1 }  or 
-%    {Zd = R-1 and Zu = R}.
+%   - if T is not attained then either { Zd = R and Zu = R+1 }  or
+%     {Zd = R-1 and Zu = R}.
 %
-%   How do we check if R = Zd or Zu? We need to evaluate trunc(R phi) and
-%   compare it with T. This trunc(R phi) can be computed the following way:
+% How do we check if R = Zd or Zu? We need to evaluate trunc(R phi) and
+% compare it with T. This trunc(R phi) can be computed the following way:
 %
-%   - obtain D pt from \the\dimexpr R sp. Knuth's algorithm guarantees
+% - obtain D pt from \the\dimexpr R sp. Knuth's algorithm guarantees
 %   that R = round(D * 65536)
 %
-%   - then D uu where uu is the unit with conversion factor phi is
-%     converted by TeX into "trunc(R phi) sp", i.e.  trunc(R phi) =
-%     \number\dimexpr Duu\relax, where D pt = \the\dimexpr Rsp\relax.
+% - then D uu where uu is the unit with conversion factor phi is
+%   converted by TeX into "trunc(R phi) sp", i.e.  trunc(R phi) =
+%   \number\dimexpr Duu\relax, where D pt = \the\dimexpr Rsp\relax.
 %
 % Conclusion:
 %
 % 1. the macro \texdimenuu does the one-liner R=round((T+0.5) psi)
-%    then \the\dimexpr Rsp\relax and strips the "pt" unit
+%    then \the\dimexpr Rsp\relax gives "Dpt", the "pt" is removed,
+%    we have a decimal D such that "Duu" does what one wants.
 %
-% 2. macros \texdimenuuup and \texdimenuudown go further and check
-%    which one of Zd or Zu is R, obtaining thus Zd or Zu.
-%    [update: this describes the macros prior to 1.0 release]
+% 2. to get Zd (resp. Zu) one can use the D obtained in 1. and check
+%    if "D uu" is at most (or at least) the user input dimension.
 %
 % For units with conversion factor phi>2, a simplification is possible.
-% In that case let X = round(T psi) (it has the advantage compared to 
+% In that case let X = round(T psi) (it has the advantage compared to
 % R that we can apply the formula without checking the sign of T).
 %
 % Going back to our earlier analyis, now with psi < 0.5 (1uu>2pt)
 %
 % case1: T is not attainable
-%        M=N=Zd < T psi < (T+1) psi <= N+1=Zu 
+%        M=N=Zd < T psi < (T+1) psi <= N+1=Zu
 %        As Zd < T psi < Zu, we have round(T psi) = Zd or Zu
 %
 % case2: T is attained, i.e. T psi <= N < (T+1) psi.
@@ -168,8 +157,8 @@
 % This made all usable even with \maxdimen input and besided, proved
 % on average slightly faster.
 %
-% Overcoming the ceil() stumbling block
-% ------------------------------------- 
+% Overcoming the ceil() stumbling block for \texdimenUU{up,down}
+% --------------------------------------------------------------
 %
 % I will in what follows refer to trunc(), floor() or ceil() only for
 % positive arguments, obtained as ratios x/y or sometimes as a numexpr
@@ -197,7 +186,7 @@
 % with  x = n*100/7227, and n = 1+r, so 0<n<=7227
 %
 % Here we have a nice situation 0 < x <= 100. Then:
-% 
+%
 % ceil(x) = 100 - floor(100 - x)
 %         = 100 - (round(100 - x + 0.5) - 1)
 %         = 101 - round(100 * (1 - n/7227) + 0.5)
@@ -268,7 +257,8 @@
 %
 \def\texdimenin#1{\expandafter\texdimenstrippt\the\dimexpr(#1)*100/7227\relax}%
 %
-% "up and down macros" (1.0 version)
+% "up and down macros"
+% --------------------
 %
 % The notation <u/v> means u/v in numexpr, which does rounding
 % away from zero. It is essential that the argument be >-0.5 else <x+1>
@@ -534,10 +524,7 @@
 % "both in and cm"
 % ================
 %
-% added:    0.9
-% modified: 1.1 (micro coding improvements)
-%
-% Mathematics 
+% Mathematics
 % -----------
 %
 % Let a and b be two non-negative integers such that U = floor(a 7227/100) = 
@@ -604,10 +591,9 @@
 % "both mm and bp"
 % ================
 %
-% added: 1.0
-% 
 % Mathematics and Algorithm
 % -------------------------
+%
 % We start from a dimension expressed in sp unit, "T sp". Assume T positive.
 % We know how to get largest "X sp <= T sp" which is exactly expressible
 % in mm unit
@@ -709,16 +695,12 @@
 % \texdimenwithunit
 % =================
 %
-% added:    0.99
-% modified: 1.0 (new output for second argument < 1pt)
-% modified: 1.1 (new algorithm for second arg < 1pt)
-%
 % Mathematics
 % -----------
 %
-% As explained in the README.md, the ex and em units are
-% handled by TeX as if multiplying by a conversion factor f/65536
-% (here f sp = 1ex resp. = 1em).
+% The ex and em units are handled by TeX as if multiplying by a
+% conversion factor f/65536 (here f sp = 1ex resp. = 1em).
+%
 % In particular, for any decimal D, input "D em" is handled the exact
 % same way as input "D\dimexpr 1em\relax"; this is not
 % the case for the core units except for pt and pc (and sp), whose
@@ -742,7 +724,7 @@
 % If f/65536<1, all dimensions Tsp are attainable as D uu. Indeed
 % D uu is parsed by TeX via N=round(D*65536), then T=trunc(N*phi),
 % with phi=f/65536. Starting from T we need to find an N such that
-% T/phi <= N< (T+1)/phi. 
+% T/phi <= N< (T+1)/phi.
 %
 % This is equivalent to ceil(T/phi)<= N < ceil((T+1)/phi)
 %
@@ -804,7 +786,7 @@
 %          As r is at most f-1, r*65536/f is at most 65536-65536/f, and as
 %          65536>=f (we use this branch also for f=65536), C<=65535. Hence
 %          E is never 1.0 but always "0.<some digits>"
-%          
+%
 %          To compute the Euclidean quotient k in \numexpr we use there
 %          <(2T-f)/(2f)> i.e. round((2T-f)/2f) = trunc(T/f)
 %          as we are careful to never have T=0 in-there...
@@ -838,7 +820,7 @@
 %          - if P>=r (it is then equal to r in fact) then C=R
 %          - if P<r (it is then equal to r-1), then C=R+1.
 %
-%          New method: overflow-free pure \numexpr way to get the sign of R-x. 
+%          New method: overflow-free pure \numexpr way to get the sign of R-x.
 %
 %          Write R=4*S+t, with say S=<R/4>=round(R/4), so t=-2,-1,0,+1.
 %
@@ -936,10 +918,6 @@
 \def\texdimenwithunit_Bd#1;#2;#3;{%
     \expandafter\texdimenwithunitstripzeroandpt
     \the\dimexpr\numexpr#1%
-% Never tested if \ifnumA<B better with checking sign of A-B.
-% (indeed, very little usage of \ifnum in xint, so no need to test that in
-% the past). We will use this for time being. I felt computing #1/4 only
-% but adding an extra step would cost, but I have not tested.
     \ifnum\numexpr 4*((#1/4)*#3-16384*#2)<\numexpr(4*(#1/4)-#1)*#3\relax
      +1\fi sp\relax
 }%
