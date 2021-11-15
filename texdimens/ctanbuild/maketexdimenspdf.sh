@@ -4,7 +4,8 @@
 cd texdimens
 echo "Producing texdimens.pdf for CTAN ..."
 echo -n "(pygmentize ..."
-echo '\footnotesize' > pytexdimens.tex
+echo '\newgeometry{hmargin=3cm}' > pytexdimens.tex
+echo '\footnotesize' >> pytexdimens.tex
 echo '\subsection{Implementation}' >> pytexdimens.tex
 pygmentize -S lovelace -f latex >> pytexdimens.tex
 pygmentize -o temp.tex -l tex texdimens.tex
@@ -15,7 +16,7 @@ echo -n "(pandoc ... "
 pandoc -s -t latex --toc -Vcolorlinks -Vpapersize=a4 \
 	-Vfontsize=11pt -Vfontfamily=newtxtext -Vclassoption=dvipdfmx \
 	-Vurlcolor=magenta -Vtoccolor=Blue -Vverbatim-in-note=true \
-	-Vgeometry=a4paper -A pytexdimens.tex -o README.tex README.md
+	-Vgeometry=pass -A pytexdimens.tex -o README.tex README.md
 rm pytexdimens.tex
 sed -i 's/LaTeX/LATEX/g' README.tex
 sed -i 's/e-TeX/ETEX/g' README.tex

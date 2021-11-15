@@ -24,7 +24,8 @@ README.html: README.rst
 # 21/11/13. Filter TeX/LaTeX (memo: <space>TeX no good if TeX starts paragraph)
 # 21/11/15. Include commented code in pdf doc
 pytexdimens.tex: texdimens.tex
-	echo '\\footnotesize' > pytexdimens.tex
+	echo '\\newgeometry{hmargin=3cm}' > pytexdimens.tex
+	echo '\\footnotesize' >> pytexdimens.tex
 	echo '\\subsection{Implementation}' >> pytexdimens.tex
 	pygmentize -S lovelace -f latex >> pytexdimens.tex
 	pygmentize -o temp.tex -l tex texdimens.tex
@@ -35,7 +36,7 @@ texdimens.ltx: README.md pytexdimens.tex
 	pandoc -s -t latex --toc -Vcolorlinks -Vpapersize=a4 \
 	-Vfontsize=11pt -Vfontfamily=newtxtext -Vclassoption=dvipdfmx \
 	-Vurlcolor=magenta -Vtoccolor=Blue -Vverbatim-in-note=true \
-	-Vgeometry=a4paper -A pytexdimens.tex -o texdimens.ltx README.md
+	-Vgeometry=pass -A pytexdimens.tex -o texdimens.ltx README.md
 	@# cp texdimens.ltx texdimens-old.ltx
 	sed -i 's/LaTeX/LATEX/g' texdimens.ltx
 	sed -i 's/e-TeX/ETEX/g' texdimens.ltx
