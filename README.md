@@ -15,15 +15,19 @@ those from the CTAN submission (hence also from user TeX/LaTeX installations):
 
 | here in `texdimens/`   | in TeX/LaTeX installations |
 |------------------------|----------------------------|
-| texdimens.tex          | texdimens.tex              |
-| texdimens.sty          | texdimens.sty              |
-| README.md              | texdimens.md               |
+| [texdimens.tex](texdimens/texdimens.tex)          | texdimens.tex              |
+| [texdimens.sty](texdimens/texdimens.sty)          | texdimens.sty              |
+| [README.md](texdimens/README.md)              | texdimens.md               |
 | N/A                    | texdimens.pdf              |
-| CTAN_README.md         | README.md                  |
+| [CTAN_README.md](texdimens/CTAN_README.md)         | README.md                  |
 
-- to build `texdimens.pdf` from its source (here `texdimens/README.md`), `cd`
-  to `texdimens/` and execute `make texdimens.pdf`.  Requires `pandoc`,
-  `pygmentize`, and a TeX/LaTeX installation.
+- `texdimens.pdf` is a conversion to PDF format of `texdimens.md` (i.e.
+  [README.md](texdimens/README.md) on this site) and it
+  also incorporates the commented source code
+  [texdimens.tex](texdimens/texdimens.tex).  To build it,
+  `cd` to `texdimens/` and execute `make texdimens.pdf`.  This requires
+  `GNU make`, `pandoc`, `pygmentize`, a TeX/LaTeX installation and a unix-like
+  system.
 
 - to build all the files entering into the [CTAN](https://ctan.org)
   package, `cd` to `texdimens/` and execute there `make ctan`.  This
