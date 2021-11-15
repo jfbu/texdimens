@@ -28,7 +28,7 @@ pytexdimens.tex: texdimens.tex
 	echo '\\footnotesize' >> pytexdimens.tex
 	echo '\\subsection{Implementation}' >> pytexdimens.tex
 	pygmentize -S lovelace -f latex >> pytexdimens.tex
-	pygmentize -o temp.tex -l tex texdimens.tex
+	pygmentize -o temp.tex -l tex -O linenos=true texdimens.tex
 	cat temp.tex >> pytexdimens.tex
 	rm temp.tex
 
