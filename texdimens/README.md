@@ -637,6 +637,7 @@ Remarks about "Dimension too large" issues:
 - the usual batch of documentation additions or fix-ups, also in
   code comments (fix in particular issues #21, #22)
 - addition of this Change log to the pdf documentation
+- addition of the highlighted commented source code to the pdf documentation
 
 ### 1.0 (2021/11/10)
 
