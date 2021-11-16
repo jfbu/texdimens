@@ -623,7 +623,7 @@ Remarks about "Dimension too large" issues:
 
 ## Change log
 
-### [1.1 (2021/11/17)](https://github.com/jfbu/texdimens/compare/1.0...HEAD#files_bucket)
+### [1.1 (2021/11/17)](https://github.com/jfbu/texdimens/compare/1.0...1.1#files_bucket)
 
 - internal refactorings across the entire code base aiming at (small)
   efficiency gains from optimized TeX token manipulations
