@@ -24,8 +24,7 @@ sed -i 's/TeX/\\TeX{}/g' README.tex
 sed -i 's/LATEX/\\LaTeX{}/g' README.tex
 sed -i 's/ETEX/$\\varepsilon$-\\TeX{}/g' README.tex
 echo "done)"
-latex -halt-on-error -interaction=batchmode README.tex
-latex -halt-on-error -interaction=batchmode README.tex
+latexmk -halt-on-error -interaction=batchmode README.tex
 dvipdfmx README.dvi
 mv README.pdf texdimens.pdf
 mv README.md texdimens.md

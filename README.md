@@ -26,8 +26,8 @@ those from the CTAN submission (hence also from user TeX/LaTeX installations):
   also incorporates the commented source code
   [texdimens.tex](texdimens/texdimens.tex).  To build it,
   `cd` to `texdimens/` and execute `make texdimens.pdf`.  This requires
-  `GNU make`, `pandoc`, `pygmentize`, a TeX/LaTeX installation and a unix-like
-  system.
+  a unix-like system with `GNU make`, `pandoc`, `pygmentize`, `latexmk`,
+  and a TeX/LaTeX installation.
 
 - to build all the files entering into the [CTAN](https://ctan.org)
   package, `cd` to `texdimens/` and execute there `make ctan`.  This

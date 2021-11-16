@@ -15,6 +15,8 @@ auto/
 *.html
 *.logos
 *.zip
+*.fdb_latexmk
+*.fls
 tempmacros.tex
 pytexdimens.tex
 README
