@@ -623,7 +623,7 @@ Remarks about "Dimension too large" issues:
 
 ## Change log
 
-### [1.1 (2021/11/17)](https://github.com/jfbu/texdimens/compare/1.0...HEAD)
+### [1.1 (2021/11/17)](https://github.com/jfbu/texdimens/compare/1.0...HEAD#files_bucket)
 
 - internal refactorings across the entire code base aiming at (small)
   efficiency gains from optimized TeX token manipulations
@@ -639,7 +639,7 @@ Remarks about "Dimension too large" issues:
 - addition of this Change log to the pdf documentation
 - addition of the highlighted commented source code to the pdf documentation
 
-### [1.0 (2021/11/10)](https://github.com/jfbu/texdimens/compare/0.99d...1.0)
+### [1.0 (2021/11/10)](https://github.com/jfbu/texdimens/compare/0.99d...1.0#files_bucket)
 
 - new: `\texdimenbothbpmm` and relatives (feature request #10)
 - breaking: `\texdimenwithunit` output for second argument `<1pt` still
@@ -649,7 +649,7 @@ Remarks about "Dimension too large" issues:
 - enhanced: `\texdimenwithunit`'s second argument is now allowed
   to be negative (feature request #13)
 
-### [0.99a-d (2021/11/04)](https://github.com/jfbu/texdimens/compare/0.99...0.99d)
+### [0.99a-d (2021/11/04)](https://github.com/jfbu/texdimens/compare/0.99...0.99d#files_bucket)
 
 - documentation in TeX/LaTeX installations available in pdf format
 - the usual batch of documentation additions or fix-ups
@@ -658,26 +658,26 @@ Remarks about "Dimension too large" issues:
 - fix bugs of `\texdimenwithunit{<dim1>}{<dime2>}` for `dim1=0pt` or
   `dim2=1pt` (#3, #4, #6, #8)
 
-### [0.99 (2021/11/02)](https://github.com/jfbu/texdimens/compare/0.9...0.99)
+### [0.99 (2021/11/02)](https://github.com/jfbu/texdimens/compare/0.9...0.99#files_bucket)
 
 - new: `\texdimenwithunit{<dim1>}{<dim2>}` (feature request #2)
 
-### [0.9 (2021/07/21)](https://github.com/jfbu/texdimens/compare/0.9delta...0.9)
+### [0.9 (2021/07/21)](https://github.com/jfbu/texdimens/compare/0.9delta...0.9#files_bucket)
 
 - new: `\texdimenbothincm` and relatives
 - breaking: use `\texdimen` prefix for all macros
 
-### [0.9delta (2021/07/15)](https://github.com/jfbu/texdimens/compare/0.9gamma...0.9delta)
+### [0.9delta (2021/07/15)](https://github.com/jfbu/texdimens/compare/0.9gamma...0.9delta#files_bucket)
 
 - internal refactorings
 
-### [0.9gamma (2021/07/14)](https://github.com/jfbu/texdimens/compare/0.9beta...0.9gamma)
+### [0.9gamma (2021/07/14)](https://github.com/jfbu/texdimens/compare/0.9beta...0.9gamma#files_bucket)
 
 - new: `\texdiminbpdown` (now `\texdimenbpdown`), `\texdiminbpup`
   (now `\texdimenbpup`) and similar named macros associated with
   the other units
 
-### [0.9beta (2021/06/30)](https://github.com/jfbu/texdimens/compare/54f4eb13...0.9beta)
+### [0.9beta (2021/06/30)](https://github.com/jfbu/texdimens/compare/54f4eb13...0.9beta#files_bucket)
 
 - initial release: provides `\texdiminbp` (now `\texdimenbp`) and
   similar named macros for the units `nd`, `dd`, `mm`, `pc`, `nc`, `cc`,

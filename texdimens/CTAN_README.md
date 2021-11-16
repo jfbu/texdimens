@@ -8,7 +8,7 @@ Copyright (c) 2021 Jean-François B.
 This file is part of the texdimens package distributed (see file
 LICENSE.md) under the [LPPL 1.3c](https://ctan.org/license/lppl1.3c).
 
-Release: [1.1 2021/11/17](https://github.com/jfbu/texdimens/compare/1.0...HEAD) (to be released)
+Release: [1.1 2021/11/17](https://github.com/jfbu/texdimens/compare/1.0...HEAD#files_bucket) (to be released)
 
 ## Usage
 
