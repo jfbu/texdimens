@@ -52,8 +52,12 @@ with all the activity on various repos I do watch, and again, there seems to
 be no way to configure GitHub to send notifications on more events *only
 for repos I own*.
 
-Last investigated on 2021/11/06.  If I am missing something obvious, please
-tell me.
+- 2021/11/06.  If I am missing something obvious, please tell me.
+- 2021/11/17.  I discovered the `(Un)wach>Custom` pop-up and I activated
+  notifications on Issues and Pull Requests.  As it was until now "All
+  activity", I can't see how my attempt with "Custom" could bring an
+  improvement.  And the package being perfect and perfectly complete, nobody
+  will raise any further issue and I might well never know.
 
 <!--
 Local variables:
