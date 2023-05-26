@@ -2,12 +2,12 @@ cm
 0.4339
 0.4339
 (texdimens)
-1.41e-6 seconds (4.57 ops)
+1.55e-6 seconds (4.89 ops)
 (l3skip)
-4.86e-6 seconds (15.6 ops)
+5.25e-6 seconds (16.7 ops)
 (texdimens)
-1.42e-6 seconds (4.62 ops)
-1.41e-6 seconds (4.53 ops)
+1.54e-6 seconds (4.58 ops)
+1.56e-6 seconds (4.56 ops)
 (l3skip)
-4.82e-6 seconds (15.7 ops)
-4.81e-6 seconds (15.6 ops)
+5.32e-6 seconds (15.6 ops)
+5.23e-6 seconds (16 ops)
