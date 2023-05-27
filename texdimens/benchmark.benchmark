@@ -1,0 +1,55 @@
+bp
+12.34567pt -> 12.29956bp (texdimens), 12.29956bp (l3skip)
+(texdimens)
+2.75e-6 seconds (8.93 ops)
+(l3skip)
+4.92e-6 seconds (16 ops)
+
+cc
+12.34567pt -> 0.96149cc (texdimens), 0.96149cc (l3skip)
+(texdimens)
+1.47e-6 seconds (4.78 ops)
+(l3skip)
+5.15e-6 seconds (16.8 ops)
+
+cm
+12.34567pt -> 0.4339cm (texdimens), 0.4339cm (l3skip)
+(texdimens)
+1.42e-6 seconds (4.61 ops)
+(l3skip)
+4.8e-6 seconds (15.6 ops)
+
+dd
+12.34567pt -> 11.53792dd (texdimens), 11.53792dd (l3skip)
+(texdimens)
+2.77e-6 seconds (9.03 ops)
+(l3skip)
+5.07e-6 seconds (16.6 ops)
+
+in
+12.34567pt -> 0.17082in (texdimens), 0.17082in (l3skip)
+(texdimens)
+1.45e-6 seconds (4.71 ops)
+(l3skip)
+4.87e-6 seconds (15.9 ops)
+
+mm
+12.34567pt -> 4.339mm (texdimens), 4.339mm (l3skip)
+(texdimens)
+1.4e-6 seconds (4.55 ops)
+(l3skip)
+4.81e-6 seconds (15.7 ops)
+
+pc
+12.34567pt -> 1.02881pc (texdimens), 1.02881pc (l3skip)
+(texdimens)
+1.31e-6 seconds (4.26 ops)
+(l3skip)
+4.66e-6 seconds (15.1 ops)
+
+Comparing \texdimenwithunit with \dim_to_decimal_in_unit:nn
+76.54321pt/12.34567pt -> 6.2 (texdimens), 6.2 (l3skip)
+(texdimens)
+4.44e-6 seconds (14.5 ops)
+(l3skip)
+9.68e-6 seconds (31.5 ops)

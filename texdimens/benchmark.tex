@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{texdimens}
+\usepackage{l3benchmark}
+
+\begin{document}
+
+\newwrite\out
+\immediate\openout\out=\jobname.benchmark
+
+\ExplSyntaxOn
+
+\def\toout{\immediate\write\out}
+
+\def\reroutebenchmarktoout{\toout{
+        \__benchmark_fp_to_tl:N \g_benchmark_time_fp \c_space_tl seconds \c_space_tl
+        ( \__benchmark_fp_to_tl:N \g_benchmark_ops_fp \c_space_tl ops)
+}}
+
+\def\benchmark#1{% #1 will be one of bp, cc, cm, dd, in, mm, pc
+    \expandafter\let\expandafter\jfbumacro\csname texdimen#1\endcsname
+    \expandafter\let\expandafter\liiimacro\csname dim_to_decimal_in_#1:n\endcsname
+%
+    \immediate\write128{(#1)}
+    \toout{#1}
+%
+    \toout{12.34567pt~->~\jfbumacro{12.34567pt}#1~(texdimens),~
+                         \liiimacro{12.34567pt}#1~(l3skip)}
+%
+    \toout{(texdimens)}
+    \benchmark:n{\edef\x{\jfbumacro{12.34567pt}}}
+    \reroutebenchmarktoout
+%
+    \toout{(l3skip)}
+    \benchmark:n{\edef\x{\liiimacro{12.34567pt}}}
+    \reroutebenchmarktoout
+% %
+% % when using directly \pdfelapsedtime (\the\dimexpr\pdfelapsedtime sp)
+% % one always wonders if there is some difference which is tested
+% % first.  I use l3benchmark which does extras (but I am surprised it
+% % takes an extreme - a minimum out of 4 - at one location according
+% % to code comments.)
+% %
+% % anyway may be not worthwile here to do more benchmarking than the
+% % above two
+% %
+%     \toout{(texdimens)}
+%     \benchmark:n{\edef\x{\jfbumacro{12.34567pt}}}
+%     \reroutebenchmarktoout
+%     \benchmark:n{\edef\x{\jfbumacro{12.34567pt}}}
+%     \reroutebenchmarktoout
+% %
+%     \toout{(l3skip)}
+%     \benchmark:n{\edef\x{\liiimacro{12.34567pt}}}
+%     \reroutebenchmarktoout
+%     \benchmark:n{\edef\x{\liiimacro{12.34567pt}}}
+%     \reroutebenchmarktoout
+% %
+    \immediate\write128{}
+    \toout{}
+}
+
+\benchmark{bp}
+\benchmark{cc}
+\benchmark{cm}
+\benchmark{dd}
+\benchmark{in}
+\benchmark{mm}
+\benchmark{pc}
+
+% fun fact 76.54321/12.34567 is 6.200004536...
+% and similar for longer strings of successive digits
+
+\immediate\write128{76.54321~in~"unit"~12.34567~is~(fun~fact)~very~close~to~6.2:~6.200004536...}
+
+\toout{Comparing~\string\texdimenwithunit\space with~\string\dim_to_decimal_in_unit:nn^^J
+       76.54321pt/12.34567pt~->~\texdimenwithunit{76.54321pt}{12.34567pt}~(texdimens),~
+                                \dim_to_decimal_in_unit:nn{76.54321pt}{12.34567pt}~(l3skip)
+       }
+
+\toout{(texdimens)}
+\benchmark:n{\edef\x{\texdimenwithunit{76.54321pt}{12.34567pt}}}
+\reroutebenchmarktoout
+
+\toout{(l3skip)}
+\benchmark:n{\edef\x{\dim_to_decimal_in_unit:nn{76.54321pt}{12.34567pt}}}
+\reroutebenchmarktoout
+ 
+\ExplSyntaxOff
+        
+\immediate\closeout\out
+
+\typeout{see output in \jobname.benchmark}
+\end{document}
