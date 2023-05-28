@@ -1,0 +1,93 @@
+% run with etex
+
+% \the\dimexpr\numexpr(%
+%                   \expandafter\texdimen_bpnddd_signcheck
+%                   \the\numexpr2*\dimexpr#1\relax\relax)*400/803sp\relax}
+
+\input xintkernel.sty
+
+\def\iter{100}
+\newwrite\out
+\immediate\openout\out=\jobname.benchmark
+\def\toout{\immediate\write\out}
+%
+%
+\toout{two \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt\relax\relax)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+%
+\toout{one \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt\relax)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+%
+\toout{none \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+%
+%
+\toout{two \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt\relax\relax)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+%
+\toout{one \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt\relax)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+%
+\toout{none \relax}%
+\def\U{0}%
+\xintReplicate{\iter}{%
+  \pdfresettimer
+  \xintReplicate{10000}{\edef\x{\the\numexpr(\numexpr2*\dimexpr1pt)+0}}%
+  \edef\T{\the\pdfelapsedtime}\edef\U{\the\numexpr\U+\T}%
+  \toout{\the\dimexpr\T sp}%
+}%
+\toout{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\immediate\write128{total: \U\space (average \the\dimexpr\U sp/\iter)}%
+\toout{}%
+%
+\bye
